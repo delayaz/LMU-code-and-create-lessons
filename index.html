@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 1 — Code and Create</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14172a;
+    --bg-soft: #1b1f38;
+    --panel: #1f2440;
+    --ink: #edeef5;
+    --ink-soft: #b9bcd4;
+    --muted: #7c81a3;
+    --amber: #f2a93b;
+    --amber-soft: #fbd99b;
+    --green: #7fd99b;
+    --rule: rgba(255,255,255,0.08);
+    --code-bg: #0f1224;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html,body{
+    margin:0;
+    padding:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  ::selection{ background: var(--amber); color: #14172a; }
+
+  h1,h2,h3{
+    font-family: 'Space Grotesk', sans-serif;
+    margin:0;
+    line-height:1.15;
+  }
+
+  .progress-rail{
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: var(--rule);
+    z-index: 50;
+  }
+  .progress-fill{
+    position: absolute;
+    top:0; left:0;
+    width: 100%;
+    background: linear-gradient(180deg, var(--amber), var(--green));
+    height: 0%;
+    transition: height .1s linear;
+  }
+
+  .wrap{
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height: 78vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top: -20%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(242,169,59,0.18), transparent 70%);
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    color: var(--amber);
+    letter-spacing: .12em;
+    font-size: 13px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .hero h1{
+    font-size: clamp(40px, 7vw, 72px);
+    font-weight: 700;
+    color: var(--ink);
+    max-width: 760px;
+  }
+  .hero h1 span{ color: var(--amber); }
+  .hero p.sub{
+    margin-top: 22px;
+    font-size: 19px;
+    color: var(--ink-soft);
+    max-width: 560px;
+    line-height: 1.55;
+  }
+  .hero .meta{
+    margin-top: 36px;
+    display:flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .hero .meta b{ color: var(--ink-soft); font-weight: 500; }
+  .scroll-cue{
+    margin-top: 56px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .scroll-cue .arrow{
+    animation: bob 1.6s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(6px); }
+  }
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section.burst{
+    padding: 90px 0 30px;
+    border-top: 1px solid var(--rule);
+    position: relative;
+  }
+  .burst-label{
+    display:flex;
+    align-items:baseline;
+    gap: 18px;
+    margin-bottom: 14px;
+  }
+  .burst-num{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 15px;
+    color: var(--amber);
+    background: rgba(242,169,59,0.12);
+    border: 1px solid rgba(242,169,59,0.3);
+    border-radius: 999px;
+    padding: 4px 14px;
+  }
+  .burst-time{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .burst h2{
+    font-size: clamp(26px, 4vw, 34px);
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .burst .intro{
+    color: var(--ink-soft);
+    font-size: 16.5px;
+    line-height: 1.65;
+    max-width: 620px;
+    margin-bottom: 28px;
+  }
+  .burst .intro strong{ color: var(--amber-soft); }
+
+  /* ---------- CODE BLOCK ---------- */
+  .code-card{
+    background: var(--code-bg);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 22px 0;
+    box-shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  .code-card .bar{
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    padding: 11px 16px;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid var(--rule);
+  }
+  .dot{ width:10px; height:10px; border-radius:50%; }
+  .dot.r{ background:#ff5f57; }
+  .dot.y{ background:#febc2e; }
+  .dot.g{ background:#28c840; }
+  .filename{
+    margin-left: 10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  pre{
+    margin:0;
+    padding: 20px 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14.5px;
+    line-height: 1.7;
+    overflow-x:auto;
+    color: var(--ink);
+  }
+  .tok-str{ color: #b6e6b0; }
+  .tok-kw{ color: #f2a93b; }
+  .tok-fn{ color: #8ab4ff; }
+  .tok-com{ color: var(--muted); font-style: italic; }
+  .tok-num{ color: #f7b2d9; }
+
+  .console{
+    border-top: 1px dashed var(--rule);
+    background: rgba(127,217,155,0.04);
+    padding: 14px 22px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    color: var(--green);
+  }
+  .console .prompt{ color: var(--muted); }
+
+  /* ---------- ACTIVITY CARD ---------- */
+  .activity{
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--amber);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin: 28px 0;
+  }
+  .activity .tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 8px;
+    display:block;
+  }
+  .activity h3{
+    font-size: 18px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .activity p{
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 10px;
+  }
+  .activity ul{
+    margin: 8px 0 0;
+    padding-left: 20px;
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    line-height: 1.7;
+  }
+
+  /* ---------- WATCH-FOR CALLOUT ---------- */
+  .watch{
+    display:flex;
+    gap: 12px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-top: 18px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .watch .icon{
+    flex-shrink:0;
+    width: 26px; height:26px;
+    border-radius: 50%;
+    background: rgba(242,169,59,0.15);
+    color: var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight:600;
+  }
+
+  /* ---------- BREAK MARKER ---------- */
+  .break-marker{
+    display:flex;
+    align-items:center;
+    gap: 16px;
+    margin: 50px 0;
+    color: var(--muted);
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .break-marker::before, .break-marker::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background: var(--rule);
+  }
+
+  /* ---------- TIMELINE NAV (sticky mini map) ---------- */
+  .timeline{
+    position: fixed;
+    right: 26px;
+    top: 50%;
+    transform: translateY(-50%);
+    display:flex;
+    flex-direction:column;
+    gap: 14px;
+    z-index: 40;
+  }
+  .timeline a{
+    width: 10px; height:10px;
+    border-radius:50%;
+    background: var(--rule);
+    display:block;
+    position:relative;
+    transition: all .25s ease;
+  }
+  .timeline a.active{
+    background: var(--amber);
+    box-shadow: 0 0 0 4px rgba(242,169,59,0.18);
+  }
+  .timeline a::after{
+    content: attr(data-label);
+    position:absolute;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    white-space:nowrap;
+    opacity:0;
+    transition: opacity .2s ease;
+    pointer-events:none;
+  }
+  .timeline a:hover::after{ opacity:1; }
+  @media (max-width: 780px){
+    .timeline{ display:none; }
+  }
+
+  /* ---------- CLOSING ---------- */
+  .closer{
+    padding: 110px 0 140px;
+    text-align:center;
+    border-top: 1px solid var(--rule);
+  }
+  .closer h2{
+    font-size: clamp(28px,5vw,40px);
+    margin-bottom: 16px;
+  }
+  .closer p{
+    color: var(--ink-soft);
+    font-size: 17px;
+    max-width: 520px;
+    margin: 0 auto 30px;
+    line-height: 1.6;
+  }
+  .closer .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--green);
+    background: rgba(127,217,155,0.1);
+    border: 1px solid rgba(127,217,155,0.3);
+    padding: 8px 18px;
+    border-radius: 999px;
+  }
+
+  @media (max-width: 600px){
+    .wrap{ padding: 0 20px; }
+    .hero{ min-height: 70vh; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
+
+<nav class="timeline" id="timelineNav">
+  <a href="#hero" data-label="Start" class="active"></a>
+  <a href="#burst1" data-label="Burst 1 — print()"></a>
+  <a href="#burst2" data-label="Burst 2 — variables"></a>
+  <a href="#burst3" data-label="Burst 3 — input()"></a>
+  <a href="#closer" data-label="Wrap up"></a>
+</nav>
+
+<header class="hero" id="hero">
+  <div class="wrap">
+    <div class="eyebrow">Code and Create · Day 1 · Morning</div>
+    <h1>Your computer does <span>exactly</span> what you tell it to.</h1>
+    <p class="sub">Today you write your first real program. By 11:30, it'll ask you your name and talk back. That's the whole game from here — learning to say exactly what you mean.</p>
+    <div class="meta">
+      <div><b>Monday, June 22</b> · 9:00–11:30 AM</div>
+      <div><b>Tool:</b> replit.com</div>
+      <div><b>Language:</b> Python</div>
+    </div>
+    <div class="scroll-cue"><span class="arrow">↓</span> scroll to follow along</div>
+  </div>
+</header>
+
+<section class="burst" id="burst1">
+  <div class="wrap">
+    <div class="burst-label">
+      <span class="burst-num">Burst 1</span>
+      <span class="burst-time">9:20 – 9:45</span>
+    </div>
+    <h2>Say something. The computer says it back.</h2>
+    <p class="intro">First, get into Replit. Sign up with Google or GitHub — fastest option. Create a Python repl and name it <code>yourname-day1</code>. Then we write the first line of code any of us write today.</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
+      <pre><span class="tok-fn">print</span>(<span class="tok-str">"Hello, world!"</span>)</pre>
+      <div class="console"><span class="prompt">$ </span>Hello, world!</div>
+    </div>
+
+    <p class="intro">Add a second line. Notice — two instructions, run top to bottom, in order. That's basically what a program <em>is</em>.</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
+      <pre><span class="tok-fn">print</span>(<span class="tok-str">"Hello, world!"</span>)
+<span class="tok-fn">print</span>(<span class="tok-str">"My name is Jordan."</span>)</pre>
+      <div class="console"><span class="prompt">$ </span>Hello, world!<br>My name is Jordan.</div>
+    </div>
+
+    <div class="activity">
+      <span class="tag">Your turn</span>
+      <h3>Write 3 print() lines about yourself</h3>
+      <p>Your name, your grade, and one fun fact. Run it. Make sure all three show up, in order, in the console.</p>
+      <ul>
+        <li>Done fast? Add 2-3 more lines.</li>
+        <li>Feeling bold? Delete a quotation mark on purpose and see what the error says. Errors are normal — you'll see plenty.</li>
+      </ul>
+    </div>
+
+    <div class="watch">
+      <span class="icon">!</span>
+      <span>Common snag: forgetting the quotation marks around text, or starting with <code>"</code> and ending with <code>'</code>. Python is picky about matching them exactly.</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="break-marker">Break</div></div>
+
+<section class="burst" id="burst2">
+  <div class="wrap">
+    <div class="burst-label">
+      <span class="burst-num">Burst 2</span>
+      <span class="burst-time">9:45 – 10:30</span>
+    </div>
+    <h2>Give a value a name. Reuse it.</h2>
+    <p class="intro">A <strong>variable</strong> is a labeled box that holds a value. Once it has a name, you don't retype the value — you just use the name.</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
+      <pre>name = <span class="tok-str">"Jordan"</span>
+grade = <span class="tok-num">10</span>
+favorite_subject = <span class="tok-str">"Art"</span>
+gpa = <span class="tok-num">3.8</span>
+
+<span class="tok-fn">print</span>(name)
+<span class="tok-fn">print</span>(grade)</pre>
+      <div class="console"><span class="prompt">$ </span>Jordan<br>10</div>
+    </div>
+
+    <p class="intro">Text is a <strong>string</strong>. Whole numbers are <strong>integers</strong>. Decimals are <strong>floats</strong>. Now drop variables straight into a sentence with an <strong>f-string</strong> — the <code>f</code> right before the quotes is what makes the curly braces work.</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
+      <pre><span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"My name is {name} and I'm in grade {grade}."</span>)</pre>
+      <div class="console"><span class="prompt">$ </span>My name is Jordan and I'm in grade 10.</div>
+    </div>
+
+    <div class="activity">
+      <span class="tag">Your turn</span>
+      <h3>Build an "About Me" program</h3>
+      <p>At least 4 variables: your name, your grade, and two more — favorite food, a hobby, your pet's name, whatever you want. Then print one sentence using an f-string that weaves all of them together.</p>
+    </div>
+
+    <div class="watch">
+      <span class="icon">!</span>
+      <span>Common snags: forgetting the <code>f</code> before the quotes (the braces print literally instead of substituting), or using a variable name with a space in it — <code>favorite food</code> errors, <code>favorite_food</code> works.</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="break-marker">Break</div></div>
+
+<section class="burst" id="burst3">
+  <div class="wrap">
+    <div class="burst-label">
+      <span class="burst-num">Burst 3</span>
+      <span class="burst-time">10:40 – 11:20</span>
+    </div>
+    <h2>Now it talks back.</h2>
+    <p class="intro"><code>input()</code> pauses your program and waits for a person to type something. Whatever they type gets stored — wherever you point it.</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
+      <pre>name = <span class="tok-fn">input</span>(<span class="tok-str">"What's your name? "</span>)
+<span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"Nice to meet you, {name}!"</span>)</pre>
+      <div class="console"><span class="prompt">$ </span>What's your name? <span style="color:#edeef5">Maya</span><br>Nice to meet you, Maya!</div>
+    </div>
+
+    <div class="activity">
+      <span class="tag">Your turn</span>
+      <h3>Turn your About Me into an interactive greeter</h3>
+      <p>Instead of hardcoding your own info, use <code>input()</code> to ask the <em>user</em> for their name and a couple facts about them — then print a personalized greeting back.</p>
+      <ul>
+        <li>Example shape: ask for a name, a hobby, a favorite food → print one warm sentence using all three.</li>
+      </ul>
+    </div>
+
+    <div class="watch">
+      <span class="icon">!</span>
+      <span>Even though a grade is conceptually a number, <code>input()</code> always hands back text. That'll matter later this week — no need to fix it today.</span>
+    </div>
+  </div>
+</section>
+
+<section class="closer" id="closer">
+  <div class="wrap">
+    <span class="badge">● day 1, morning — complete</span>
+    <h2>You wrote an interactive program.</h2>
+    <p>It asked someone a question and responded to what they said back. That's a real program. This afternoon: math with what people type in. Tomorrow: your programs start making decisions.</p>
+  </div>
+</section>
+
+<script>
+  const fill = document.getElementById('progressFill');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    fill.style.height = pct + '%';
+  });
+
+  const links = document.querySelectorAll('.timeline a');
+  const targets = Array.from(links).map(l => document.querySelector(l.getAttribute('href')));
+  window.addEventListener('scroll', () => {
+    let activeIdx = 0;
+    targets.forEach((t, i) => {
+      if (t && t.getBoundingClientRect().top < window.innerHeight * 0.5) activeIdx = i;
+    });
+    links.forEach((l, i) => l.classList.toggle('active', i === activeIdx));
+  });
+</script>
+
+</body>
+</html>
