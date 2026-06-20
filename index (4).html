@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code and Create — All Sessions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14172a;
+    --panel: #1f2440;
+    --ink: #edeef5;
+    --ink-soft: #b9bcd4;
+    --muted: #7c81a3;
+    --amber: #f2a93b;
+    --amber-soft: #fbd99b;
+    --green: #7fd99b;
+    --violet: #b39bf2;
+    --rule: rgba(255,255,255,0.08);
+  }
+  *{ box-sizing: border-box; }
+  html,body{
+    margin:0; padding:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+  }
+  ::selection{ background: var(--amber); color: #14172a; }
+  h1,h2{ font-family:'Space Grotesk', sans-serif; margin:0; }
+
+  .wrap{ max-width: 880px; margin: 0 auto; padding: 0 32px; }
+
+  .hero{
+    padding: 100px 0 70px;
+    position: relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-25%; right:-10%;
+    width:600px; height:600px;
+    background: radial-gradient(circle, rgba(242,169,59,0.16), transparent 70%);
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    color: var(--amber);
+    letter-spacing:.12em;
+    font-size:13px;
+    text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size: clamp(36px, 6vw, 58px);
+    font-weight:700;
+    max-width: 700px;
+  }
+  .hero h1 span{ color: var(--amber); }
+  .hero p{
+    margin-top:18px;
+    font-size:17px;
+    color: var(--ink-soft);
+    max-width: 560px;
+    line-height:1.6;
+  }
+
+  .week-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color: var(--muted);
+    margin: 56px 0 18px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .week-label::after{ content:""; flex:1; height:1px; background: var(--rule); }
+
+  .day-block{ margin-bottom: 36px; }
+  .day-title{
+    font-family:'Space Grotesk', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .day-title .date{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    font-weight:400;
+    margin-left: 10px;
+  }
+
+  .session-row{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 680px){ .session-row{ grid-template-columns: 1fr; } }
+
+  a.session-card{
+    display:block;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 20px 22px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  a.session-card:hover{
+    border-color: var(--amber);
+    transform: translateY(-2px);
+  }
+  a.session-card.disabled{
+    opacity: .45;
+    pointer-events:none;
+  }
+  .session-num{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color: var(--amber);
+    margin-bottom: 8px;
+    display:block;
+  }
+  .session-row .session-card:nth-child(2) .session-num{ color: var(--violet); }
+  .session-topic{
+    font-size: 16.5px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .session-time{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  footer{
+    padding: 60px 0 90px;
+    border-top: 1px solid var(--rule);
+    margin-top: 40px;
+    text-align:center;
+    color: var(--muted);
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12.5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Code and Create · Summer 2026</div>
+    <h1>Every session, <span>in order</span>.</h1>
+    <p>Two weeks, nine teaching days, one new thing built each session. Pick a session below to revisit the notes, code, and activities from that day.</p>
+  </header>
+
+  <div class="week-label">Week 1 — Python Foundations</div>
+
+  <div class="day-block">
+    <div class="day-title">Day 1 <span class="date">Mon, June 22</span></div>
+    <div class="session-row">
+      <a class="session-card" href="day1-session1-first-python-program.html">
+        <span class="session-num">Session 1 · Morning</span>
+        <div class="session-topic">Your First Python Program</div>
+        <div class="session-time">print() · variables · input()</div>
+      </a>
+      <a class="session-card" href="day1-session2-math-and-readable-code.html">
+        <span class="session-num">Session 2 · Afternoon</span>
+        <div class="session-topic">Math &amp; Readable Code</div>
+        <div class="session-time">math operators · comments</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-title">Day 2 <span class="date">Tue, June 23</span></div>
+    <div class="session-row">
+      <a class="session-card" href="day2-session1-conditionals-and-ai-intro.html">
+        <span class="session-num">Session 1 · Morning</span>
+        <div class="session-topic">Conditionals + AI Intro</div>
+        <div class="session-time">if/elif/else · and/or/not</div>
+      </a>
+      <a class="session-card" href="day2-session2-choose-your-own-adventure.html">
+        <span class="session-num">Session 2 · Afternoon</span>
+        <div class="session-topic">Choose Your Own Adventure</div>
+        <div class="session-time">conditionals practice</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-title">Day 3 <span class="date">Wed, June 24</span></div>
+    <div class="session-row">
+      <a class="session-card disabled" href="#">
+        <span class="session-num">Session 1 · Morning</span>
+        <div class="session-topic">Loops &amp; Problem Decomposition</div>
+        <div class="session-time">coming soon</div>
+      </a>
+      <a class="session-card disabled" href="#">
+        <span class="session-num">Session 2 · Afternoon</span>
+        <div class="session-topic">Loop Practice + Mini-Project</div>
+        <div class="session-time">coming soon</div>
+      </a>
+    </div>
+  </div>
+
+  <footer>Code and Create · Delaram &amp; Lauren</footer>
+</div>
+
+</body>
+</html>
