@@ -65,6 +65,10 @@
   .activity p{ color: var(--ink-soft); font-size:15px; line-height:1.6; margin:0 0 10px; }
   .activity ul{ margin:8px 0 0; padding-left:20px; color: var(--ink-soft); font-size:14.5px; line-height:1.7; }
 
+  .activity.stretch{ border-left-color: var(--green); background: rgba(127,217,155,0.04); }
+  .activity.stretch .tag{ color: var(--green); }
+  .activity.stretch h3{ color: var(--green); }
+
   .watch{ display:flex; gap:12px; background: rgba(255,255,255,0.02); border:1px solid var(--rule); border-radius:10px; padding:16px 20px; margin-top:18px; font-size:14px; color: var(--ink-soft); line-height:1.6; }
   .watch .icon{ flex-shrink:0; width:26px; height:26px; border-radius:50%; background: rgba(242,169,59,0.15); color: var(--amber); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:600; }
 
@@ -86,6 +90,11 @@
   .session-nav{ padding:0 0 100px; text-align:center; }
   .session-nav a.btn{ display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono', monospace; font-size:14px; background: var(--panel); border:1px solid var(--rule); color: var(--ink); padding:14px 26px; border-radius:999px; text-decoration:none; transition: border-color .2s ease; }
   .session-nav a.btn:hover{ border-color: var(--amber); color: var(--amber); }
+
+  .spoiler { background: var(--muted); border-radius: 4px; cursor: pointer; user-select: none; transition: background 0.3s ease; }
+  .spoiler code { opacity: 0; transition: opacity 0.25s ease; }
+  .spoiler.revealed { background: transparent; }
+  .spoiler.revealed code { opacity: 1; }
 
   @media (max-width:600px){ .wrap{ padding:0 20px; } .hero{ min-height:58vh; } .topnav{ padding:14px 20px; } }
 </style>
@@ -124,7 +133,8 @@
   <div class="wrap">
     <div class="burst-label"><span class="burst-num">Burst 1</span><span class="burst-time">1:00 – 1:45</span></div>
     <h2>Basic math + putting numbers into sentences</h2>
-    <p class="intro">Python does math the way you'd expect — <code>+ - * /</code> — but <code>input()</code> always hands back text, even when it looks like a number. So before you can do math with it, you have to convert it.</p>
+    <p class="intro">Python does math the way you'd expect, using the <code>+ - * /</code> operators, but <code>input()</code> always hands back text, even when it looks like a number. So before you can do math with it, you have to convert it.</p>
+    <p class="intro">Here's an example of a basic tip calculator:</p>
 
     <div class="code-card">
       <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
@@ -138,16 +148,71 @@ total = bill + tip_amount
       <div class="console"><span class="prompt">$ </span>What's the bill total? <span style="color:#edeef5">42</span><br>What percent tip? <span style="color:#edeef5">18</span><br>Tip: $7.56, Total: $49.56</div>
     </div>
 
-    <p class="intro">Two new things: <code>float(...)</code> turns text into a decimal number, and <code>{tip_amount:.2f}</code> inside an f-string rounds to exactly 2 decimal places — handy for money.</p>
+    <p class="intro">Two new things: calling <code>float(...)</code> turns text into a decimal number, and <code>{tip_amount:.2f}</code> inside an f-string rounds to exactly 2 decimal places — handy for money.</p>
 
     <div class="activity">
-      <span class="tag">Your turn</span>
-      <h3>Build a tip calculator (or an "age in days" calculator)</h3>
-      <p>Pick one: a tip calculator like above, or ask for someone's age in years and calculate roughly how many days they've been alive (years × 365 is close enough today).</p>
-      <ul><li>Done fast? Add a second tip option — split the bill between 2+ people and show each person's share.</li></ul>
+      <span class="tag">Your turn — Step 1</span>
+      <h3>Extend your restaurant program to calculate the bill</h3>
+      <p>This morning you built a restaurant program that asked your user what they wanted to order, and how many of that item they wanted. Now it's time to add some prices. Either: a) assign a price to each item in your restaurant (eg. a drink is $2, a meal is $10)  or b) Ask the user for the price of what they're ordering (maybe this isn't your standard restaurant after all). Then, once you have your prices, calculate and print an itemized receipt.</p>
+      <ul>
+        <li>If you use <code>float(input(...))</code> for prices, what do you think you would use for whole number quantities.</li>
+        <li>How would you calculate each item's total for the quantity ordered? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>price × quantity</code></span>.</li>
+        <li>Add them up and print a clean receipt using f-strings.</li>
+      </ul>
+    </div>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py — starter</span></div>
+      <!-- <pre><span class="tok-com"># --- Item 1 ---</span>
+item1_name = <span class="tok-fn">input</span>(<span class="tok-str">"Item 1 — what did you order? "</span>)
+item1_qty  = <span class="tok-fn">int</span>(<span class="tok-fn">input</span>(<span class="tok-str">"How many? "</span>))
+item1_price = <span class="tok-fn">float</span>(<span class="tok-fn">input</span>(<span class="tok-str">"Price per item: $"</span>))
+
+<span class="tok-com"># --- Item 2 ---</span>
+item2_name = <span class="tok-fn">input</span>(<span class="tok-str">"Item 2 — what did you order? "</span>)
+item2_qty  = <span class="tok-fn">int</span>(<span class="tok-fn">input</span>(<span class="tok-str">"How many? "</span>))
+item2_price = <span class="tok-fn">float</span>(<span class="tok-fn">input</span>(<span class="tok-str">"Price per item: $"</span>)) -->
+
+<span class="tok-com"># TODO: calculate each item's total (price × quantity)</span>
+
+<span class="tok-com"># TODO: add them up to get a subtotal</span>
+
+<span class="tok-com"># TODO: print an itemized receipt using f-strings</span>
+<span class="tok-com"># Example output:</span>
+<span class="tok-com">#   2x Burger: $14.00</span>
+<span class="tok-com">#   1x Fries:  $3.50</span>
+<span class="tok-com">#   Subtotal:  $17.50</span></pre>
+    </div>
+
+    <div class="activity">
+      <span class="tag">Your turn — Step 2</span>
+      <h3>Add a tip to the bill</h3>
+      <p>Your receipt has a subtotal. Now ask the customer what tip percent they want to leave, calculate the tip, and print the final total.</p>
+      <ul>
+        <li>How would you ask for the tip percentage <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>float(input(...))</code></span>.</li>
+        <li>And then how would you calculate the tip amount? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>subtotal × (tip_percent / 100)</code></span>.</li>
+        <li>Finally, calculate the final total = subtotal + tip amount.</li>
+        <li>Print the tip and final total, rounded to 2 decimal places with <code>:.2f</code>.</li>
+      </ul>
     </div>
 
     <div class="watch"><span class="icon">!</span><span>Common snag: forgetting to wrap <code>input()</code> in <code>float()</code> or <code>int()</code> — without it, Python treats the numbers as text and <code>+</code> will glue them together instead of adding them (<code>"4" + "2"</code> becomes <code>"42"</code>, not <code>6</code>).</span></div>
+
+    <div class="activity stretch">
+      <span class="tag">Optional stretch — go further if you're done</span>
+      <h3>Two ways to keep going</h3>
+      <p>Finished both steps? Feel free to try out any of the rest of these. They all use what you've learned today: <code>input()</code>, math, and f-strings.</p>
+      <ul>
+        <li>
+          <strong style="color:var(--green)">Split the bill.</strong>
+          Ask how many people are splitting the total, then print each person's share. Use <code>round(amount, 2)</code> or <code>:.2f</code> so the cents stay tidy.
+        </li>
+        <li>
+          <strong style="color:var(--green)">Add sales tax.</strong>
+          Ask for a tax rate (e.g. 8.5%), calculate it on the subtotal, and print a receipt that shows subtotal → tax → tip → grand total as separate lines.
+        </li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -177,7 +242,7 @@ total = bill + tip_amount
     <div class="activity">
       <span class="tag">Your turn</span>
       <h3>Comment your code, then swap with a neighbor</h3>
-      <p>Add a comment above each meaningful chunk of your tip calculator (or age-in-days program) explaining what it does in plain English. Then trade laptops with someone nearby — can they follow your program just from the comments, without you explaining out loud?</p>
+      <p>Add a comment above each meaningful chunk of your restaurant program explaining what it does in plain English. Then trade laptops with someone nearby — can they follow your program just from the comments, without you explaining out loud?</p>
     </div>
 
     <div class="watch"><span class="icon">!</span><span>Good comments explain <em>why</em>, not just restate the code. "<code># add 1 to count</code>" above <code>count += 1</code> tells you nothing new — "<code># track how many times the user got it wrong</code>" actually adds information.</span></div>
