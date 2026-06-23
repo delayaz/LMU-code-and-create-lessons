@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 4 · Session 1 — Functions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14172a; --panel: #1f2440; --ink: #edeef5; --ink-soft: #b9bcd4;
+    --muted: #7c81a3; --amber: #f2a93b; --amber-soft: #fbd99b; --green: #7fd99b; --violet: #b39bf2;
+    --rule: rgba(255,255,255,0.08); --code-bg: #0f1224;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background: var(--bg); color: var(--ink); font-family:'Inter',sans-serif; scroll-behavior:smooth; }
+  ::selection{ background: var(--amber); color:#14172a; }
+  h1,h2,h3{ font-family:'Space Grotesk',sans-serif; margin:0; line-height:1.15; }
+
+  .topnav{ position:sticky; top:0; z-index:60; background: rgba(20,23,42,0.85); backdrop-filter: blur(8px); border-bottom:1px solid var(--rule); padding:14px 32px; display:flex; align-items:center; justify-content:space-between; font-family:'JetBrains Mono', monospace; font-size:12.5px; }
+  .topnav a{ color: var(--muted); text-decoration:none; }
+  .topnav a:hover{ color: var(--amber); }
+  .topnav .crumbs span{ color: var(--ink-soft); }
+  .topnav .next-link{ color: var(--amber); display:flex; align-items:center; gap:6px; }
+
+  .progress-rail{ position:fixed; left:0; top:0; bottom:0; width:6px; background: var(--rule); z-index:50; }
+  .progress-fill{ position:absolute; top:0; left:0; width:100%; background: linear-gradient(180deg, var(--amber), var(--violet)); height:0%; transition: height .1s linear; }
+
+  .wrap{ max-width:880px; margin:0 auto; padding:0 32px; }
+
+  .short-day-banner{
+    background: rgba(242,169,59,0.1); border:1px solid rgba(242,169,59,0.3);
+    border-radius: 12px; padding: 14px 22px; margin: 24px auto 0; max-width: 816px;
+    font-family:'JetBrains Mono', monospace; font-size: 13px; color: var(--amber-soft);
+    text-align: center;
+  }
+
+  .hero{ min-height:64vh; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+  .hero::before{ content:""; position:absolute; top:-20%; right:-10%; width:600px; height:600px; background: radial-gradient(circle, rgba(242,169,59,0.18), transparent 70%); pointer-events:none; }
+  .eyebrow{ font-family:'JetBrains Mono', monospace; color: var(--amber); letter-spacing:.12em; font-size:13px; text-transform:uppercase; margin-bottom:18px; }
+  .hero h1{ font-size: clamp(38px, 6.5vw, 66px); font-weight:700; max-width:740px; }
+  .hero h1 span{ color: var(--amber); }
+  .hero p.sub{ margin-top:22px; font-size:18px; color: var(--ink-soft); max-width:580px; line-height:1.55; }
+  .hero .meta{ margin-top:30px; display:flex; gap:28px; flex-wrap:wrap; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); }
+  .hero .meta b{ color: var(--ink-soft); font-weight:500; }
+  .scroll-cue{ margin-top:44px; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); display:flex; align-items:center; gap:10px; }
+  .scroll-cue .arrow{ animation: bob 1.6s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(6px); } }
+
+  section.burst{ padding:80px 0 30px; border-top:1px solid var(--rule); position:relative; }
+  .burst-label{ display:flex; align-items:baseline; gap:18px; margin-bottom:14px; }
+  .burst-num{ font-family:'JetBrains Mono', monospace; font-size:15px; color: var(--amber); background: rgba(242,169,59,0.12); border:1px solid rgba(242,169,59,0.3); border-radius:999px; padding:4px 14px; }
+  .burst-time{ font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); }
+  .burst h2{ font-size: clamp(26px,4vw,34px); margin-bottom:10px; }
+  .burst .intro{ color: var(--ink-soft); font-size:16.5px; line-height:1.65; max-width:620px; margin-bottom:28px; }
+  .burst .intro strong{ color: var(--amber-soft); }
+
+  .code-card{ background: var(--code-bg); border:1px solid var(--rule); border-radius:14px; overflow:hidden; margin:22px 0; box-shadow:0 20px 50px -20px rgba(0,0,0,0.6); }
+  .code-card .bar{ display:flex; align-items:center; gap:8px; padding:11px 16px; background: rgba(255,255,255,0.02); border-bottom:1px solid var(--rule); }
+  .dot{ width:10px; height:10px; border-radius:50%; }
+  .dot.r{ background:#ff5f57; } .dot.y{ background:#febc2e; } .dot.g{ background:#28c840; }
+  .filename{ margin-left:10px; font-family:'JetBrains Mono', monospace; font-size:12.5px; color: var(--muted); }
+  pre{ margin:0; padding:20px 22px; font-family:'JetBrains Mono', monospace; font-size:14.5px; line-height:1.7; overflow-x:auto; color: var(--ink); }
+  .tok-str{ color:#b6e6b0; } .tok-kw{ color: var(--amber); } .tok-fn{ color:#8ab4ff; } .tok-num{ color:#f7b2d9; } .tok-com{ color: var(--muted); font-style:italic; }
+
+  .console{ border-top:1px dashed var(--rule); background: rgba(127,217,155,0.04); padding:14px 22px; font-family:'JetBrains Mono', monospace; font-size:13.5px; color: var(--green); white-space:pre-wrap; }
+  .console .prompt{ color: var(--muted); }
+
+  .activity{ background: var(--panel); border:1px solid var(--rule); border-left:3px solid var(--amber); border-radius:10px; padding:22px 26px; margin:28px 0; }
+  .activity .tag{ font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color: var(--amber); margin-bottom:8px; display:block; }
+  .activity h3{ font-size:18px; margin-bottom:8px; }
+  .activity p{ color: var(--ink-soft); font-size:15px; line-height:1.6; margin:0 0 10px; }
+  .activity ul{ margin:8px 0 0; padding-left:20px; color: var(--ink-soft); font-size:14.5px; line-height:1.7; }
+
+  .activity.stretch{ border-left-color: var(--green); background: rgba(127,217,155,0.04); }
+  .activity.stretch .tag{ color: var(--green); }
+  .activity.stretch h3{ color: var(--green); }
+
+  .activity.apcs{ border-left-color: var(--violet); background: rgba(179,155,242,0.05); }
+  .activity.apcs .tag{ color: var(--violet); }
+  .activity.apcs h3{ color: var(--violet); }
+
+  .spoiler{ background: var(--muted); border-radius:4px; cursor:pointer; user-select:none; transition: background 0.3s ease; }
+  .spoiler code{ opacity:0; transition: opacity 0.25s ease; }
+  .spoiler.revealed{ background: transparent; }
+  .spoiler.revealed code{ opacity:1; }
+
+  .watch{ display:flex; gap:12px; background: rgba(255,255,255,0.02); border:1px solid var(--rule); border-radius:10px; padding:16px 20px; margin-top:18px; font-size:14px; color: var(--ink-soft); line-height:1.6; }
+  .watch .icon{ flex-shrink:0; width:26px; height:26px; border-radius:50%; background: rgba(242,169,59,0.15); color: var(--amber); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:600; }
+
+  .break-marker{ display:flex; align-items:center; gap:16px; margin:50px 0; color: var(--muted); font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:.1em; text-transform:uppercase; }
+  .break-marker::before, .break-marker::after{ content:""; flex:1; height:1px; background: var(--rule); }
+
+  .timeline{ position:fixed; right:26px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:14px; z-index:40; }
+  .timeline a{ width:10px; height:10px; border-radius:50%; background: var(--rule); display:block; position:relative; transition: all .25s ease; }
+  .timeline a.active{ background: var(--amber); box-shadow:0 0 0 4px rgba(242,169,59,0.18); }
+  .timeline a::after{ content: attr(data-label); position:absolute; right:22px; top:50%; transform:translateY(-50%); font-family:'JetBrains Mono', monospace; font-size:11px; color: var(--muted); white-space:nowrap; opacity:0; transition: opacity .2s ease; pointer-events:none; }
+  .timeline a:hover::after{ opacity:1; }
+  @media (max-width:780px){ .timeline{ display:none; } }
+
+  .closer{ padding:100px 0 60px; text-align:center; border-top:1px solid var(--rule); }
+  .closer h2{ font-size: clamp(28px,5vw,38px); margin-bottom:16px; }
+  .closer p{ color: var(--ink-soft); font-size:17px; max-width:520px; margin:0 auto 30px; line-height:1.6; }
+  .closer .badge{ display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--green); background: rgba(127,217,155,0.1); border:1px solid rgba(127,217,155,0.3); padding:8px 18px; border-radius:999px; }
+
+  .session-nav{ padding:0 0 100px; text-align:center; }
+  .session-nav a.btn{ display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono', monospace; font-size:14px; background: var(--panel); border:1px solid var(--rule); color: var(--ink); padding:14px 26px; border-radius:999px; text-decoration:none; transition: border-color .2s ease; }
+  .session-nav a.btn:hover{ border-color: var(--amber); color: var(--amber); }
+
+  @media (max-width:600px){ .wrap{ padding:0 20px; } .hero{ min-height:56vh; } .topnav{ padding:14px 20px; } }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="crumbs"><a href="index.html">All sessions</a> <span>/ Day 4 / Session 1</span></div>
+  <a class="next-link" href="day4-session2-function-practice.html">Next: Session 2 →</a>
+</nav>
+
+<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
+
+<nav class="timeline" id="timelineNav">
+  <a href="#hero" data-label="Start" class="active"></a>
+  <a href="#burst1" data-label="Burst 1 — bouncer function"></a>
+  <a href="#burst2" data-label="Burst 2 — robot function"></a>
+  <a href="#closer" data-label="Wrap up"></a>
+</nav>
+
+<header class="hero" id="hero">
+  <div class="wrap">
+    <div class="eyebrow">Code and Create · Day 4 · Session 1 of 2 · Morning · Delaram &amp; Lauren</div>
+    <h1>Write it <span>once</span>. Call it whenever.</h1>
+    <p class="sub">You've already written a bouncer check and a robot walk. Today you wrap each one in a function — giving it a name, so you can run the exact same logic anywhere, anytime, just by calling it.</p>
+    <div class="meta">
+      <div><b>Thursday, June 25</b> · 9:00–11:30 AM</div>
+      <div><b>Tool:</b> replit.com</div>
+      <div><b>Builds on:</b> Day 2 — bouncer logic · Day 3 — robot walk</div>
+    </div>
+    <div class="scroll-cue"><span class="arrow">↓</span> scroll to follow along</div>
+  </div>
+</header>
+
+<div class="short-day-banner">⏱ Short day today — we're dismissing early this afternoon. Today's morning covers everything; the afternoon is light practice only.</div>
+
+<section class="burst" id="burst1">
+  <div class="wrap">
+    <div class="burst-label"><span class="burst-num">Burst 1</span><span class="burst-time">9:10 – 9:55</span></div>
+    <h2>Turn the bouncer check into a function</h2>
+    <p class="intro">A <strong>function</strong> is a named, reusable block of code. You give it a name, tell it what information it needs (its <strong>parameters</strong>), and it can hand back an answer (its <strong>return value</strong>). Let's package yesterday's bouncer check into one.</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
+      <pre><span class="tok-kw">def</span> <span class="tok-fn">check_guest</span>(age, has_ticket):
+    <span class="tok-kw">if</span> age >= <span class="tok-num">18</span> <span class="tok-kw">and</span> has_ticket:
+        <span class="tok-kw">return</span> <span class="tok-str">"Come on in."</span>
+    <span class="tok-kw">elif</span> age >= <span class="tok-num">13</span> <span class="tok-kw">and</span> <span class="tok-kw">not</span> has_ticket:
+        <span class="tok-kw">return</span> <span class="tok-str">"You need a ticket first."</span>
+    <span class="tok-kw">else</span>:
+        <span class="tok-kw">return</span> <span class="tok-str">"Sorry, you can't come in."</span>
+
+<span class="tok-com"># calling the function — this is where it actually runs</span>
+result = <span class="tok-fn">check_guest</span>(<span class="tok-num">17</span>, <span class="tok-kw">False</span>)
+<span class="tok-fn">print</span>(result)
+
+<span class="tok-fn">print</span>(<span class="tok-fn">check_guest</span>(<span class="tok-num">22</span>, <span class="tok-kw">True</span>))</pre>
+      <div class="console"><span class="prompt">$ </span>You need a ticket first.
+Come on in.</div>
+    </div>
+
+    <p class="intro">Notice — the code between <code>def check_guest(...):</code> and the end doesn't run until you actually <em>call</em> it (like <code>check_guest(17, False)</code>). <strong>Defining</strong> a function just teaches Python the recipe; <strong>calling</strong> it is what actually runs it. And <code>return</code> hands back an answer you can store or print — it's different from <code>print()</code>, which just displays something and doesn't give you anything back to use later.</p>
+
+    <div class="activity">
+      <span class="tag">Your turn — Step 1</span>
+      <h3>Turn your venue's bouncer into a function</h3>
+      <p>Take your bouncer logic from Day 2/3 and wrap it in a function with a name you choose, taking whatever info it needs as parameters, and using <code>return</code> instead of <code>print</code> inside it.</p>
+      <ul>
+        <li>Call your function 3 different times with 3 different guests, and print each result.</li>
+        <li>What's different about using <code>return</code> instead of <code>print</code> inside the function? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>return gives the result back to whoever called the function, so you can store it in a variable, use it in another calculation, or print it later — print() just displays it immediately and the function gives nothing back</code></span></li>
+      </ul>
+    </div>
+
+    <div class="watch"><span class="icon">!</span><span>Common snag: using <code>print()</code> inside the function instead of <code>return</code>, then being confused why <code>result = check_guest(17, False)</code> stores <code>None</code> — if a function never hits a <code>return</code>, calling it gives you nothing back to use.</span></div>
+
+    <div class="activity stretch">
+      <span class="tag">Stretch — done early?</span>
+      <h3>Add a default parameter</h3>
+      <p>Make <code>has_ticket</code> default to <code>False</code> if it's not provided: <code>def check_guest(age, has_ticket=False):</code>. Now try calling your function with just an age and no second argument — what happens?</p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="break-marker">Break</div></div>
+
+<section class="burst" id="burst2">
+  <div class="wrap">
+    <div class="burst-label"><span class="burst-num">Burst 2</span><span class="burst-time">10:05 – 10:50</span></div>
+    <h2>Turn the robot walk into a function</h2>
+    <p class="intro">Yesterday, running the robot walk twice meant copying the whole block of code. With a function, you write it once and call it as many times as you want — which is exactly what yesterday's "loop the loop" stretch was secretly setting you up for.</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
+      <pre><span class="tok-kw">import</span> random
+
+<span class="tok-kw">def</span> <span class="tok-fn">random_walk</span>():
+    position = <span class="tok-num">10</span>
+    steps = <span class="tok-num">0</span>
+    <span class="tok-kw">while</span> position >= <span class="tok-num">0</span> <span class="tok-kw">and</span> position <= <span class="tok-num">20</span>:
+        flip = random.choice([<span class="tok-str">"left"</span>, <span class="tok-str">"right"</span>])
+        <span class="tok-kw">if</span> flip == <span class="tok-str">"left"</span>:
+            position = position - <span class="tok-num">1</span>
+        <span class="tok-kw">else</span>:
+            position = position + <span class="tok-num">1</span>
+        steps = steps + <span class="tok-num">1</span>
+    <span class="tok-kw">return</span> steps
+
+<span class="tok-com"># now calling it 5 times is one line, not five copies of the walk</span>
+<span class="tok-kw">for</span> walk_number <span class="tok-kw">in</span> range(<span class="tok-num">5</span>):
+    result = <span class="tok-fn">random_walk</span>()
+    <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"Walk {walk_number + 1}: {result} steps"</span>)</pre>
+      <div class="console"><span class="prompt">$ </span>Walk 1: 14 steps
+Walk 2: 6 steps
+Walk 3: 23 steps
+Walk 4: 9 steps
+Walk 5: 17 steps</div>
+    </div>
+
+    <p class="intro">This is the same "loop calling a function" shape you'll use constantly — a <code>for</code> loop handles "how many times," and the function handles "what happens each time." Each one only has to think about its own job.</p>
+
+    <div class="activity">
+      <span class="tag">Your turn — Step 2</span>
+      <h3>Functionize your robot</h3>
+      <p>Take your random walk from yesterday (1D or 2D, your choice) and wrap it in a function that returns the step count. Call it 5 times in a loop and print each result.</p>
+    </div>
+
+    <div class="watch"><span class="icon">!</span><span>Common snag: variables created <em>inside</em> a function (like <code>position</code> here) don't exist outside of it — if you try to print <code>position</code> after the function call, you'll get a <code>NameError</code>. Everything the function needs to remember has to either be a parameter coming in, or a <code>return</code> value going out.</span></div>
+
+    <div class="activity apcs">
+      <span class="tag">Stretch — combine both functions</span>
+      <h3>Calculate stats from function calls</h3>
+      <p>Store all 5 walk results in a list (append each one as you go), then after the loop, calculate and print the longest, shortest, and average walk — all using the list you built from calling your function 5 times.</p>
+    </div>
+  </div>
+</section>
+
+<section class="closer" id="closer">
+  <div class="wrap">
+    <span class="badge">● session 1 — complete</span>
+    <h2>Write the recipe once. Use it anywhere.</h2>
+    <p>Functions package up logic with a name, so you can reuse it without retyping it. Next session: light practice with functions before we dismiss early today.</p>
+  </div>
+</section>
+
+<div class="wrap session-nav">
+  <a class="btn" href="day4-session2-function-practice.html">Continue to Session 2 — Function Practice →</a>
+</div>
+
+<script>
+  const fill = document.getElementById('progressFill');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    fill.style.height = pct + '%';
+  });
+  const links = document.querySelectorAll('.timeline a');
+  const targets = Array.from(links).map(l => document.querySelector(l.getAttribute('href')));
+  window.addEventListener('scroll', () => {
+    let activeIdx = 0;
+    targets.forEach((t, i) => { if (t && t.getBoundingClientRect().top < window.innerHeight * 0.5) activeIdx = i; });
+    links.forEach((l, i) => l.classList.toggle('active', i === activeIdx));
+  });
+</script>
+
+</body>
+</html>
