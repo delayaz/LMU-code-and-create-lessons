@@ -31,7 +31,7 @@
   .hero{ min-height:70vh; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
   .hero::before{ content:""; position:absolute; top:-20%; right:-10%; width:600px; height:600px; background: radial-gradient(circle, rgba(242,169,59,0.18), transparent 70%); pointer-events:none; }
   .eyebrow{ font-family:'JetBrains Mono', monospace; color: var(--amber); letter-spacing:.12em; font-size:13px; text-transform:uppercase; margin-bottom:18px; }
-  .hero h1{ font-size: clamp(40px, 7vw, 72px); font-weight:700; max-width:760px; }
+  .hero h1{ font-size: clamp(40px, 7vw, 70px); font-weight:700; max-width:760px; }
   .hero h1 span{ color: var(--amber); }
   .hero p.sub{ margin-top:22px; font-size:19px; color: var(--ink-soft); max-width:580px; line-height:1.55; }
   .hero .meta{ margin-top:32px; display:flex; gap:28px; flex-wrap:wrap; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); }
@@ -54,7 +54,7 @@
   .dot.r{ background:#ff5f57; } .dot.y{ background:#febc2e; } .dot.g{ background:#28c840; }
   .filename{ margin-left:10px; font-family:'JetBrains Mono', monospace; font-size:12.5px; color: var(--muted); }
   pre{ margin:0; padding:20px 22px; font-family:'JetBrains Mono', monospace; font-size:14.5px; line-height:1.7; overflow-x:auto; color: var(--ink); }
-  .tok-str{ color:#b6e6b0; } .tok-kw{ color: var(--amber); } .tok-fn{ color:#8ab4ff; } .tok-num{ color:#f7b2d9; }
+  .tok-str{ color:#b6e6b0; } .tok-kw{ color: var(--amber); } .tok-fn{ color:#8ab4ff; } .tok-num{ color:#f7b2d9; } .tok-com{ color: var(--muted); font-style:italic; }
 
   .console{ border-top:1px dashed var(--rule); background: rgba(127,217,155,0.04); padding:14px 22px; font-family:'JetBrains Mono', monospace; font-size:13.5px; color: var(--green); }
   .console .prompt{ color: var(--muted); }
@@ -64,6 +64,19 @@
   .activity h3{ font-size:18px; margin-bottom:8px; }
   .activity p{ color: var(--ink-soft); font-size:15px; line-height:1.6; margin:0 0 10px; }
   .activity ul{ margin:8px 0 0; padding-left:20px; color: var(--ink-soft); font-size:14.5px; line-height:1.7; }
+
+  .activity.stretch{ border-left-color: var(--green); background: rgba(127,217,155,0.04); }
+  .activity.stretch .tag{ color: var(--green); }
+  .activity.stretch h3{ color: var(--green); }
+
+  .activity.apcs{ border-left-color: var(--violet); background: rgba(179,155,242,0.05); }
+  .activity.apcs .tag{ color: var(--violet); }
+  .activity.apcs h3{ color: var(--violet); }
+
+  .spoiler{ background: var(--muted); border-radius:4px; cursor:pointer; user-select:none; transition: background 0.3s ease; }
+  .spoiler code{ opacity:0; transition: opacity 0.25s ease; }
+  .spoiler.revealed{ background: transparent; }
+  .spoiler.revealed code{ opacity:1; }
 
   .watch{ display:flex; gap:12px; background: rgba(255,255,255,0.02); border:1px solid var(--rule); border-radius:10px; padding:16px 20px; margin-top:18px; font-size:14px; color: var(--ink-soft); line-height:1.6; }
   .watch .icon{ flex-shrink:0; width:26px; height:26px; border-radius:50%; background: rgba(242,169,59,0.15); color: var(--amber); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:600; }
@@ -112,8 +125,8 @@
 
 <nav class="timeline" id="timelineNav">
   <a href="#hero" data-label="Start" class="active"></a>
-  <a href="#burst1" data-label="Burst 1 — if/elif/else"></a>
-  <a href="#burst2" data-label="Burst 2 — and / or / not"></a>
+  <a href="#burst1" data-label="Burst 1 — ticket tiers"></a>
+  <a href="#burst2" data-label="Burst 2 — full bouncer"></a>
   <a href="#ai1" data-label="AI Segment #1"></a>
   <a href="#closer" data-label="Wrap up"></a>
 </nav>
@@ -122,7 +135,7 @@
   <div class="wrap">
     <div class="eyebrow">Code and Create · Day 2 · Session 1 of 2 · Morning · Delaram &amp; Lauren</div>
     <h1>Now your code <span>decides</span> things.</h1>
-    <p class="sub">Yesterday your program talked back. Today it starts making choices — different inputs, different outcomes. By the end of this session you'll have a grade calculator and a "bouncer" that decides who gets in.</p>
+    <p class="sub">Yesterday your program talked back. Today, you're building the entry system for a venue — starting with simple ticket pricing, then a full bouncer checking ID, age, and tickets together.</p>
     <div class="meta">
       <div><b>Tuesday, June 23</b> · 9:00–11:30 AM</div>
       <div><b>Tool:</b> replit.com</div>
@@ -135,39 +148,45 @@
 <section class="burst" id="burst1">
   <div class="wrap">
     <div class="burst-label"><span class="burst-num">Burst 1</span><span class="burst-time">9:10 – 9:45</span></div>
-    <h2>if, elif, else — your code picks a path</h2>
-    <p class="intro">An <strong>if statement</strong> runs a block of code only when something is true. Add <strong>elif</strong> for more options, and <strong>else</strong> to catch everything left over.</p>
+    <h2>if, elif, else — sorting people into tiers</h2>
+    <p class="intro">An <strong>if statement</strong> runs a block of code only when something is true. Add <strong>elif</strong> for more options, and <strong>else</strong> to catch everything left over. Let's build a ticket counter for a movie theater that prices tickets by age.</p>
 
     <div class="code-card">
       <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
-      <pre>score = <span class="tok-num">85</span>
+      <pre>age = <span class="tok-num">15</span>
 
-<span class="tok-kw">if</span> score >= <span class="tok-num">90</span>:
-    grade = <span class="tok-str">"A"</span>
-<span class="tok-kw">elif</span> score >= <span class="tok-num">80</span>:
-    grade = <span class="tok-str">"B"</span>
-<span class="tok-kw">elif</span> score >= <span class="tok-num">70</span>:
-    grade = <span class="tok-str">"C"</span>
+<span class="tok-kw">if</span> age < <span class="tok-num">5</span>:
+    price = <span class="tok-num">0</span>
+<span class="tok-kw">elif</span> age < <span class="tok-num">18</span>:
+    price = <span class="tok-num">8</span>
+<span class="tok-kw">elif</span> age < <span class="tok-num">65</span>:
+    price = <span class="tok-num">12</span>
 <span class="tok-kw">else</span>:
-    grade = <span class="tok-str">"F"</span>
+    price = <span class="tok-num">9</span>
 
-<span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"A score of {score} is a {grade}."</span>)</pre>
-      <div class="console"><span class="prompt">$ </span>A score of 85 is a B.</div>
+<span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"Age {age}: ${price} ticket"</span>)</pre>
+      <div class="console"><span class="prompt">$ </span>Age 15: $8 ticket</div>
     </div>
 
-    <p class="intro">Notice — Python checks each condition top to bottom, and stops at the <em>first</em> one that's true. That's why order matters here.</p>
+    <p class="intro">Notice — Python checks each condition top to bottom, and stops at the <em>first</em> one that's true. That's why these are written in increasing order (under 5, then under 18, then under 65) — order matters here.</p>
 
     <div class="activity">
-      <span class="tag">Your turn</span>
-      <h3>Build a grade calculator</h3>
-      <p>Use <code>input()</code> to ask for a score, convert it to a number, then use <code>if</code>/<code>elif</code>/<code>else</code> to print the letter grade.</p>
+      <span class="tag">Your turn — Step 1</span>
+      <h3>Build your venue's ticket counter</h3>
+      <p>Pick your own venue — a movie theater, a concert, an arcade, a theme park — and decide your own age tiers and prices. Use <code>input()</code> to ask for age, convert it to a number, then <code>if</code>/<code>elif</code>/<code>else</code> to print the ticket price.</p>
       <ul>
-        <li>Remember: <code>input()</code> always returns text — wrap it in <code>int(...)</code> to turn it into a real number you can compare with <code>&gt;=</code>.</li>
-        <li>Done fast? Add a <code>+</code>/<code>-</code> system — 87 is a "B+", 81 is a "B-".</li>
+        <li>Remember: <code>input()</code> always returns text — wrap it in <code>int(...)</code> to turn it into a real number you can compare with <code>&lt;</code> or <code>&gt;=</code>.</li>
+        <li>What goes wrong if you write your conditions in decreasing order instead (65 first, then 18, then 5)? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>Nothing breaks syntactically, but you'd need to flip the comparisons to &gt;= instead of &lt; — mixing the two orderings up is a common source of silent bugs.</code></span></li>
       </ul>
     </div>
 
     <div class="watch"><span class="icon">!</span><span>Common snag: forgetting <code>int()</code> around the input, so Python tries to compare text to a number and throws a <code>TypeError</code>. Also watch indentation — every line inside an <code>if</code> block needs the exact same indent.</span></div>
+
+    <div class="activity stretch">
+      <span class="tag">Stretch — done early?</span>
+      <h3>Add a member discount</h3>
+      <p>Ask a second question — "are you a member? (yes/no)" — and apply a 10% discount to whatever price tier they landed in, regardless of age group.</p>
+    </div>
   </div>
 </section>
 
@@ -175,14 +194,15 @@
 
 <section class="burst" id="burst2">
   <div class="wrap">
-    <div class="burst-label"><span class="burst-num">Burst 2</span><span class="burst-time">9:55 – 10:30</span></div>
-    <h2>and, or, not — combine conditions</h2>
-    <p class="intro">Sometimes one condition isn't enough. <strong>and</strong> needs both sides true. <strong>or</strong> needs just one. <strong>not</strong> flips true to false.</p>
+    <div class="burst-label"><span class="burst-num">Burst 2</span><span class="burst-time">9:55 – 10:35</span></div>
+    <h2>and, or, not — now build the bouncer</h2>
+    <p class="intro">Ticket pricing only needed one piece of info. A real bouncer needs to check several things <em>at once</em>. <strong>and</strong> needs both sides true. <strong>or</strong> needs just one. <strong>not</strong> flips true to false.</p>
 
     <div class="code-card">
       <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
       <pre>age = <span class="tok-num">17</span>
 has_ticket = <span class="tok-kw">True</span>
+has_id = <span class="tok-kw">False</span>
 
 <span class="tok-kw">if</span> age >= <span class="tok-num">18</span> <span class="tok-kw">and</span> has_ticket:
     <span class="tok-fn">print</span>(<span class="tok-str">"Come on in."</span>)
@@ -194,12 +214,34 @@ has_ticket = <span class="tok-kw">True</span>
     </div>
 
     <div class="activity">
-      <span class="tag">Your turn</span>
-      <h3>Build a "bouncer" program</h3>
-      <p>Ask the user for two or three pieces of info (age, whether they're on a list, whether they have ID — your choice), then use <code>and</code> / <code>or</code> / <code>not</code> to decide if they get in, and print a reason either way.</p>
+      <span class="tag">Your turn — Step 2</span>
+      <h3>Turn your ticket counter into a full bouncer</h3>
+      <p>Take the venue from Step 1. Now ask for 2-3 pieces of info — ticket purchased? ID shown? on the guest list? your choice — and use <code>and</code> / <code>or</code> / <code>not</code> to decide if they get in, printing a clear reason either way.</p>
+      <ul>
+        <li>Read your conditions out loud as a sentence first ("let them in if they have a ticket <em>and</em> showed ID") before writing the code — it catches mistakes early.</li>
+      </ul>
     </div>
 
-    <div class="watch"><span class="icon">!</span><span>Common snag: mixing up when you need <code>and</code> vs <code>or</code> — read it out loud as a sentence first ("let them in if they're 18 <em>and</em> have a ticket") before writing the code.</span></div>
+    <div class="watch"><span class="icon">!</span><span>Common snag: mixing up when you need <code>and</code> vs <code>or</code>. "Let in if 18+ <strong>and</strong> has ticket" is strict — both required. "Let in if on the list <strong>or</strong> has a ticket" is generous — either one works.</span></div>
+
+    <div class="activity apcs">
+      <span class="tag">AP CS stretch — nested conditions</span>
+      <h3>VIPs skip the line, but not the ID check</h3>
+      <p>Real venues have exceptions inside exceptions. Add a VIP path: VIPs skip the ticket check entirely, but everyone — VIP or not — still needs to show ID. Anyone under 13 additionally needs a guardian present, even VIPs.</p>
+      <div class="code-card">
+        <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py — structure hint</span></div>
+        <pre><span class="tok-kw">if</span> has_id:
+    <span class="tok-kw">if</span> is_vip:
+        <span class="tok-com"># still need a guardian check if under 13...</span>
+    <span class="tok-kw">elif</span> has_ticket:
+        <span class="tok-com"># non-VIP path</span>
+    <span class="tok-kw">else</span>:
+        <span class="tok-com"># no ticket, not VIP</span>
+<span class="tok-kw">else</span>:
+    <span class="tok-com"># no ID, nobody gets in, not even VIPs</span></pre>
+      </div>
+      <p>This is an <code>if</code> living inside another <code>if</code> — each level only runs once the outer condition is already true. Notice how this is genuinely different from chaining more <code>elif</code>s onto the same level — see if you can articulate why to a neighbor or to Delaram/Lauren.</p>
+    </div>
   </div>
 </section>
 
@@ -228,7 +270,7 @@ has_ticket = <span class="tok-kw">True</span>
   <div class="wrap">
     <span class="badge">● session 1 — complete</span>
     <h2>Your code makes decisions now.</h2>
-    <p>Different input, different outcome — that's conditionals. Next session: turn that into a choose-your-own-adventure story.</p>
+    <p>Different input, different outcome — that's conditionals. Next session: turn that same idea into a choose-your-own-adventure story.</p>
   </div>
 </section>
 
