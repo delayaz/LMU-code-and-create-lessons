@@ -72,6 +72,19 @@
   .activity p{ color: var(--ink-soft); font-size:15px; line-height:1.6; margin:0 0 10px; }
   .activity ul{ margin:8px 0 0; padding-left:20px; color: var(--ink-soft); font-size:14.5px; line-height:1.7; }
 
+  .activity.stretch{ border-left-color: var(--green); background: rgba(127,217,155,0.04); }
+  .activity.stretch .tag{ color: var(--green); }
+  .activity.stretch h3{ color: var(--green); }
+
+  .activity.apcs{ border-left-color: #b39bf2; background: rgba(179,155,242,0.05); }
+  .activity.apcs .tag{ color: #b39bf2; }
+  .activity.apcs h3{ color: #b39bf2; }
+
+  .spoiler{ background: var(--muted); border-radius:4px; cursor:pointer; user-select:none; transition: background 0.3s ease; }
+  .spoiler code{ opacity:0; transition: opacity 0.25s ease; }
+  .spoiler.revealed{ background: transparent; }
+  .spoiler.revealed code{ opacity:1; }
+
   .watch{ display:flex; gap:12px; background: rgba(255,255,255,0.02); border:1px solid var(--rule); border-radius:10px; padding:16px 20px; margin-top:18px; font-size:14px; color: var(--ink-soft); line-height:1.6; }
   .watch .icon{ flex-shrink:0; width:26px; height:26px; border-radius:50%; background: rgba(242,169,59,0.15); color: var(--amber); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:600; }
 
@@ -149,9 +162,18 @@ choice = <span class="tok-fn">input</span>(<span class="tok-str">"Go left or rig
       <span class="tag">Your turn</span>
       <h3>Write your own opening scene + first choice</h3>
       <p>Any setting you want — a spaceship, a haunted house, a locker room before the big game. One <code>print()</code> to set the scene, one <code>input()</code> for the choice, and at least 2 <code>elif</code> branches with different outcomes.</p>
+      <ul>
+        <li>How do you handle someone typing "Left" with a capital L if your code checks lowercase <code>"left"</code>? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>compare using choice.lower() == "left" so capitalization doesn't matter</code></span></li>
+      </ul>
     </div>
 
     <div class="watch"><span class="icon">!</span><span>Common snag: typing "Left" with a capital L when your code checks for lowercase <code>"left"</code> — Python treats these as different strings. One fix: compare using <code>choice.lower() == "left"</code> so it doesn't matter how they typed it.</span></div>
+
+    <div class="activity stretch">
+      <span class="tag">Stretch — done early?</span>
+      <h3>Add a third option</h3>
+      <p>Most choose-your-own-adventures only ever give you 2 options. Add a 3rd branch — maybe "stay put" alongside "left" and "right" — with its own distinct outcome.</p>
+    </div>
   </div>
 </section>
 
@@ -166,6 +188,12 @@ choice = <span class="tok-fn">input</span>(<span class="tok-str">"Go left or rig
       <h3>Add a second choice after one branch</h3>
       <p>Pick one of your outcomes from Part 1 and add a follow-up question with its own <code>if</code>/<code>elif</code>/<code>else</code>. By the end, your story should have at least 2 decision points and 4+ possible endings.</p>
       <ul><li>Stuck on structure? Sketch it on paper first — boxes for each scene, arrows for each choice — before typing anything.</li></ul>
+    </div>
+
+    <div class="activity apcs">
+      <span class="tag">Stretch — nest it properly</span>
+      <h3>Put the second choice inside the first branch</h3>
+      <p>Instead of writing the second question as its own separate <code>if</code>/<code>elif</code> block after the first one ends, nest it directly inside the branch it belongs to — an <code>if</code> living inside the <code>elif</code> for "right," for example. This mirrors how the morning's VIP bouncer worked, and it's structurally closer to how branching dialogue trees are built in real games.</p>
     </div>
   </div>
 </section>
