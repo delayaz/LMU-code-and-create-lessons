@@ -111,6 +111,15 @@
   .session-nav a.btn{ display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono', monospace; font-size:14px; background: var(--panel); border:1px solid var(--rule); color: var(--ink); padding:14px 26px; border-radius:999px; text-decoration:none; transition: border-color .2s ease; }
   .session-nav a.btn:hover{ border-color: var(--amber); color: var(--amber); }
 
+  .file-setup{ background: rgba(255,255,255,0.02); border:1px dashed rgba(242,169,59,0.3); border-radius:10px; padding:22px 26px; margin:28px 0; }
+  .file-setup .tag{ font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color: var(--amber); margin-bottom:12px; display:block; }
+  .file-setup ol{ padding-left:20px; color: var(--ink-soft); font-size:14.5px; line-height:1.9; margin:0 0 18px; }
+  .file-setup ol li strong{ color: var(--ink); }
+  .copy-btn{ margin-left:auto; font-family:'JetBrains Mono', monospace; font-size:11.5px; background: rgba(242,169,59,0.1); border:1px solid rgba(242,169,59,0.3); color: var(--amber); padding:3px 12px; border-radius:4px; cursor:pointer; transition: background .2s, color .2s, border-color .2s; }
+  .copy-btn:hover{ background: rgba(242,169,59,0.2); }
+  .copy-btn.copied{ background: rgba(127,217,155,0.12); border-color: rgba(127,217,155,0.35); color: var(--green); }
+  pre.csv-data{ color: var(--ink-soft); font-size:13px; }
+
   @media (max-width:600px){ .wrap{ padding:0 20px; } .hero{ min-height:58vh; } .topnav{ padding:14px 20px; } }
 </style>
 </head>
@@ -417,12 +426,41 @@ pop_songs = <span class="tok-fn">filter_by_genre</span>(playlist, <span class="t
   <div class="wrap">
     <div class="burst-label">
       <span class="burst-num">Extension 2</span>
-      <span class="burst-time">open-ended</span>
+      <span class="burst-time">fast finishers / open-ended</span>
     </div>
     <h2>Load a CSV &mdash; your list of dictionaries, at scale</h2>
     <p class="intro">A CSV (comma-separated values) file is one of the most common ways data lives in the real world &mdash; spreadsheets, exports, datasets. Python&rsquo;s built-in <code>csv</code> module can read one and hand you back exactly the structure you built today: a <strong>list of dictionaries</strong>, one per row, with the column headers as keys.</p>
  
-    <p class="intro">Add <code>games.csv</code> to your Replit project first: click the file icon in the left sidebar, then &ldquo;Add file&rdquo;, name it <code>games.csv</code>, and paste in the contents your instructor gives you.</p>
+    <div class="file-setup">
+      <span class="tag">Setup &mdash; add the data file to your Replit project first</span>
+      <ol>
+        <li>In the left sidebar, click the <strong>Files</strong> icon (the page stack at the top).</li>
+        <li>Click <strong>New File</strong> (the + icon that appears on hover).</li>
+        <li>Name it exactly <strong><code>games.csv</code></strong> &mdash; the <code>.csv</code> extension is important, not <code>.py</code>.</li>
+        <li>Hit <strong>Copy data</strong> below, then paste everything into that new file.</li>
+        <li>Replit saves automatically &mdash; you&rsquo;ll see <code>games.csv</code> appear in the file list.</li>
+      </ol>
+      <div class="code-card" style="margin:0">
+        <div class="bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="filename">games.csv</span>
+          <button class="copy-btn" id="csvCopyBtn" onclick="copyCSVData()">Copy data</button>
+        </div>
+        <pre class="csv-data">title,genre,year,platform,rating,hours_to_beat
+Elden Ring,RPG,2022,PC,9.5,60
+Hades,roguelike,2020,PC,9.5,25
+Breath of the Wild,action-adventure,2017,Switch,9.7,50
+Celeste,platformer,2018,Switch,9.3,10
+Stardew Valley,simulation,2016,PC,9.2,50
+Undertale,RPG,2015,PC,9.1,8
+Hollow Knight,platformer,2017,PC,9.0,40
+Minecraft,sandbox,2011,PC,9.0,100
+Animal Crossing,simulation,2020,Switch,8.5,80
+Genshin Impact,action-RPG,2020,Mobile,8.0,200
+Fortnite,battle-royale,2017,PC,7.8,15
+Among Us,social,2018,Mobile,7.5,5</pre>
+      </div>
+    </div>
  
     <div class="code-card">
       <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
@@ -462,10 +500,10 @@ year   = <span class="tok-fn">int</span>(games[<span class="tok-num">0</span>][<
         <li><strong style="color:var(--purple)">Print the library.</strong> Loop through <code>games</code> and print each title, genre, and rating on one line using an f-string. Remember to convert <code>rating</code> to a float.</li>
         <li><strong style="color:var(--purple)">Reuse your filter.</strong> Your <code>filter_by_genre</code> function from the playlist works on this list too &mdash; it just needs a list of dictionaries with a <code>"genre"</code> key, which is exactly what you have. Call it to print only the RPG games, then try a second genre.
           <ul style="margin-top:8px">
-            <li>Why does it work without any changes? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>the function doesn't care what the data is — it just looks for a "genre" key in each dictionary. the variable names inside the function are local labels, not tied to playlists specifically.</code></span></li>
+            <li>Why does it work without any changes? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>the function doesn't care what the data is — it just looks for a "genre" key in each dictionary. the variable names inside are local labels, not tied to playlists specifically.</code></span></li>
           </ul>
         </li>
-        <li><strong style="color:var(--purple)">Find the highest-rated game.</strong> Write a <code>find_best(games)</code> function that loops through the list and returns the game with the highest <code>rating</code>. Don&rsquo;t forget to convert the rating to a float before comparing.</li>
+        <li><strong style="color:var(--purple)">Find the highest-rated game.</strong> Write a <code>find_best(games)</code> function that loops through and returns the game with the highest <code>rating</code>. Don&rsquo;t forget to convert to a float before comparing.</li>
       </ul>
     </div>
  
@@ -482,6 +520,33 @@ year   = <span class="tok-fn">int</span>(games[<span class="tok-num">0</span>][<
     </div>
   </div>
 </section>
+ 
+<script>
+  function copyCSVData() {
+    const data = `title,genre,year,platform,rating,hours_to_beat
+Elden Ring,RPG,2022,PC,9.5,60
+Hades,roguelike,2020,PC,9.5,25
+Breath of the Wild,action-adventure,2017,Switch,9.7,50
+Celeste,platformer,2018,Switch,9.3,10
+Stardew Valley,simulation,2016,PC,9.2,50
+Undertale,RPG,2015,PC,9.1,8
+Hollow Knight,platformer,2017,PC,9.0,40
+Minecraft,sandbox,2011,PC,9.0,100
+Animal Crossing,simulation,2020,Switch,8.5,80
+Genshin Impact,action-RPG,2020,Mobile,8.0,200
+Fortnite,battle-royale,2017,PC,7.8,15
+Among Us,social,2018,Mobile,7.5,5`;
+    navigator.clipboard.writeText(data).then(() => {
+      const btn = document.getElementById('csvCopyBtn');
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy data';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
 
 <!-- ═══════════════════════════════════════════════════════ CLOSER -->
 <section class="closer" id="closer">
