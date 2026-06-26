@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 5 · Session 2 — Turtle Graphics in Colab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14172a; --panel: #1f2440; --ink: #edeef5; --ink-soft: #b9bcd4;
+    --muted: #7c81a3; --amber: #f2a93b; --amber-soft: #fbd99b; --green: #7fd99b; --violet: #b39bf2;
+    --rule: rgba(255,255,255,0.08); --code-bg: #0f1224;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background: var(--bg); color: var(--ink); font-family:'Inter',sans-serif; scroll-behavior:smooth; }
+  ::selection{ background: var(--amber); color:#14172a; }
+  h1,h2,h3{ font-family:'Space Grotesk',sans-serif; margin:0; line-height:1.15; }
+
+  .topnav{ position:sticky; top:0; z-index:60; background: rgba(20,23,42,0.85); backdrop-filter: blur(8px); border-bottom:1px solid var(--rule); padding:14px 32px; display:flex; align-items:center; justify-content:space-between; font-family:'JetBrains Mono', monospace; font-size:12.5px; }
+  .topnav a{ color: var(--muted); text-decoration:none; }
+  .topnav a:hover{ color: var(--amber); }
+  .topnav .crumbs span{ color: var(--ink-soft); }
+  .topnav .next-link{ color: var(--amber); display:flex; align-items:center; gap:6px; }
+
+  .progress-rail{ position:fixed; left:0; top:0; bottom:0; width:6px; background: var(--rule); z-index:50; }
+  .progress-fill{ position:absolute; top:0; left:0; width:100%; background: linear-gradient(180deg, var(--amber), var(--green)); height:0%; transition: height .1s linear; }
+
+  .wrap{ max-width:880px; margin:0 auto; padding:0 32px; }
+
+  .hero{ min-height:62vh; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+  .hero::before{ content:""; position:absolute; top:-20%; right:-10%; width:600px; height:600px; background: radial-gradient(circle, rgba(242,169,59,0.18), transparent 70%); pointer-events:none; }
+  .eyebrow{ font-family:'JetBrains Mono', monospace; color: var(--amber); letter-spacing:.12em; font-size:13px; text-transform:uppercase; margin-bottom:18px; }
+  .hero h1{ font-size: clamp(36px, 6vw, 58px); font-weight:700; max-width:740px; }
+  .hero h1 span{ color: var(--amber); }
+  .hero p.sub{ margin-top:22px; font-size:18px; color: var(--ink-soft); max-width:560px; line-height:1.55; }
+  .hero .meta{ margin-top:30px; display:flex; gap:28px; flex-wrap:wrap; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); }
+  .hero .meta b{ color: var(--ink-soft); font-weight:500; }
+  .scroll-cue{ margin-top:44px; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); display:flex; align-items:center; gap:10px; }
+  .scroll-cue .arrow{ animation: bob 1.6s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(6px); } }
+
+  .owner-banner{ display:inline-flex; align-items:center; gap:10px; background: rgba(127,217,155,0.08); border:1px solid rgba(127,217,155,0.25); border-radius:999px; padding:8px 18px; margin-bottom:26px; font-family:'JetBrains Mono', monospace; font-size:12.5px; color: var(--green); }
+
+  section.burst{ padding:60px 0 30px; border-top:1px solid var(--rule); position:relative; }
+  .burst-label{ display:flex; align-items:baseline; gap:18px; margin-bottom:14px; }
+  .burst-num{ font-family:'JetBrains Mono', monospace; font-size:15px; color: var(--amber); background: rgba(242,169,59,0.12); border:1px solid rgba(242,169,59,0.3); border-radius:999px; padding:4px 14px; }
+  .burst-time{ font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); }
+  .burst h2{ font-size: clamp(24px,3.5vw,30px); margin-bottom:10px; }
+  .burst .intro{ color: var(--ink-soft); font-size:16px; line-height:1.65; max-width:620px; margin-bottom:24px; }
+  .burst .intro strong{ color: var(--amber-soft); }
+
+  .link-card{
+    display:flex; align-items:flex-start; gap:16px;
+    background: var(--panel); border:1px solid var(--rule); border-radius:14px;
+    padding: 22px 26px; margin: 22px 0; text-decoration:none;
+  }
+  .link-card .icon{
+    flex-shrink:0; width:42px; height:42px; border-radius:10px;
+    background: rgba(242,169,59,0.14); color: var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono', monospace; font-size:18px; font-weight:700;
+  }
+  .link-card .body h3{ color: var(--ink); font-size:17px; margin-bottom:6px; }
+  .link-card .body p{ color: var(--ink-soft); font-size:14.5px; line-height:1.6; margin:0; }
+  .link-card .body code{ font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--amber-soft); }
+
+  .activity{ background: var(--panel); border:1px solid var(--rule); border-left:3px solid var(--amber); border-radius:10px; padding:22px 26px; margin:28px 0; }
+  .activity .tag{ font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color: var(--amber); margin-bottom:8px; display:block; }
+  .activity h3{ font-size:18px; margin-bottom:8px; }
+  .activity p{ color: var(--ink-soft); font-size:15px; line-height:1.6; margin:0 0 10px; }
+  .activity ul{ margin:8px 0 0; padding-left:20px; color: var(--ink-soft); font-size:14.5px; line-height:1.7; }
+
+  .activity.stretch{ border-left-color: var(--green); background: rgba(127,217,155,0.04); }
+  .activity.stretch .tag{ color: var(--green); }
+  .activity.stretch h3{ color: var(--green); }
+
+  .watch{ display:flex; gap:12px; background: rgba(255,255,255,0.02); border:1px solid var(--rule); border-radius:10px; padding:16px 20px; margin-top:18px; font-size:14px; color: var(--ink-soft); line-height:1.6; }
+  .watch .icon{ flex-shrink:0; width:26px; height:26px; border-radius:50%; background: rgba(242,169,59,0.15); color: var(--amber); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:600; }
+
+  .closer{ padding:80px 0 60px; text-align:center; border-top:1px solid var(--rule); }
+  .closer h2{ font-size: clamp(26px,4.5vw,34px); margin-bottom:16px; }
+  .closer p{ color: var(--ink-soft); font-size:16px; max-width:520px; margin:0 auto 30px; line-height:1.6; }
+  .closer .badge{ display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--green); background: rgba(127,217,155,0.1); border:1px solid rgba(127,217,155,0.3); padding:8px 18px; border-radius:999px; }
+
+  .session-nav{ padding:0 0 100px; text-align:center; }
+  .session-nav a.btn{ display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono', monospace; font-size:14px; background: var(--panel); border:1px solid var(--rule); color: var(--ink); padding:14px 26px; border-radius:999px; text-decoration:none; transition: border-color .2s ease; }
+  .session-nav a.btn:hover{ border-color: var(--amber); color: var(--amber); }
+
+  @media (max-width:600px){ .wrap{ padding:0 20px; } .hero{ min-height:56vh; } .topnav{ padding:14px 20px; } .link-card{ flex-direction:column; } }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="crumbs"><a href="index.html">All sessions</a> <span>/ Day 5 / Session 2</span></div>
+  <a class="next-link" href="index.html">Next: Day 6 (coming soon) →</a>
+</nav>
+
+<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
+
+<header class="hero" id="hero">
+  <div class="wrap">
+    <div class="eyebrow">Code and Create · Day 5 · Session 2 of 2 · Afternoon · Delaram &amp; Lauren</div>
+    <h1>Today you <span>draw</span> with code.</h1>
+    <p class="sub">All the Python so far has produced text. This afternoon, a turtle moves around a canvas and leaves a trail behind it — same logic you already know (loops, variables, functions), pointed at something visual for the first time.</p>
+    <div class="meta">
+      <div><b>Friday, June 26</b> · 1:00–3:00 PM</div>
+      <div><b>Tool:</b> Google Colab (new today)</div>
+      <div><b>Builds on:</b> everything so far — loops, functions, variables</div>
+    </div>
+    <div class="scroll-cue"><span class="arrow">↓</span> scroll to follow along</div>
+  </div>
+</header>
+
+<section class="burst" id="burst1">
+  <div class="wrap">
+    <span class="owner-banner">● new tool today — Google Colab, not Replit</span>
+    <div class="burst-label"><span class="burst-num">Today's session</span><span class="burst-time">1:00 – 3:00</span></div>
+    <h2>Open the notebook below to get started</h2>
+    <p class="intro">Today lives entirely in a <strong>Colab notebook</strong> — a different kind of coding environment than Replit, organized into cells you run one at a time, mixing explanation and code in the same document. Everything you need — explanations, starter code, and activities — is inside the notebook itself.</p>
+
+    <a class="link-card" href="REPLACE_WITH_YOUR_COLAB_LINK" target="_blank" rel="noopener">
+      <div class="icon">→</div>
+      <div class="body">
+        <h3>Open the Turtle Graphics Notebook</h3>
+        <p>Click to open in Google Colab. Make a copy to your own Drive first (<code>File → Save a copy in Drive</code>) so your edits are saved — editing the shared link directly won't save your work.</p>
+      </div>
+    </a>
+
+    <div class="activity">
+      <span class="tag">Before you start</span>
+      <h3>Two things to do first</h3>
+      <ul>
+        <li><strong>Make your own copy</strong> — <code>File → Save a copy in Drive</code> — right when you open it, before changing anything.</li>
+        <li><strong>Run the very first code cell</strong> (the one that installs and imports the turtle library) before any other cell — it sets up everything else.</li>
+      </ul>
+    </div>
+
+    <div class="watch"><span class="icon">!</span><span>Notebooks run top to bottom, cell by cell — if something seems broken or undefined, the most common fix is "did I actually run the cell above this one?" Click the play button on each cell in order, top to bottom, the first time through.</span></div>
+
+    <div class="activity stretch">
+      <span class="tag">If you finish early</span>
+      <h3>Keep exploring inside the notebook</h3>
+      <p>The notebook's later cells have stretch challenges built in — patterns, color changes, and a free-draw section at the end. No need to come back to this page; everything for today lives there.</p>
+    </div>
+  </div>
+</section>
+
+<section class="closer" id="closer">
+  <div class="wrap">
+    <span class="badge">● day 5 — complete</span>
+    <h2>You can draw with logic now.</h2>
+    <p>Loops drawing shapes, functions drawing patterns — turtle graphics is the same code you already know, just pointed at a canvas instead of a console. Next week: pick your project track and start building.</p>
+  </div>
+</section>
+
+<div class="wrap session-nav">
+  <a class="btn" href="index.html">Back to all sessions</a>
+</div>
+
+<script>
+  const fill = document.getElementById('progressFill');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    fill.style.height = pct + '%';
+  });
+</script>
+
+</body>
+</html>
