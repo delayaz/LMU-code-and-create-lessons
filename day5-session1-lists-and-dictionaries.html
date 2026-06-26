@@ -9,8 +9,8 @@
 <style>
   :root{
     --bg: #14172a; --panel: #1f2440; --ink: #edeef5; --ink-soft: #b9bcd4;
-    --muted: #7c81a3; --amber: #f2a93b; --amber-soft: #fbd99b; --green: #7fd99b; --violet: #b39bf2;
-    --rule: rgba(255,255,255,0.08); --code-bg: #0f1224;
+    --muted: #7c81a3; --amber: #f2a93b; --amber-soft: #fbd99b; --green: #7fd99b;
+    --purple: #a78bfa; --rule: rgba(255,255,255,0.08); --code-bg: #0f1224;
   }
   *{ box-sizing: border-box; }
   html,body{ margin:0; padding:0; background: var(--bg); color: var(--ink); font-family:'Inter',sans-serif; scroll-behavior:smooth; }
@@ -24,23 +24,23 @@
   .topnav .next-link{ color: var(--amber); display:flex; align-items:center; gap:6px; }
 
   .progress-rail{ position:fixed; left:0; top:0; bottom:0; width:6px; background: var(--rule); z-index:50; }
-  .progress-fill{ position:absolute; top:0; left:0; width:100%; background: linear-gradient(180deg, var(--amber), var(--violet)); height:0%; transition: height .1s linear; }
+  .progress-fill{ position:absolute; top:0; left:0; width:100%; background: linear-gradient(180deg, var(--amber), var(--green)); height:0%; transition: height .1s linear; }
 
   .wrap{ max-width:880px; margin:0 auto; padding:0 32px; }
 
-  .hero{ min-height:70vh; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+  .hero{ min-height:62vh; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
   .hero::before{ content:""; position:absolute; top:-20%; right:-10%; width:600px; height:600px; background: radial-gradient(circle, rgba(242,169,59,0.18), transparent 70%); pointer-events:none; }
   .eyebrow{ font-family:'JetBrains Mono', monospace; color: var(--amber); letter-spacing:.12em; font-size:13px; text-transform:uppercase; margin-bottom:18px; }
-  .hero h1{ font-size: clamp(40px, 7vw, 70px); font-weight:700; max-width:760px; }
+  .hero h1{ font-size: clamp(36px, 6vw, 58px); font-weight:700; max-width:740px; }
   .hero h1 span{ color: var(--amber); }
-  .hero p.sub{ margin-top:22px; font-size:19px; color: var(--ink-soft); max-width:580px; line-height:1.55; }
-  .hero .meta{ margin-top:32px; display:flex; gap:28px; flex-wrap:wrap; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); }
+  .hero p.sub{ margin-top:22px; font-size:18px; color: var(--ink-soft); max-width:560px; line-height:1.55; }
+  .hero .meta{ margin-top:30px; display:flex; gap:28px; flex-wrap:wrap; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); }
   .hero .meta b{ color: var(--ink-soft); font-weight:500; }
-  .scroll-cue{ margin-top:48px; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); display:flex; align-items:center; gap:10px; }
+  .scroll-cue{ margin-top:44px; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); display:flex; align-items:center; gap:10px; }
   .scroll-cue .arrow{ animation: bob 1.6s ease-in-out infinite; }
   @keyframes bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(6px); } }
 
-  section.burst{ padding:90px 0 30px; border-top:1px solid var(--rule); position:relative; }
+  section.burst{ padding:80px 0 30px; border-top:1px solid var(--rule); position:relative; }
   .burst-label{ display:flex; align-items:baseline; gap:18px; margin-bottom:14px; }
   .burst-num{ font-family:'JetBrains Mono', monospace; font-size:15px; color: var(--amber); background: rgba(242,169,59,0.12); border:1px solid rgba(242,169,59,0.3); border-radius:999px; padding:4px 14px; }
   .burst-time{ font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); }
@@ -56,9 +56,10 @@
   pre{ margin:0; padding:20px 22px; font-family:'JetBrains Mono', monospace; font-size:14.5px; line-height:1.7; overflow-x:auto; color: var(--ink); }
   .tok-str{ color:#b6e6b0; } .tok-kw{ color: var(--amber); } .tok-fn{ color:#8ab4ff; } .tok-num{ color:#f7b2d9; } .tok-com{ color: var(--muted); font-style:italic; }
 
-  .console{ border-top:1px dashed var(--rule); background: rgba(127,217,155,0.04); padding:14px 22px; font-family:'JetBrains Mono', monospace; font-size:13.5px; color: var(--green); white-space:pre-wrap; }
+  .console{ border-top:1px dashed var(--rule); background: rgba(127,217,155,0.04); padding:14px 22px; font-family:'JetBrains Mono', monospace; font-size:13.5px; color: var(--green); }
   .console .prompt{ color: var(--muted); }
 
+  /* Activity boxes — three flavours */
   .activity{ background: var(--panel); border:1px solid var(--rule); border-left:3px solid var(--amber); border-radius:10px; padding:22px 26px; margin:28px 0; }
   .activity .tag{ font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color: var(--amber); margin-bottom:8px; display:block; }
   .activity h3{ font-size:18px; margin-bottom:8px; }
@@ -69,14 +70,9 @@
   .activity.stretch .tag{ color: var(--green); }
   .activity.stretch h3{ color: var(--green); }
 
-  .activity.apcs{ border-left-color: var(--violet); background: rgba(179,155,242,0.05); }
-  .activity.apcs .tag{ color: var(--violet); }
-  .activity.apcs h3{ color: var(--violet); }
-
-  .spoiler{ background: var(--muted); border-radius:4px; cursor:pointer; user-select:none; transition: background 0.3s ease; }
-  .spoiler code{ opacity:0; transition: opacity 0.25s ease; }
-  .spoiler.revealed{ background: transparent; }
-  .spoiler.revealed code{ opacity:1; }
+  .activity.apcs{ border-left-color: var(--purple); background: rgba(167,139,250,0.04); }
+  .activity.apcs .tag{ color: var(--purple); }
+  .activity.apcs h3{ color: var(--purple); }
 
   .watch{ display:flex; gap:12px; background: rgba(255,255,255,0.02); border:1px solid var(--rule); border-radius:10px; padding:16px 20px; margin-top:18px; font-size:14px; color: var(--ink-soft); line-height:1.6; }
   .watch .icon{ flex-shrink:0; width:26px; height:26px; border-radius:50%; background: rgba(242,169,59,0.15); color: var(--amber); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:600; }
@@ -84,9 +80,24 @@
   .break-marker{ display:flex; align-items:center; gap:16px; margin:50px 0; color: var(--muted); font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:.1em; text-transform:uppercase; }
   .break-marker::before, .break-marker::after{ content:""; flex:1; height:1px; background: var(--rule); }
 
+  .extension-marker{ display:flex; align-items:center; gap:16px; margin:60px 0 24px; color: var(--purple); font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:.1em; text-transform:uppercase; }
+  .extension-marker::before, .extension-marker::after{ content:""; flex:1; height:1px; background: rgba(167,139,250,0.2); }
+
+  section.extension{ padding:50px 0 30px; border-top:1px solid rgba(167,139,250,0.15); }
+  .extension .burst-num{ color: var(--purple); background: rgba(167,139,250,0.12); border-color: rgba(167,139,250,0.3); }
+  .extension h2{ font-size: clamp(26px,4vw,34px); margin-bottom:10px; }
+  .extension .intro{ color: var(--ink-soft); font-size:16.5px; line-height:1.65; max-width:620px; margin-bottom:28px; }
+
+  .spoiler{ background: var(--muted); border-radius:4px; cursor:pointer; user-select:none; transition: background 0.3s ease; }
+  .spoiler code{ opacity:0; transition: opacity 0.25s ease; }
+  .spoiler.revealed{ background: transparent; }
+  .spoiler.revealed code{ opacity:1; }
+
   .timeline{ position:fixed; right:26px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:14px; z-index:40; }
   .timeline a{ width:10px; height:10px; border-radius:50%; background: var(--rule); display:block; position:relative; transition: all .25s ease; }
   .timeline a.active{ background: var(--amber); box-shadow:0 0 0 4px rgba(242,169,59,0.18); }
+  .timeline a.ext{ background: rgba(167,139,250,0.3); }
+  .timeline a.ext.active{ background: var(--purple); box-shadow:0 0 0 4px rgba(167,139,250,0.18); }
   .timeline a::after{ content: attr(data-label); position:absolute; right:22px; top:50%; transform:translateY(-50%); font-family:'JetBrains Mono', monospace; font-size:11px; color: var(--muted); white-space:nowrap; opacity:0; transition: opacity .2s ease; pointer-events:none; }
   .timeline a:hover::after{ opacity:1; }
   @media (max-width:780px){ .timeline{ display:none; } }
@@ -100,53 +111,56 @@
   .session-nav a.btn{ display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono', monospace; font-size:14px; background: var(--panel); border:1px solid var(--rule); color: var(--ink); padding:14px 26px; border-radius:999px; text-decoration:none; transition: border-color .2s ease; }
   .session-nav a.btn:hover{ border-color: var(--amber); color: var(--amber); }
 
-  @media (max-width:600px){ .wrap{ padding:0 20px; } .hero{ min-height:62vh; } .topnav{ padding:14px 20px; } }
+  @media (max-width:600px){ .wrap{ padding:0 20px; } .hero{ min-height:58vh; } .topnav{ padding:14px 20px; } }
 </style>
 </head>
 <body>
 
 <nav class="topnav">
   <div class="crumbs"><a href="index.html">All sessions</a> <span>/ Day 5 / Session 1</span></div>
-  <a class="next-link" href="day5-session2-turtle-graphics-colab.html">Next: Session 2 →</a>
+  <a class="next-link" href="day5-session2-turtle-graphics-colab.html">Next: Day 5, Session 2 &rarr;</a>
 </nav>
 
 <div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
 
 <nav class="timeline" id="timelineNav">
-  <a href="#hero" data-label="Start" class="active"></a>
-  <a href="#burst1" data-label="Burst 1 — lists"></a>
-  <a href="#burst2" data-label="Burst 2 — dictionaries"></a>
-  <a href="#burst3" data-label="Burst 3 — movies &amp; music"></a>
-  <a href="#closer" data-label="Wrap up"></a>
+  <a href="#hero"       data-label="Start"            class="active"></a>
+  <a href="#burst1"     data-label="Burst 1 — lists"></a>
+  <a href="#burst2"     data-label="Burst 2 — dicts"></a>
+  <a href="#burst3"     data-label="Burst 3 — playlist"></a>
+  <a href="#extension"  data-label="Extension — RPG" class="ext"></a>
+  <a href="#extension2"  data-label="Extension — CSV" class="ext"></a>
+  <a href="#closer"     data-label="Wrap up"></a>
 </nav>
 
 <header class="hero" id="hero">
   <div class="wrap">
-    <div class="eyebrow">Code and Create · Day 5 · Session 1 of 2 · Morning · Delaram &amp; Lauren</div>
+    <div class="eyebrow">Code and Create &middot; Day 5 &middot; Session 1 of 2 &middot; Morning &middot; Delaram &amp; Lauren</div>
     <h1>Store more than <span>one thing</span> at a time.</h1>
-    <p class="sub">So far every variable held one value. Today: a list holds many values in order, and a dictionary holds labeled values you look up by name — your venue's whole guest list, then the same skill applied to movies, music, or whatever you're into.</p>
+    <p class="sub">So far every variable held one value. Today: a list holds many values in order, and a dictionary holds labeled values you look up by name &mdash; your venue&rsquo;s whole guest list, then the same skill applied to a playlist you actually care about.</p>
     <div class="meta">
-      <div><b>Friday, June 26</b> · 9:00–11:30 AM</div>
+      <div><b>Friday, June 26</b> &middot; 9:00&ndash;11:30 AM</div>
       <div><b>Tool:</b> replit.com</div>
-      <div><b>Builds on:</b> Day 4 — functions</div>
+      <div><b>Builds on:</b> Day 4 &mdash; functions</div>
     </div>
-    <div class="scroll-cue"><span class="arrow">↓</span> scroll to follow along</div>
+    <div class="scroll-cue"><span class="arrow">&darr;</span> scroll to follow along</div>
   </div>
 </header>
 
+<!-- ═══════════════════════════════════════════════════════ BURST 1 -->
 <section class="burst" id="burst1">
   <div class="wrap">
-    <div class="burst-label"><span class="burst-num">Burst 1</span><span class="burst-time">9:20 – 9:55</span></div>
-    <h2>Lists — many values, kept in order</h2>
-    <p class="intro">A <strong>list</strong> holds multiple values in a single variable, in order, indexed starting from 0. You've already looped over a `range()` of numbers — now you'll loop over a list of real things.</p>
+    <div class="burst-label"><span class="burst-num">Burst 1</span><span class="burst-time">9:20 &ndash; 9:55</span></div>
+    <h2>Lists &mdash; many values, kept in order</h2>
+    <p class="intro">A <strong>list</strong> holds multiple values in a single variable, in order, indexed starting from 0. You&rsquo;ve already looped over a <code>range()</code> of numbers &mdash; now you&rsquo;ll loop over a list of real things.</p>
 
     <div class="code-card">
       <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
       <pre>guest_list = []
 
-guest_list.append(<span class="tok-str">"Elin"</span>)
-guest_list.append(<span class="tok-str">"Yutaro"</span>)
-guest_list.append(<span class="tok-str">"Casilda"</span>)
+guest_list.<span class="tok-fn">append</span>(<span class="tok-str">"Jesus"</span>)
+guest_list.<span class="tok-fn">append</span>(<span class="tok-str">"Kellan"</span>)
+guest_list.<span class="tok-fn">append</span>(<span class="tok-str">"Cassie"</span>)
 
 <span class="tok-fn">print</span>(guest_list)
 <span class="tok-fn">print</span>(guest_list[<span class="tok-num">0</span>])
@@ -154,42 +168,38 @@ guest_list.append(<span class="tok-str">"Casilda"</span>)
 
 <span class="tok-kw">for</span> name <span class="tok-kw">in</span> guest_list:
     <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"Checking in: {name}"</span>)</pre>
-      <div class="console"><span class="prompt">$ </span>['Elin', 'Yutaro', 'Casilda']
-Elin
-3
-Checking in: Elin
-Checking in: Yutaro
-Checking in: Casilda</div>
+      <div class="console"><span class="prompt">$ </span>['Jesus', 'Kellan', 'Cassie']<br>Jesus<br>3<br>Checking in: Jesus<br>Checking in: Kellan<br>Checking in: Cassie</div>
     </div>
 
-    <p class="intro">Three new things at once: <code>[]</code> creates an empty list, <code>.append(...)</code> adds something to the end, and <code>list[0]</code> grabs the item at position 0 (lists start counting from 0, not 1). The <code>for name in guest_list:</code> loop is the same shape as your Day 3 <code>for</code> loops — it just hands you real items now instead of numbers.</p>
+    <p class="intro">Three new things at once: <code>[]</code> creates an empty list, <code>.append(...)</code> adds something to the end, and <code>list[0]</code> grabs the item at position 0 (lists start counting from 0, not 1). The <code>for name in guest_list:</code> loop is the same shape as your Day 3 <code>for</code> loops &mdash; it just hands you real items now instead of numbers.</p>
 
     <div class="activity">
-      <span class="tag">Your turn — Step 1</span>
+      <span class="tag">Your turn &mdash; Step 1</span>
       <h3>Build a real guest list for your venue</h3>
       <p>Start an empty list. Use <code>.append(...)</code> to add at least 5 names to it (typed directly, or via <code>input()</code> in a loop if you want a challenge). Then loop through the list and print a check-in message for each guest.</p>
       <ul>
-        <li>How would you print just the very last person on the list, no matter how long it is? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>guest_list[-1] — negative indexes count backwards from the end</code></span></li>
+        <li>How would you print just the very last person on the list, no matter how long it is? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>guest_list[-1] &mdash; negative indexes count backwards from the end</code></span></li>
       </ul>
     </div>
 
-    <div class="watch"><span class="icon">!</span><span>Common snag: trying to access <code>guest_list[5]</code> on a list that only has 3 items — this throws an <code>IndexError</code>. Lists only have valid positions from 0 up to <code>len(list) - 1</code>.</span></div>
+    <div class="watch"><span class="icon">!</span><span>Common snag: trying to access <code>guest_list[5]</code> on a list that only has 3 items &mdash; this throws an <code>IndexError</code>. Lists only have valid positions from 0 up to <code>len(list) - 1</code>.</span></div>
 
     <div class="activity stretch">
-      <span class="tag">Stretch — done early?</span>
+      <span class="tag">Stretch &mdash; done early?</span>
       <h3>Remove and check</h3>
-      <p>Use <code>.remove("name")</code> to take someone off the list (maybe they left early), then use <code>"name" in guest_list</code> to check whether a specific person is still there — print a true/false result.</p>
+      <p>Use <code>.remove("name")</code> to take someone off the list (maybe they left early), then use <code>"name" in guest_list</code> to check whether a specific person is still there &mdash; print a true/false result.</p>
     </div>
   </div>
 </section>
 
 <div class="wrap"><div class="break-marker">Break</div></div>
 
+<!-- ═══════════════════════════════════════════════════════ BURST 2 -->
 <section class="burst" id="burst2">
   <div class="wrap">
-    <div class="burst-label"><span class="burst-num">Burst 2</span><span class="burst-time">10:05 – 10:45</span></div>
-    <h2>Dictionaries — values you look up by name</h2>
-    <p class="intro">A list finds things by position (0, 1, 2...). A <strong>dictionary</strong> finds things by a label you choose — a <strong>key</strong> — paired with a <strong>value</strong>. Perfect for storing more than just a name per guest.</p>
+    <div class="burst-label"><span class="burst-num">Burst 2</span><span class="burst-time">10:05 &ndash; 10:45</span></div>
+    <h2>Dictionaries &mdash; values you look up by name</h2>
+    <p class="intro">A list finds things by position (0, 1, 2&hellip;). A <strong>dictionary</strong> finds things by a label you choose &mdash; a <strong>key</strong> &mdash; paired with a <strong>value</strong>. Perfect for storing more than just a name per guest.</p>
 
     <div class="code-card">
       <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
@@ -205,18 +215,16 @@ Checking in: Casilda</div>
 <span class="tok-com"># add a new key, just by assigning to it</span>
 guest[<span class="tok-str">"vip"</span>] = <span class="tok-kw">False</span>
 <span class="tok-fn">print</span>(guest)</pre>
-      <div class="console"><span class="prompt">$ </span>Elin
-16
-{'name': 'Elin', 'age': 16, 'has_ticket': True, 'vip': False}</div>
+      <div class="console"><span class="prompt">$ </span>Elin<br>16<br>{'name': 'Elin', 'age': 16, 'has_ticket': True, 'vip': False}</div>
     </div>
 
-    <p class="intro">Now combine both: a <strong>list of dictionaries</strong> is how you'd really store a whole guest list with full details on each person — each item in the list is one guest's dictionary.</p>
+    <p class="intro">Now combine both: a <strong>list of dictionaries</strong> is how you&rsquo;d really store a whole guest list with full details on each person &mdash; each item in the list is one guest&rsquo;s dictionary.</p>
 
     <div class="code-card">
       <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
       <pre>guests = [
     {<span class="tok-str">"name"</span>: <span class="tok-str">"Elin"</span>, <span class="tok-str">"age"</span>: <span class="tok-num">16</span>, <span class="tok-str">"has_ticket"</span>: <span class="tok-kw">True</span>},
-    {<span class="tok-str">"name"</span>: <span class="tok-str">"Jesus"</span>, <span class="tok-str">"age"</span>: <span class="tok-num">17</span>, <span class="tok-str">"has_ticket"</span>: <span class="tok-kw">False</span>}
+    {<span class="tok-str">"name"</span>: <span class="tok-str">"Yutaro"</span>, <span class="tok-str">"age"</span>: <span class="tok-num">17</span>, <span class="tok-str">"has_ticket"</span>: <span class="tok-kw">False</span>}
 ]
 
 <span class="tok-kw">for</span> guest <span class="tok-kw">in</span> guests:
@@ -224,93 +232,268 @@ guest[<span class="tok-str">"vip"</span>] = <span class="tok-kw">False</span>
         <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"{guest['name']}: come on in"</span>)
     <span class="tok-kw">else</span>:
         <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"{guest['name']}: not yet"</span>)</pre>
-      <div class="console"><span class="prompt">$ </span>Elin: not yet
-Jesus: not yet</div>
+      <div class="console"><span class="prompt">$ </span>Elin: not yet<br>Yutaro: not yet</div>
     </div>
 
-    <p class="intro">This is the cleanest version yet of your bouncer — yesterday it was a function taking separate <code>age</code> and <code>has_ticket</code> arguments. Now one dictionary holds everything about a guest, and one list holds everyone.</p>
+    <p class="intro">This is the cleanest version yet of your bouncer &mdash; yesterday it was a function taking separate <code>age</code> and <code>has_ticket</code> arguments. Now one dictionary holds everything about a guest, and one list holds everyone.</p>
 
     <div class="activity">
-      <span class="tag">Your turn — Step 2</span>
+      <span class="tag">Your turn &mdash; Step 2</span>
       <h3>Rebuild your venue with a list of dictionaries</h3>
-      <p>Make a list of 4-5 guest dictionaries, each with at least <code>name</code>, <code>age</code>, and <code>has_ticket</code>. Loop through the list and run each guest through your bouncer logic.</p>
+      <p>Make a list of 4&ndash;5 guest dictionaries, each with at least <code>name</code>, <code>age</code>, and <code>has_ticket</code>. Loop through the list and run each guest through your bouncer logic.</p>
     </div>
 
-    <div class="watch"><span class="icon">!</span><span>Common snag: misspelling a key name (<code>guest["Age"]</code> instead of <code>guest["age"]</code>) — Python keys are case-sensitive and exact, so a typo gives you a <code>KeyError</code> instead of just quietly working.</span></div>
+    <div class="watch"><span class="icon">!</span><span>Common snag: misspelling a key name (<code>guest["Age"]</code> instead of <code>guest["age"]</code>) &mdash; Python keys are case-sensitive and exact, so a typo gives you a <code>KeyError</code> instead of just quietly working.</span></div>
 
     <div class="activity apcs">
-      <span class="tag">Stretch — function + dictionary</span>
+      <span class="tag">Stretch &mdash; function + dictionary</span>
       <h3>Pass a whole dictionary into your check_guest function</h3>
-      <p>Rewrite yesterday's <code>check_guest(age, has_ticket)</code> function to instead take one parameter, a dictionary: <code>check_guest(guest)</code>, then reference <code>guest["age"]</code> and <code>guest["has_ticket"]</code> inside it. Call it once per guest in your loop. This is genuinely how real programs pass around structured data — one bundle, not a pile of separate arguments.</p>
+      <p>Rewrite yesterday&rsquo;s <code>check_guest(age, has_ticket)</code> function to instead take one parameter, a dictionary: <code>check_guest(guest)</code>, then reference <code>guest["age"]</code> and <code>guest["has_ticket"]</code> inside it. Call it once per guest in your loop. This is genuinely how real programs pass around structured data &mdash; one bundle, not a pile of separate arguments.</p>
     </div>
   </div>
 </section>
 
 <div class="wrap"><div class="break-marker">Break</div></div>
 
+<!-- ═══════════════════════════════════════════════════════ BURST 3 — PLAYLIST -->
 <section class="burst" id="burst3">
   <div class="wrap">
-    <div class="burst-label"><span class="burst-num">Burst 3</span><span class="burst-time">10:55 – 11:25</span></div>
-    <h2>Same skill, different data — movies and music</h2>
-    <p class="intro">Lists and dictionaries aren't just for venues. Here's the exact same pattern — a list of dictionaries — applied to two more relatable domains. Pick whichever one you like better (or try both).</p>
+    <div class="burst-label"><span class="burst-num">Burst 3</span><span class="burst-time">10:55 &ndash; 11:25</span></div>
+    <h2>Playlist curator &mdash; the same pattern, on data you care about</h2>
+    <p class="intro">Lists and dictionaries aren&rsquo;t just for venues. Here&rsquo;s the exact same pattern applied to music &mdash; and this time you&rsquo;ll wrap the operations in <strong>functions</strong> so they&rsquo;re reusable. Replace the starter songs with ones you actually know.</p>
 
     <div class="code-card">
-      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py — movies example</span></div>
-      <pre>movies = [
-    {<span class="tok-str">"title"</span>: <span class="tok-str">"Spider-Man: Into the Spider-Verse"</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"animation"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2018</span>, <span class="tok-str">"rating"</span>: <span class="tok-num">8.4</span>},
-    {<span class="tok-str">"title"</span>: <span class="tok-str">"Get Out"</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"horror"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2017</span>, <span class="tok-str">"rating"</span>: <span class="tok-num">7.7</span>},
-    {<span class="tok-str">"title"</span>: <span class="tok-str">"Dune"</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"sci-fi"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2021</span>, <span class="tok-str">"rating"</span>: <span class="tok-num">8.0</span>}
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py &mdash; starter playlist</span></div>
+      <pre><span class="tok-com"># Swap these out for songs you actually listen to</span>
+playlist = [
+    {<span class="tok-str">"title"</span>: <span class="tok-str">"Kilby Girl"</span>, <span class="tok-str">"artist"</span>: <span class="tok-str">"The Backseat Lovers"</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"indie"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2020</span>, <span class="tok-str">"plays"</span>: <span class="tok-num">2840</span>},
+    {<span class="tok-str">"title"</span>: <span class="tok-str">"tv off"</span>, <span class="tok-str">"artist"</span>: <span class="tok-str">"Kendrick Lamar"</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"hip-hop"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2024</span>, <span class="tok-str">"plays"</span>: <span class="tok-num">1560</span>},
+    {<span class="tok-str">"title"</span>: <span class="tok-str">"Hai Yorokonde"</span>, <span class="tok-str">"artist"</span>: <span class="tok-str">"Kocchi no Kento"</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"j-pop"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2021</span>, <span class="tok-str">"plays"</span>: <span class="tok-num">3200</span>},
+    {<span class="tok-str">"title"</span>: <span class="tok-str">"Hard Times"</span>, <span class="tok-str">"artist"</span>: <span class="tok-str">"Paramore"</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"pop-rock"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2017</span>, <span class="tok-str">"plays"</span>: <span class="tok-num">4100</span>},
+    {<span class="tok-str">"title"</span>: <span class="tok-str">"Midnight Sun"</span>, <span class="tok-str">"artist"</span>: <span class="tok-str">"Zara Larsson"</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"pop"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2021</span>, <span class="tok-str">"plays"</span>: <span class="tok-num">1980</span>},
+    {<span class="tok-str">"title"</span>: <span class="tok-str">"Gnarly"</span>, <span class="tok-str">"artist"</span>: <span class="tok-str">"Katseye"</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"pop"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2024</span>, <span class="tok-str">"plays"</span>: <span class="tok-num">890</span>},
 ]
 
-<span class="tok-kw">for</span> movie <span class="tok-kw">in</span> movies:
-    <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"{movie['title']} ({movie['year']}) - {movie['genre']}, rated {movie['rating']}"</span>)</pre>
-      <div class="console"><span class="prompt">$ </span>Spider-Man: Into the Spider-Verse (2018) - animation, rated 8.4
-Get Out (2017) - horror, rated 7.7
-Dune (2021) - sci-fi, rated 8.0</div>
-    </div>
-
-    <div class="code-card">
-      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py — musicians example</span></div>
-      <pre>albums = [
-    {<span class="tok-str">"artist"</span>: <span class="tok-str">"Tyler, the Creator"</span>, <span class="tok-str">"title"</span>: <span class="tok-str">"IGOR"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2019</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"hip-hop"</span>},
-    {<span class="tok-str">"artist"</span>: <span class="tok-str">"Olivia Rodrigo"</span>, <span class="tok-str">"title"</span>: <span class="tok-str">"SOUR"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2021</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"pop"</span>},
-    {<span class="tok-str">"artist"</span>: <span class="tok-str">"Bad Bunny"</span>, <span class="tok-str">"title"</span>: <span class="tok-str">"un verano sin ti"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2022</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"reggaeton"</span>}
-]
-
-<span class="tok-kw">for</span> album <span class="tok-kw">in</span> albums:
-    <span class="tok-kw">if</span> album[<span class="tok-str">"year"</span>] >= <span class="tok-num">2020</span>:
-        <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"{album['title']} by {album['artist']} is recent ({album['year']})"</span>)</pre>
-      <div class="console"><span class="prompt">$ </span>SOUR by Olivia Rodrigo is recent (2021)
-un verano sin ti by Bad Bunny is recent (2022)</div>
+<span class="tok-kw">for</span> song <span class="tok-kw">in</span> playlist:
+    <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"{song['title']} by {song['artist']} ({song['year']}) &mdash; {song['plays']} plays"</span>)</pre>
+      <div class="console"><span class="prompt">$ </span>Kilby Girl by The Backseat Lovers (2020) &mdash; 2840 plays<br>tv off by Kendrick Lamar (2024) &mdash; 1560 plays<br>Hai Yorokonde by Kocchi no Kento (2021) &mdash; 3200 plays<br>Hard Times by Paramore (2017) &mdash; 4100 plays<br>Midnight Sun by Zara Larsson (2021) &mdash; 1980 plays<br>Gnarly by Katseye (2024) &mdash; 890 plays</div>
     </div>
 
     <div class="activity">
-      <span class="tag">Your turn — Step 3</span>
-      <h3>Build your own list of dictionaries</h3>
-      <p>Pick a topic you actually like — movies, albums, video games, athletes, anything with a few details worth tracking. Build a list of at least 5 dictionaries, each with 3-4 keys of your choosing. Then write a loop that prints something interesting about each one, using an <code>if</code> to filter for something specific (e.g. only show movies above a certain rating, or albums from a certain genre).</p>
+      <span class="tag">Your turn &mdash; Step 1</span>
+      <h3>Build your own playlist</h3>
+      <p>Replace the starter songs with at least 5 tracks you actually know. Keep the same keys &mdash; <code>title</code>, <code>artist</code>, <code>genre</code>, <code>year</code>, <code>plays</code> &mdash; and make up play counts for now. Then loop through and print each one in whatever format looks good to you.</p>
       <ul>
-        <li>Can you write a loop that counts how many items match your filter, instead of just printing each one? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>start a counter at 0 before the loop, add 1 to it inside the if-branch that matches, print the counter after the loop ends</code></span></li>
+        <li>Can you print only songs from a specific year or newer? Use an <code>if</code> inside your loop.</li>
+      </ul>
+    </div>
+
+    <p class="intro" style="margin-top:36px;">Now wrap an operation in a <strong>function</strong>. This <code>filter_by_genre</code> function takes the whole playlist and a genre string, and returns a <em>new list</em> containing only the matching songs &mdash; the original playlist is untouched.</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py &mdash; filter function</span></div>
+      <pre><span class="tok-kw">def</span> <span class="tok-fn">filter_by_genre</span>(playlist, genre):
+    result = []
+    <span class="tok-kw">for</span> song <span class="tok-kw">in</span> playlist:
+        <span class="tok-kw">if</span> song[<span class="tok-str">"genre"</span>] == genre:
+            result.<span class="tok-fn">append</span>(song)
+    <span class="tok-kw">return</span> result
+
+pop_songs = <span class="tok-fn">filter_by_genre</span>(playlist, <span class="tok-str">"pop"</span>)
+<span class="tok-kw">for</span> song <span class="tok-kw">in</span> pop_songs:
+    <span class="tok-fn">print</span>(song[<span class="tok-str">"title"</span>])</pre>
+      <div class="console"><span class="prompt">$ </span>Midnight Sun<br>Gnarly</div>
+    </div>
+
+    <div class="activity">
+      <span class="tag">Your turn &mdash; Step 2</span>
+      <h3>Write find_most_played(playlist)</h3>
+      <p>Write a function that loops through the playlist and returns whichever song dictionary has the highest <code>plays</code> value. Then call it and print the result.</p>
+      <ul>
+        <li>Not sure where to start? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>start with most_played = playlist[0], then loop — if a song's plays is higher than most_played["plays"], replace most_played with that song</code></span></li>
+        <li>Your function should <em>return</em> the dictionary, not print inside it &mdash; let the caller decide how to display it.</li>
+      </ul>
+    </div>
+
+    <div class="watch"><span class="icon">!</span><span>The key insight here: <code>filter_by_genre</code> and <code>find_most_played</code> work on <em>any</em> playlist you hand them. Change your data, add more songs, pass in a sub-list &mdash; the function doesn&rsquo;t care. That&rsquo;s why we put it in a function.</span></div>
+
+    <div class="activity stretch">
+      <span class="tag">Stretch &mdash; done early?</span>
+      <h3>add_song and a second filter</h3>
+      <p>Write <code>add_song(playlist, title, artist, genre, year)</code> &mdash; it should build the dictionary and append it to the list (plays starts at 0 for a new song). Then write a second filter, like <code>filter_by_artist(playlist, artist)</code>, and test that calling <code>add_song</code> and then <code>filter_by_artist</code> finds the song you just added.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ EXTENSION — RPG -->
+<div class="wrap"><div class="extension-marker">Extension &mdash; if you want to take things further</div></div>
+
+<section class="extension" id="extension">
+  <div class="wrap">
+    <div class="burst-label"><span class="burst-num">Extension</span><span class="burst-time">open-ended</span></div>
+    <h2>RPG character sheet &mdash; a dictionary that does things</h2>
+    <p class="intro">A dictionary doesn&rsquo;t have to just <em>store</em> data &mdash; you can write functions that take a dictionary as a parameter and <em>modify</em> it. This is how real programs pass structured data around. Your character is a dictionary; your functions are the things that can happen to them.</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py &mdash; the character</span></div>
+      <pre>hero = {
+    <span class="tok-str">"name"</span>: <span class="tok-str">"Zara"</span>,
+    <span class="tok-str">"hp"</span>: <span class="tok-num">100</span>,
+    <span class="tok-str">"max_hp"</span>: <span class="tok-num">100</span>,
+    <span class="tok-str">"attack"</span>: <span class="tok-num">15</span>,
+    <span class="tok-str">"defense"</span>: <span class="tok-num">8</span>,
+    <span class="tok-str">"inventory"</span>: [<span class="tok-str">"health potion"</span>, <span class="tok-str">"iron sword"</span>]
+}</pre>
+    </div>
+
+    <p class="intro">Here&rsquo;s one function already written for you. Notice: it takes the whole dictionary as a parameter &mdash; no separate <code>hp</code>, <code>defense</code> arguments &mdash; and it modifies the dictionary directly. After calling it, <code>hero["hp"]</code> has actually changed.</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py &mdash; pre-written: take_damage</span></div>
+      <pre><span class="tok-kw">def</span> <span class="tok-fn">take_damage</span>(character, amount):
+    <span class="tok-com"># defense reduces the hit — can't go below 0</span>
+    actual_damage = <span class="tok-fn">max</span>(<span class="tok-num">0</span>, amount - character[<span class="tok-str">"defense"</span>])
+    character[<span class="tok-str">"hp"</span>] -= actual_damage
+    <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"{character['name']} takes {actual_damage} damage!  HP: {character['hp']}/{character['max_hp']}"</span>)
+
+<span class="tok-fn">take_damage</span>(hero, <span class="tok-num">20</span>)</pre>
+      <div class="console"><span class="prompt">$ </span>Zara takes 12 damage!  HP: 88/100</div>
+    </div>
+
+    <div class="activity apcs">
+      <span class="tag">Your turn &mdash; write three more functions</span>
+      <h3>pick_up_item, use_potion, is_alive</h3>
+      <p>Using <code>take_damage</code> as a model, write these three functions. Each one takes <code>character</code> as its first parameter.</p>
+      <ul>
+        <li><strong style="color:var(--purple)">pick_up_item(character, item)</strong> &mdash; append <code>item</code> to <code>character["inventory"]</code> and print a message.</li>
+        <li><strong style="color:var(--purple)">use_potion(character)</strong> &mdash; if <code>"health potion"</code> is in the inventory, restore <code>hp</code> to <code>max_hp</code> and remove it. If there&rsquo;s no potion, print a message saying so.</li>
+        <li><strong style="color:var(--purple)">is_alive(character)</strong> &mdash; return <code>True</code> if <code>hp</code> is greater than 0, <code>False</code> otherwise. One line, no print.</li>
+      </ul>
+      <ul style="margin-top:14px">
+        <li>Test your functions: call <code>take_damage</code> enough times to drop hp below 0, then check <code>is_alive</code>. Does it return <code>False</code>?</li>
       </ul>
     </div>
 
     <div class="activity stretch">
-      <span class="tag">Stretch — done early?</span>
-      <h3>Find the "best" one</h3>
-      <p>Loop through your list and keep track of which item has the highest value for one of your keys (highest rating, earliest year, whatever fits your data) — print just that one item at the end, not the whole list.</p>
+      <span class="tag">Stretch &mdash; make them fight</span>
+      <h3>Two characters, a battle loop</h3>
+      <p>Create a second character dictionary (a villain), write an <code>attack_enemy(attacker, defender)</code> function that calls <code>take_damage</code> using the attacker&rsquo;s <code>attack</code> stat, then run a battle loop. This uses everything from the week: dictionaries, lists, functions, conditionals, and a <code>while</code> loop.</p>
+    </div>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py &mdash; stretch starter</span></div>
+      <pre>villain = {
+    <span class="tok-str">"name"</span>: <span class="tok-str">"Shadow Lord"</span>,
+    <span class="tok-str">"hp"</span>: <span class="tok-num">80</span>,
+    <span class="tok-str">"max_hp"</span>: <span class="tok-num">80</span>,
+    <span class="tok-str">"attack"</span>: <span class="tok-num">20</span>,
+    <span class="tok-str">"defense"</span>: <span class="tok-num">5</span>,
+    <span class="tok-str">"inventory"</span>: []
+}
+
+<span class="tok-com"># TODO: write attack_enemy(attacker, defender)</span>
+<span class="tok-com"># it should call take_damage(defender, attacker["attack"])</span>
+
+<span class="tok-kw">while</span> <span class="tok-fn">is_alive</span>(hero) <span class="tok-kw">and</span> <span class="tok-fn">is_alive</span>(villain):
+    <span class="tok-fn">attack_enemy</span>(hero, villain)
+    <span class="tok-kw">if</span> <span class="tok-fn">is_alive</span>(villain):
+        <span class="tok-fn">attack_enemy</span>(villain, hero)
+
+<span class="tok-kw">if</span> <span class="tok-fn">is_alive</span>(hero):
+    <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"{hero['name']} wins!"</span>)
+<span class="tok-kw">else</span>:
+    <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"{villain['name']} wins!"</span>)</pre>
+    </div>
+
+    <div class="watch"><span class="icon">!</span><span>If the battle loop runs forever: check that <code>take_damage</code> is actually reducing <code>hp</code> all the way to 0 or below, and that <code>is_alive</code> correctly returns <code>False</code> when it does. An infinite loop here almost always means one of those two things isn&rsquo;t working yet.</span></div>
+  </div>
+</section>
+
+<a href="#extension2" data-label="Extension 2 — CSV" class="ext"></a>
+
+<div class="wrap"><div class="extension-marker">Extension 2 &mdash; reading from a file</div></div>
+ 
+<section class="extension" id="extension2">
+  <div class="wrap">
+    <div class="burst-label">
+      <span class="burst-num">Extension 2</span>
+      <span class="burst-time">open-ended</span>
+    </div>
+    <h2>Load a CSV &mdash; your list of dictionaries, at scale</h2>
+    <p class="intro">A CSV (comma-separated values) file is one of the most common ways data lives in the real world &mdash; spreadsheets, exports, datasets. Python&rsquo;s built-in <code>csv</code> module can read one and hand you back exactly the structure you built today: a <strong>list of dictionaries</strong>, one per row, with the column headers as keys.</p>
+ 
+    <p class="intro">Add <code>games.csv</code> to your Replit project first: click the file icon in the left sidebar, then &ldquo;Add file&rdquo;, name it <code>games.csv</code>, and paste in the contents your instructor gives you.</p>
+ 
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py</span></div>
+      <pre><span class="tok-kw">import</span> csv
+ 
+games = []
+ 
+<span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">"games.csv"</span>) <span class="tok-kw">as</span> file:
+    reader = csv.<span class="tok-fn">DictReader</span>(file)
+    <span class="tok-kw">for</span> row <span class="tok-kw">in</span> reader:
+        games.<span class="tok-fn">append</span>(row)
+ 
+<span class="tok-com"># games is now a list of dictionaries — same structure as today</span>
+<span class="tok-fn">print</span>(games[<span class="tok-num">0</span>])
+<span class="tok-fn">print</span>(games[<span class="tok-num">0</span>][<span class="tok-str">"title"</span>])
+<span class="tok-fn">print</span>(<span class="tok-fn">len</span>(games), <span class="tok-str">"games loaded"</span>)</pre>
+      <div class="console"><span class="prompt">$ </span>{'title': 'Elden Ring', 'genre': 'RPG', 'year': '2022', 'platform': 'PC', 'rating': '9.5', 'hours_to_beat': '60'}<br>Elden Ring<br>12 games loaded</div>
+    </div>
+ 
+    <p class="intro"><code>DictReader</code> reads the first row as key names and every row after that as a dictionary &mdash; no manual work. The <code>with open(...) as file:</code> block handles opening and closing the file automatically. One thing to watch: <strong>every value comes in as a string</strong>, even numbers. See the <code>"9.5"</code> and <code>"2022"</code> in the output above &mdash; they&rsquo;re text until you convert them.</p>
+ 
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py &mdash; converting types</span></div>
+      <pre><span class="tok-com"># Direct from the file — string, not a number</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">type</span>(games[<span class="tok-num">0</span>][<span class="tok-str">"rating"</span>]))   <span class="tok-com"># &lt;class 'str'&gt;</span>
+ 
+<span class="tok-com"># Convert when you need to do math or comparisons</span>
+rating = <span class="tok-fn">float</span>(games[<span class="tok-num">0</span>][<span class="tok-str">"rating"</span>])
+year   = <span class="tok-fn">int</span>(games[<span class="tok-num">0</span>][<span class="tok-str">"year"</span>])</pre>
+    </div>
+ 
+    <div class="activity apcs">
+      <span class="tag">Your turn &mdash; three tasks</span>
+      <h3>Load, loop, and filter your game library</h3>
+      <p>Copy the loading block above into a new Repl. Then work through these:</p>
+      <ul>
+        <li><strong style="color:var(--purple)">Print the library.</strong> Loop through <code>games</code> and print each title, genre, and rating on one line using an f-string. Remember to convert <code>rating</code> to a float.</li>
+        <li><strong style="color:var(--purple)">Reuse your filter.</strong> Your <code>filter_by_genre</code> function from the playlist works on this list too &mdash; it just needs a list of dictionaries with a <code>"genre"</code> key, which is exactly what you have. Call it to print only the RPG games, then try a second genre.
+          <ul style="margin-top:8px">
+            <li>Why does it work without any changes? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>the function doesn't care what the data is — it just looks for a "genre" key in each dictionary. the variable names inside the function are local labels, not tied to playlists specifically.</code></span></li>
+          </ul>
+        </li>
+        <li><strong style="color:var(--purple)">Find the highest-rated game.</strong> Write a <code>find_best(games)</code> function that loops through the list and returns the game with the highest <code>rating</code>. Don&rsquo;t forget to convert the rating to a float before comparing.</li>
+      </ul>
+    </div>
+ 
+    <div class="watch"><span class="icon">!</span><span>If you get a <code>FileNotFoundError</code>, the file isn&rsquo;t in the same folder as <code>main.py</code>. In Replit, both files need to be at the top level of the project &mdash; not inside any subfolder.</span></div>
+ 
+    <div class="activity stretch">
+      <span class="tag">Stretch &mdash; count with a dictionary</span>
+      <h3>How many games per platform?</h3>
+      <p>Use a dictionary to count how many games exist for each platform. Loop through <code>games</code>, and for each one: if the platform is already a key, add 1 to its count; if it isn&rsquo;t, add it as a new key starting at 1. Print the result.</p>
+      <ul>
+        <li>Not sure how to check if a key exists? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>if platform in platform_counts: — the "in" keyword works on dictionaries just like it works on lists</code></span></li>
+        <li>Can you do the same thing but count by genre instead of platform?</li>
+      </ul>
     </div>
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════════════════════ CLOSER -->
 <section class="closer" id="closer">
   <div class="wrap">
-    <span class="badge">● session 1 — complete</span>
+    <span class="badge">&bull; session 1 &mdash; complete</span>
     <h2>Your data can hold shape now.</h2>
-    <p>Lists keep order, dictionaries keep labels, and together they can represent something as real as a full guest list. Next session: turtle graphics in Google Colab — your first taste of drawing with code.</p>
+    <p>Lists keep order, dictionaries keep labels, and together they can represent something as real as a full guest list &mdash; or a character with an inventory and a health bar. Next session: turtle graphics and drawing with code.</p>
   </div>
 </section>
 
 <div class="wrap session-nav">
-  <a class="btn" href="day5-session2-turtle-graphics-colab.html">Continue to Session 2 — Turtle Graphics in Colab →</a>
+  <a class="btn" href="day5-session2-turtle-graphics-colab.html">Continue to Session 2 &mdash; Turtle Graphics &rarr;</a>
 </div>
 
 <script>
