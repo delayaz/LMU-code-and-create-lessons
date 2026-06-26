@@ -116,6 +116,7 @@
   <a href="#hero" data-label="Start" class="active"></a>
   <a href="#burst1" data-label="Burst 1 — lists"></a>
   <a href="#burst2" data-label="Burst 2 — dictionaries"></a>
+  <a href="#burst3" data-label="Burst 3 — movies &amp; music"></a>
   <a href="#closer" data-label="Wrap up"></a>
 </nav>
 
@@ -123,7 +124,7 @@
   <div class="wrap">
     <div class="eyebrow">Code and Create · Day 5 · Session 1 of 2 · Morning · Delaram &amp; Lauren</div>
     <h1>Store more than <span>one thing</span> at a time.</h1>
-    <p class="sub">So far every variable held one value. Today: a list holds many values in order, and a dictionary holds labeled values you look up by name — both let your venue remember a whole guest list instead of one guest at a time.</p>
+    <p class="sub">So far every variable held one value. Today: a list holds many values in order, and a dictionary holds labeled values you look up by name — your venue's whole guest list, then the same skill applied to movies, music, or whatever you're into.</p>
     <div class="meta">
       <div><b>Friday, June 26</b> · 9:00–11:30 AM</div>
       <div><b>Tool:</b> replit.com</div>
@@ -135,7 +136,7 @@
 
 <section class="burst" id="burst1">
   <div class="wrap">
-    <div class="burst-label"><span class="burst-num">Burst 1</span><span class="burst-time">9:20 – 10:00</span></div>
+    <div class="burst-label"><span class="burst-num">Burst 1</span><span class="burst-time">9:20 – 9:55</span></div>
     <h2>Lists — many values, kept in order</h2>
     <p class="intro">A <strong>list</strong> holds multiple values in a single variable, in order, indexed starting from 0. You've already looped over a `range()` of numbers — now you'll loop over a list of real things.</p>
 
@@ -186,7 +187,7 @@ Checking in: Casilda</div>
 
 <section class="burst" id="burst2">
   <div class="wrap">
-    <div class="burst-label"><span class="burst-num">Burst 2</span><span class="burst-time">10:10 – 11:00</span></div>
+    <div class="burst-label"><span class="burst-num">Burst 2</span><span class="burst-time">10:05 – 10:45</span></div>
     <h2>Dictionaries — values you look up by name</h2>
     <p class="intro">A list finds things by position (0, 1, 2...). A <strong>dictionary</strong> finds things by a label you choose — a <strong>key</strong> — paired with a <strong>value</strong>. Perfect for storing more than just a name per guest.</p>
 
@@ -241,6 +242,61 @@ Jesus: not yet</div>
       <span class="tag">Stretch — function + dictionary</span>
       <h3>Pass a whole dictionary into your check_guest function</h3>
       <p>Rewrite yesterday's <code>check_guest(age, has_ticket)</code> function to instead take one parameter, a dictionary: <code>check_guest(guest)</code>, then reference <code>guest["age"]</code> and <code>guest["has_ticket"]</code> inside it. Call it once per guest in your loop. This is genuinely how real programs pass around structured data — one bundle, not a pile of separate arguments.</p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="break-marker">Break</div></div>
+
+<section class="burst" id="burst3">
+  <div class="wrap">
+    <div class="burst-label"><span class="burst-num">Burst 3</span><span class="burst-time">10:55 – 11:25</span></div>
+    <h2>Same skill, different data — movies and music</h2>
+    <p class="intro">Lists and dictionaries aren't just for venues. Here's the exact same pattern — a list of dictionaries — applied to two more relatable domains. Pick whichever one you like better (or try both).</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py — movies example</span></div>
+      <pre>movies = [
+    {<span class="tok-str">"title"</span>: <span class="tok-str">"Spider-Man: Into the Spider-Verse"</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"animation"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2018</span>, <span class="tok-str">"rating"</span>: <span class="tok-num">8.4</span>},
+    {<span class="tok-str">"title"</span>: <span class="tok-str">"Get Out"</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"horror"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2017</span>, <span class="tok-str">"rating"</span>: <span class="tok-num">7.7</span>},
+    {<span class="tok-str">"title"</span>: <span class="tok-str">"Dune"</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"sci-fi"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2021</span>, <span class="tok-str">"rating"</span>: <span class="tok-num">8.0</span>}
+]
+
+<span class="tok-kw">for</span> movie <span class="tok-kw">in</span> movies:
+    <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"{movie['title']} ({movie['year']}) - {movie['genre']}, rated {movie['rating']}"</span>)</pre>
+      <div class="console"><span class="prompt">$ </span>Spider-Man: Into the Spider-Verse (2018) - animation, rated 8.4
+Get Out (2017) - horror, rated 7.7
+Dune (2021) - sci-fi, rated 8.0</div>
+    </div>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py — musicians example</span></div>
+      <pre>albums = [
+    {<span class="tok-str">"artist"</span>: <span class="tok-str">"Tyler, the Creator"</span>, <span class="tok-str">"title"</span>: <span class="tok-str">"IGOR"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2019</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"hip-hop"</span>},
+    {<span class="tok-str">"artist"</span>: <span class="tok-str">"Olivia Rodrigo"</span>, <span class="tok-str">"title"</span>: <span class="tok-str">"SOUR"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2021</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"pop"</span>},
+    {<span class="tok-str">"artist"</span>: <span class="tok-str">"Bad Bunny"</span>, <span class="tok-str">"title"</span>: <span class="tok-str">"un verano sin ti"</span>, <span class="tok-str">"year"</span>: <span class="tok-num">2022</span>, <span class="tok-str">"genre"</span>: <span class="tok-str">"reggaeton"</span>}
+]
+
+<span class="tok-kw">for</span> album <span class="tok-kw">in</span> albums:
+    <span class="tok-kw">if</span> album[<span class="tok-str">"year"</span>] >= <span class="tok-num">2020</span>:
+        <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"{album['title']} by {album['artist']} is recent ({album['year']})"</span>)</pre>
+      <div class="console"><span class="prompt">$ </span>SOUR by Olivia Rodrigo is recent (2021)
+un verano sin ti by Bad Bunny is recent (2022)</div>
+    </div>
+
+    <div class="activity">
+      <span class="tag">Your turn — Step 3</span>
+      <h3>Build your own list of dictionaries</h3>
+      <p>Pick a topic you actually like — movies, albums, video games, athletes, anything with a few details worth tracking. Build a list of at least 5 dictionaries, each with 3-4 keys of your choosing. Then write a loop that prints something interesting about each one, using an <code>if</code> to filter for something specific (e.g. only show movies above a certain rating, or albums from a certain genre).</p>
+      <ul>
+        <li>Can you write a loop that counts how many items match your filter, instead of just printing each one? <span class="spoiler" onclick="this.classList.toggle('revealed')"><code>start a counter at 0 before the loop, add 1 to it inside the if-branch that matches, print the counter after the loop ends</code></span></li>
+      </ul>
+    </div>
+
+    <div class="activity stretch">
+      <span class="tag">Stretch — done early?</span>
+      <h3>Find the "best" one</h3>
+      <p>Loop through your list and keep track of which item has the highest value for one of your keys (highest rating, earliest year, whatever fits your data) — print just that one item at the end, not the whole list.</p>
     </div>
   </div>
 </section>
