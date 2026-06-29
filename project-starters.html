@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Resources — Examples &amp; Starters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14172a; --panel: #1f2440; --ink: #edeef5; --ink-soft: #b9bcd4;
+    --muted: #7c81a3; --amber: #f2a93b; --amber-soft: #fbd99b; --green: #7fd99b;
+    --violet: #b39bf2; --rule: rgba(255,255,255,0.08); --code-bg: #0f1224;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background: var(--bg); color: var(--ink); font-family:'Inter',sans-serif; scroll-behavior:smooth; }
+  ::selection{ background: var(--amber); color:#14172a; }
+  h1,h2,h3{ font-family:'Space Grotesk',sans-serif; margin:0; line-height:1.15; }
+
+  .topnav{ position:sticky; top:0; z-index:60; background: rgba(20,23,42,0.85); backdrop-filter: blur(8px); border-bottom:1px solid var(--rule); padding:14px 32px; display:flex; align-items:center; justify-content:space-between; font-family:'JetBrains Mono', monospace; font-size:12.5px; }
+  .topnav a{ color: var(--muted); text-decoration:none; }
+  .topnav a:hover{ color: var(--amber); }
+  .topnav .crumbs span{ color: var(--ink-soft); }
+
+  .progress-rail{ position:fixed; left:0; top:0; bottom:0; width:6px; background: var(--rule); z-index:50; }
+  .progress-fill{ position:absolute; top:0; left:0; width:100%; background: linear-gradient(180deg, var(--amber), var(--green)); height:0%; transition: height .1s linear; }
+
+  .wrap{ max-width:880px; margin:0 auto; padding:0 32px; }
+
+  .hero{ min-height:52vh; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+  .hero::before{ content:""; position:absolute; top:-20%; right:-10%; width:600px; height:600px; background: radial-gradient(circle, rgba(242,169,59,0.15), transparent 70%); pointer-events:none; }
+  .eyebrow{ font-family:'JetBrains Mono', monospace; color: var(--amber); letter-spacing:.12em; font-size:13px; text-transform:uppercase; margin-bottom:18px; }
+  .hero h1{ font-size: clamp(34px, 5.5vw, 54px); font-weight:700; max-width:740px; }
+  .hero h1 span{ color: var(--amber); }
+  .hero p.sub{ margin-top:20px; font-size:17px; color: var(--ink-soft); max-width:640px; line-height:1.6; }
+
+  .how-to-banner{ background: rgba(242,169,59,0.07); border:1px solid rgba(242,169,59,0.22); border-radius:12px; padding:18px 24px; margin:28px auto 0; max-width:816px; font-size:14.5px; color: var(--ink-soft); line-height:1.7; }
+  .how-to-banner strong{ color: var(--amber-soft); }
+
+  section.burst{ padding:72px 0 24px; border-top:1px solid var(--rule); }
+  .burst-label{ display:flex; align-items:baseline; gap:18px; margin-bottom:14px; }
+  .burst-num{ font-family:'JetBrains Mono', monospace; font-size:15px; color: var(--amber); background: rgba(242,169,59,0.12); border:1px solid rgba(242,169,59,0.3); border-radius:999px; padding:4px 14px; }
+  .burst h2{ font-size: clamp(24px,4vw,32px); margin-bottom:10px; }
+  .burst .intro{ color: var(--ink-soft); font-size:16px; line-height:1.65; margin-bottom:28px; }
+
+  /* ── Example cards ── */
+  .example-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; margin: 0 0 10px; }
+  @media (max-width:780px){ .example-grid{ grid-template-columns: 1fr; } }
+
+  .example-card{ background: var(--panel); border:1px solid var(--rule); border-left:3px solid var(--green); border-radius:14px; padding:22px 22px 20px; display:flex; flex-direction:column; gap:10px; }
+  .example-card .ex-tag{ font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color: var(--green); display:block; margin-bottom:2px; }
+  .example-card h3{ font-size:17px; margin-bottom:2px; }
+  .example-card p{ color: var(--ink-soft); font-size:13.5px; line-height:1.6; margin:0; }
+  .example-card .card-footer{ display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:12px; border-top:1px solid var(--rule); flex-wrap:wrap; gap:8px; }
+
+  .run-badge{ display:inline-flex; align-items:center; gap:5px; font-family:'JetBrains Mono', monospace; font-size:11px; padding:3px 10px; border-radius:999px; background: rgba(127,217,155,0.1); border:1px solid rgba(127,217,155,0.25); color: var(--green); }
+  .run-badge.local{ background: rgba(179,155,242,0.1); border-color: rgba(179,155,242,0.25); color: var(--violet); }
+
+  .copy-btn{ font-family:'JetBrains Mono', monospace; font-size:11.5px; background: rgba(242,169,59,0.1); border:1px solid rgba(242,169,59,0.3); color: var(--amber); padding:4px 14px; border-radius:4px; cursor:pointer; transition: background .2s, color .2s, border-color .2s; white-space:nowrap; }
+  .copy-btn:hover{ background: rgba(242,169,59,0.2); }
+  .copy-btn.copied{ background: rgba(127,217,155,0.12); border-color: rgba(127,217,155,0.35); color: var(--green); }
+
+  .pattern-note{ font-family:'JetBrains Mono', monospace; font-size:12px; color: var(--muted); background: rgba(255,255,255,0.025); border:1px solid var(--rule); border-radius:6px; padding:8px 12px; line-height:1.5; }
+
+  /* ── Starter cards (2x2) ── */
+  .starter-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:22px; margin: 0 0 10px; }
+  @media (max-width:700px){ .starter-grid{ grid-template-columns: 1fr; } }
+
+  .starter-card{ background: var(--panel); border:1px solid var(--rule); border-left:3px solid var(--amber); border-radius:14px; padding:24px 24px 20px; display:flex; flex-direction:column; gap:12px; }
+  .starter-card .track-tag{ font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color: var(--amber); display:block; }
+  .starter-card h3{ font-size:18px; margin:0; }
+  .starter-card p{ color: var(--ink-soft); font-size:14px; line-height:1.6; margin:0; }
+  .starter-card .first-step{ font-size:13.5px; color: var(--ink-soft); border-top:1px solid var(--rule); padding-top:12px; margin-top:4px; line-height:1.6; }
+  .starter-card .first-step strong{ color: var(--amber-soft); }
+
+  /* ── Code cards ── */
+  .code-sm{ background: var(--code-bg); border:1px solid var(--rule); border-radius:10px; overflow:hidden; margin:4px 0; }
+  .code-sm pre{ margin:0; padding:14px 16px; font-family:'JetBrains Mono', monospace; font-size:12.5px; line-height:1.65; overflow-x:auto; color: var(--ink); }
+  .tok-str{ color:#b6e6b0; } .tok-kw{ color: var(--amber); } .tok-fn{ color:#8ab4ff; } .tok-num{ color:#f7b2d9; } .tok-com{ color: var(--muted); font-style:italic; }
+
+  .code-card{ background: var(--code-bg); border:1px solid var(--rule); border-radius:14px; overflow:hidden; margin:22px 0; box-shadow:0 20px 50px -20px rgba(0,0,0,0.6); }
+  .code-card .bar{ display:flex; align-items:center; gap:8px; padding:11px 16px; background: rgba(255,255,255,0.02); border-bottom:1px solid var(--rule); }
+  .dot{ width:10px; height:10px; border-radius:50%; }
+  .dot.r{ background:#ff5f57; } .dot.y{ background:#febc2e; } .dot.g{ background:#28c840; }
+  .filename{ margin-left:10px; font-family:'JetBrains Mono', monospace; font-size:12.5px; color: var(--muted); }
+  .code-card pre{ margin:0; padding:20px 22px; font-family:'JetBrains Mono', monospace; font-size:14px; line-height:1.7; overflow-x:auto; color: var(--ink); }
+
+  .watch{ display:flex; gap:12px; background: rgba(255,255,255,0.02); border:1px solid var(--rule); border-radius:10px; padding:16px 20px; margin-top:20px; font-size:14px; color: var(--ink-soft); line-height:1.6; }
+  .watch .icon{ flex-shrink:0; width:26px; height:26px; border-radius:50%; background: rgba(242,169,59,0.15); color: var(--amber); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:600; }
+
+  .break-marker{ display:flex; align-items:center; gap:16px; margin:56px 0; color: var(--muted); font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:.1em; text-transform:uppercase; }
+  .break-marker::before, .break-marker::after{ content:""; flex:1; height:1px; background: var(--rule); }
+
+  .timeline{ position:fixed; right:26px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:14px; z-index:40; }
+  .timeline a{ width:10px; height:10px; border-radius:50%; background: var(--rule); display:block; position:relative; transition: all .25s ease; }
+  .timeline a.active{ background: var(--amber); box-shadow:0 0 0 4px rgba(242,169,59,0.18); }
+  .timeline a::after{ content: attr(data-label); position:absolute; right:22px; top:50%; transform:translateY(-50%); font-family:'JetBrains Mono', monospace; font-size:11px; color: var(--muted); white-space:nowrap; opacity:0; transition: opacity .2s ease; pointer-events:none; }
+  .timeline a:hover::after{ opacity:1; }
+  @media (max-width:780px){ .timeline{ display:none; } }
+
+  .closer{ padding:90px 0 60px; text-align:center; border-top:1px solid var(--rule); }
+  .closer h2{ font-size: clamp(26px,4.5vw,34px); margin-bottom:16px; }
+  .closer p{ color: var(--ink-soft); font-size:16px; max-width:540px; margin:0 auto 10px; line-height:1.65; }
+  .closer .badge{ display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--green); background: rgba(127,217,155,0.1); border:1px solid rgba(127,217,155,0.3); padding:8px 18px; border-radius:999px; margin-bottom:24px; }
+
+  .session-nav{ padding:0 0 90px; text-align:center; }
+  .session-nav a.btn{ display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono', monospace; font-size:14px; background: var(--panel); border:1px solid var(--rule); color: var(--ink); padding:14px 26px; border-radius:999px; text-decoration:none; transition: border-color .2s ease; }
+  .session-nav a.btn:hover{ border-color: var(--amber); color: var(--amber); }
+
+  @media (max-width:600px){ .wrap{ padding:0 20px; } .hero{ min-height:44vh; } .topnav{ padding:14px 20px; } }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="crumbs"><a href="index.html">All sessions</a> <span>/ Project Resources</span></div>
+</nav>
+
+<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
+
+<nav class="timeline" id="timelineNav">
+  <a href="#hero"      data-label="Start"            class="active"></a>
+  <a href="#examples"  data-label="Finished examples"></a>
+  <a href="#starters"  data-label="Optional starters"></a>
+  <a href="#closer"    data-label="Wrap up"></a>
+</nav>
+
+<header class="hero" id="hero">
+  <div class="wrap">
+    <div class="eyebrow">Week 2 &middot; Project Resources</div>
+    <h1>Examples and starters &mdash; <span>yours to riff on.</span></h1>
+    <p class="sub">Three finished apps to read through for inspiration, and a starter file for each project track if you want one. The starters run as-is on day one &mdash; but they&rsquo;re a jumping-off point, not a requirement. If you have a clear idea and want to build from scratch, do that.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="how-to-banner">
+    <strong>How to use this page:</strong> read the examples to understand the structure before looking at your starter. In the starters, the placeholder data is there to show you the format &mdash; swap it out first, then start adding logic. Run your code every few lines so bugs stay small.
+  </div>
+</div>
+
+<!-- ═════════════════════════════════════════ EXAMPLES -->
+<section class="burst" id="examples">
+  <div class="wrap">
+    <div class="burst-label"><span class="burst-num">Part 1</span></div>
+    <h2>Three finished apps &mdash; study the patterns</h2>
+    <p class="intro">These are complete, working programs. Don&rsquo;t just copy them &mdash; read through them and notice how they&rsquo;re organised: where the data lives, how functions divide the work, what the main loop is doing. The structure they use is exactly what your own project needs.</p>
+
+    <div class="example-grid">
+
+      <!-- Console Trivia -->
+      <div class="example-card">
+        <span class="ex-tag">example &mdash; console</span>
+        <h3>Pop Culture Trivia</h3>
+        <p>A complete multiple-choice quiz with a question bank, score tracking, input validation, and a replay loop. The simplest finished example here.</p>
+        <div class="code-sm">
+          <pre><span class="tok-com"># Questions live in a list of dicts &mdash; just like Day 5</span>
+QUESTIONS = [
+    {
+        <span class="tok-str">"question"</span>: <span class="tok-str">"Who released 'GUTS' in 2023?"</span>,
+        <span class="tok-str">"options"</span>:  {<span class="tok-str">"a"</span>: <span class="tok-str">"Taylor Swift"</span>, <span class="tok-str">"b"</span>: <span class="tok-str">"Olivia Rodrigo"</span>, ...},
+        <span class="tok-str">"answer"</span>:   <span class="tok-str">"b"</span>
+    },
+    <span class="tok-com"># ... 7 more in the full file</span>
+]</pre>
+        </div>
+        <p class="pattern-note">Notice: the questions are just data. The logic that runs them is separate. Changing the questions doesn&rsquo;t touch the code &mdash; and changing the code doesn&rsquo;t touch the questions.</p>
+        <div class="card-footer">
+          <span class="run-badge">&#10003; runs in Replit</span>
+          <button class="copy-btn" id="btn-console" onclick="copyCode('code-console','btn-console')">Copy full file</button>
+        </div>
+      </div>
+
+      <!-- GUI Trivia -->
+      <div class="example-card">
+        <span class="ex-tag">example &mdash; GUI (tkinter)</span>
+        <h3>Same Quiz, Real Window</h3>
+        <p>Identical questions, but with a dark-themed window, clickable buttons, and colour feedback. Shows what adding a GUI on top of existing logic looks like.</p>
+        <div class="code-sm">
+          <pre><span class="tok-kw">def</span> <span class="tok-fn">check_answer</span>(idx):
+    correct = state[<span class="tok-str">"questions"</span>][state[<span class="tok-str">"current"</span>]][<span class="tok-str">"answer"</span>]
+    <span class="tok-kw">if</span> idx == correct:
+        opt_btns[idx].config(bg=GREEN, fg=BG)   <span class="tok-com"># turn green</span>
+        feedback_lbl.config(text=<span class="tok-str">"&#10003; Correct!"</span>)
+    <span class="tok-kw">else</span>:
+        opt_btns[idx].config(bg=RED, fg=TEXT)    <span class="tok-com"># turn red</span>
+        opt_btns[correct].config(bg=GREEN, fg=BG)</pre>
+        </div>
+        <p class="pattern-note">tkinter is the same Python you already know. <code>.config()</code> lets you update a button&rsquo;s color or text after it&rsquo;s been created &mdash; that&rsquo;s how visual feedback works.</p>
+        <div class="card-footer">
+          <span class="run-badge local">&#11041; local Python only</span>
+          <button class="copy-btn" id="btn-gui" onclick="copyCode('code-gui','btn-gui')">Copy full file</button>
+        </div>
+      </div>
+
+      <!-- Pygame Catch -->
+      <div class="example-card">
+        <span class="ex-tag">example &mdash; pygame</span>
+        <h3>Catch!</h3>
+        <p>Arcade-style falling-object game with a moveable paddle, difficulty scaling, three object types, and a start/game-over screen.</p>
+        <div class="code-sm">
+          <pre><span class="tok-com"># Falling objects are a list of dicts &mdash; same as Day 5</span>
+OBJECT_TYPES = [
+    {<span class="tok-str">"label"</span>: <span class="tok-str">"good"</span>, <span class="tok-str">"color"</span>: GREEN, <span class="tok-str">"speed"</span>: <span class="tok-num">3.0</span>, <span class="tok-str">"points"</span>: <span class="tok-num">1</span>},
+    {<span class="tok-str">"label"</span>: <span class="tok-str">"good"</span>, <span class="tok-str">"color"</span>: BLUE,  <span class="tok-str">"speed"</span>: <span class="tok-num">5.0</span>, <span class="tok-str">"points"</span>: <span class="tok-num">2</span>},
+    {<span class="tok-str">"label"</span>: <span class="tok-str">"bad"</span>,  <span class="tok-str">"color"</span>: RED,   <span class="tok-str">"speed"</span>: <span class="tok-num">3.5</span>, <span class="tok-str">"points"</span>: <span class="tok-num">0</span>},
+]</pre>
+        </div>
+        <p class="pattern-note">To add a new type of falling object, add one more dictionary to this list. That&rsquo;s it &mdash; the rest of the game picks it up automatically.</p>
+        <div class="card-footer">
+          <span class="run-badge">&#10003; Replit PyGame template</span>
+          <button class="copy-btn" id="btn-pygame" onclick="copyCode('code-pygame','btn-pygame')">Copy full file</button>
+        </div>
+      </div>
+
+    </div><!-- /example-grid -->
+
+    <div class="watch"><span class="icon">!</span><span>You&rsquo;ll get more out of the examples if you run them first, then read the code while the program is fresh in your head. Seeing what a line <em>does</em> before reading what it <em>says</em> makes the logic click faster.</span></div>
+  </div>
+</section>
+
+<div class="wrap"><div class="break-marker">Optional starters</div></div>
+
+<!-- ═════════════════════════════════════════ STARTERS -->
+<section class="burst" id="starters">
+  <div class="wrap">
+    <div class="burst-label"><span class="burst-num">Part 2</span></div>
+    <h2>One starter per track &mdash; here if you want it</h2>
+    <p class="intro">These are completely optional. If you have a clear idea and want to build from scratch, go for it &mdash; that&rsquo;s a totally valid way to work. If you&rsquo;d rather start from something that already runs, grab the file for your track, swap the placeholder data for your real idea, and keep going from there. Either way, the goal is the same: something working and yours by the end of the week.</p>
+
+    <div class="starter-grid">
+
+      <!-- Game -->
+      <div class="starter-card">
+        <span class="track-tag">Track 1 &mdash; Game</span>
+        <h3>Rock Paper Scissors</h3>
+        <p>A working turn-based game with a win/loss tracker and replay loop. The rules live in a dictionary so you can change the game without rewriting the logic.</p>
+        <div class="code-sm">
+          <pre>OPTIONS = [<span class="tok-str">"rock"</span>, <span class="tok-str">"paper"</span>, <span class="tok-str">"scissors"</span>]
+BEATS   = {
+    <span class="tok-str">"rock"</span>:     <span class="tok-str">"scissors"</span>,
+    <span class="tok-str">"scissors"</span>: <span class="tok-str">"paper"</span>,
+    <span class="tok-str">"paper"</span>:    <span class="tok-str">"rock"</span>,
+}
+<span class="tok-com"># TODO: change OPTIONS and BEATS to fit your game.
+# e.g. add "lizard" and "spock" with their own rules.</span></pre>
+        </div>
+        <div class="first-step"><strong>First thing to try:</strong> change <code>OPTIONS</code> and <code>BEATS</code> to the moves in your actual game. Once those work, build out the win condition and loop.</div>
+      </div>
+
+      <!-- Quiz -->
+      <div class="starter-card">
+        <span class="track-tag">Track 2 &mdash; Quiz App</span>
+        <h3>Quiz Time</h3>
+        <p>A looping quiz that walks through a list of questions, compares the player&rsquo;s answer, and returns a score. Two sample questions are included to show the format.</p>
+        <div class="code-sm">
+          <pre>questions = [
+    {
+        <span class="tok-str">"question"</span>: <span class="tok-str">"What is the capital of France?"</span>,
+        <span class="tok-str">"answer"</span>:   <span class="tok-str">"paris"</span>
+    },
+    <span class="tok-com"># TODO: replace with your real questions.
+    # Optional: add an "options" key for multiple choice.</span>
+]</pre>
+        </div>
+        <div class="first-step"><strong>First thing to try:</strong> delete the sample questions and add at least 5 of your own on your actual topic. The quiz will run them automatically &mdash; you don&rsquo;t need to change the loop.</div>
+      </div>
+
+      <!-- Story -->
+      <div class="starter-card">
+        <span class="track-tag">Track 3 &mdash; Interactive Story</span>
+        <h3>Choose Your Adventure</h3>
+        <p>Each scene is its own function. One scene asks a question, then calls the next scene based on the answer. This keeps branches readable and easy to extend one scene at a time.</p>
+        <div class="code-sm">
+          <pre><span class="tok-kw">def</span> <span class="tok-fn">opening</span>():
+    <span class="tok-com"># TODO: Replace this with your real opening.</span>
+    <span class="tok-fn">print</span>(<span class="tok-str">"You wake up in a mysterious forest."</span>)
+    choice = <span class="tok-fn">input</span>(<span class="tok-str">"Go LEFT or RIGHT? "</span>).lower()
+    <span class="tok-kw">if</span>   choice == <span class="tok-str">"left"</span>:  <span class="tok-fn">scene_left</span>()
+    <span class="tok-kw">elif</span> choice == <span class="tok-str">"right"</span>: <span class="tok-fn">scene_right</span>()</pre>
+        </div>
+        <div class="first-step"><strong>First thing to try:</strong> rewrite <code>opening()</code> with your real first scene and first choice. Once that works, write <code>scene_left()</code> and <code>scene_right()</code> &mdash; then keep branching.</div>
+      </div>
+
+      <!-- Data -->
+      <div class="starter-card">
+        <span class="track-tag">Track 4 &mdash; Data Tool</span>
+        <h3>Data Analysis Tool</h3>
+        <p>Loads a list of labeled numbers, runs four analysis functions (average, highest, lowest, count above threshold), and prints a report. Includes a menu loop for adding entries live.</p>
+        <div class="code-sm">
+          <pre>data = [
+    {<span class="tok-str">"name"</span>: <span class="tok-str">"Monday"</span>,    <span class="tok-str">"value"</span>: <span class="tok-num">72</span>},
+    {<span class="tok-str">"name"</span>: <span class="tok-str">"Tuesday"</span>,   <span class="tok-str">"value"</span>: <span class="tok-num">85</span>},
+    <span class="tok-com"># TODO: replace with your real data.
+    # Change "name" and "value" to keys that
+    # make sense for your topic.</span>
+]</pre>
+        </div>
+        <div class="first-step"><strong>First thing to try:</strong> replace the sample entries with your real data and rename the keys to match your topic (e.g. <code>&ldquo;player&rdquo;</code> and <code>&ldquo;score&rdquo;</code>). The analysis functions will work on any list that follows the same format.</div>
+      </div>
+
+    </div><!-- /starter-grid -->
+
+    <div class="watch"><span class="icon">!</span><span>If you use a starter, the placeholder data is just there to show you the expected format. Once you&rsquo;ve replaced it with content that&rsquo;s actually yours &mdash; your questions, your story, your numbers &mdash; the file starts becoming a real project. That swap is step one, whether you use the starter or not.</span></div>
+  </div>
+</section>
+
+<div class="wrap"><div class="break-marker">One habit</div></div>
+
+<!-- ═════════════════════════════════════════ HABIT -->
+<section class="burst" id="habit">
+  <div class="wrap">
+    <div class="burst-label"><span class="burst-num">Reminder</span></div>
+    <h2>Run it constantly &mdash; don&rsquo;t save up bugs</h2>
+    <p class="intro">The single most useful habit in a short project: run your code after every 3&ndash;4 lines. Not after you finish a function. Not after a whole section. Every few lines. Bugs caught immediately are usually one-line fixes &mdash; bugs saved up for 20 minutes are sometimes project-ending.</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">the workflow that works</span></div>
+      <pre><span class="tok-com"># Step 1: write 2-3 lines</span>
+questions = []
+questions.append({<span class="tok-str">"question"</span>: <span class="tok-str">"What's your first real question?"</span>, <span class="tok-str">"answer"</span>: <span class="tok-str">"..."</span>})
+
+<span class="tok-com"># Step 2: run it &mdash; does it print without errors? Good.</span>
+<span class="tok-fn">print</span>(questions[<span class="tok-num">0</span>])
+
+<span class="tok-com"># Step 3: add the next piece &mdash; the ask function</span>
+<span class="tok-kw">def</span> <span class="tok-fn">ask_question</span>(q):
+    <span class="tok-fn">print</span>(q[<span class="tok-str">"question"</span>])
+    answer = <span class="tok-fn">input</span>(<span class="tok-str">"Your answer: "</span>)
+    <span class="tok-kw">return</span> answer == q[<span class="tok-str">"answer"</span>]
+
+<span class="tok-com"># Step 4: run it again &mdash; call the function on one question</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">ask_question</span>(questions[<span class="tok-num">0</span>]))
+
+<span class="tok-com"># Step 5: once that works, add the loop. Never the other way around.</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════ CLOSER -->
+<section class="closer" id="closer">
+  <div class="wrap">
+    <span class="badge">&bull; resource page</span>
+    <h2>The best project is the one you actually finish.</h2>
+    <p>Keep it small enough to complete, interesting enough to keep you going. A tight, finished program you built yourself beats an ambitious half-finished one every time.</p>
+    <p>Ask for help the moment something doesn&rsquo;t run &mdash; don&rsquo;t troubleshoot alone for more than a few minutes.</p>
+  </div>
+</section>
+
+<div class="wrap session-nav">
+  <a class="btn" href="day6-session1-project-pitch-and-brainstorming.html">&larr; Back to Day 6, Session 1</a>
+</div>
+
+<!-- ═════════════════════════════════════════ EMBEDDED CODE (raw text, not executed) -->
+<script type="text/plain" id="code-console">
+# ============================================================
+#  EXAMPLE APP — Pop Culture Trivia  (console / Replit)
+#  A finished quiz app. Read through it to see one way to
+#  structure a Quiz App project before building your own.
+#  Notice: questions live in a list of dicts, each section
+#  is its own function, and a while loop handles replay.
+# ============================================================
+
+import random
+
+# ── The question bank ────────────────────────────────────────
+# Each entry is a dictionary with three keys:
+#   "question" → the question text
+#   "options"  → maps a/b/c/d to answer choices
+#   "answer"   → the correct key (a, b, c, or d)
+
+QUESTIONS = [
+    {
+        "question": "Who released the album 'GUTS' in 2023?",
+        "options": {"a": "Taylor Swift", "b": "Olivia Rodrigo",
+                    "c": "Billie Eilish",  "d": "Doja Cat"},
+        "answer": "b"
+    },
+    {
+        "question": "What is the in-game currency in Fortnite called?",
+        "options": {"a": "Gold Coins", "b": "Battle Bucks",
+                    "c": "V-Bucks",    "d": "Storm Tokens"},
+        "answer": "c"
+    },
+    {
+        "question": "Which game series features a hero called Master Chief?",
+        "options": {"a": "Call of Duty", "b": "Halo",
+                    "c": "Destiny",      "d": "Doom"},
+        "answer": "b"
+    },
+    {
+        "question": "What does 'GG' mean in gaming?",
+        "options": {"a": "Get Going",  "b": "Great Game",
+                    "c": "Good Game",  "d": "Go Again"},
+        "answer": "c"
+    },
+    {
+        "question": "Which film won Best Picture at the 2024 Academy Awards?",
+        "options": {"a": "Barbie",                    "b": "Poor Things",
+                    "c": "Killers of the Flower Moon", "d": "Oppenheimer"},
+        "answer": "d"
+    },
+    {
+        "question": "Kendrick Lamar's 'Not Like Us' was a diss track aimed at whom?",
+        "options": {"a": "J. Cole", "b": "Drake",
+                    "c": "Kanye West", "d": "Eminem"},
+        "answer": "b"
+    },
+    {
+        "question": "Which Pixar film takes place inside a person's mind?",
+        "options": {"a": "Soul", "b": "Turning Red",
+                    "c": "Inside Out", "d": "Luca"},
+        "answer": "c"
+    },
+    {
+        "question": "In what year was Among Us released?",
+        "options": {"a": "2017", "b": "2018", "c": "2019", "d": "2020"},
+        "answer": "b"
+    },
+]
+
+
+# ── Functions ────────────────────────────────────────────────
+
+def show_question(number, q):
+    """Print a question with its four options."""
+    print(f"\nQuestion {number}: {q['question']}")
+    for key, text in q["options"].items():
+        print(f"  {key})  {text}")
+
+
+def get_valid_answer():
+    """Keep asking until the user types a, b, c, or d."""
+    answer = input("Your answer: ").lower().strip()
+    while answer not in ["a", "b", "c", "d"]:
+        print("Please enter a, b, c, or d.")
+        answer = input("Try again: ").lower().strip()
+    return answer
+
+
+def run_quiz(questions):
+    """Ask every question in the list and return the final score."""
+    score = 0
+    for i, q in enumerate(questions, start=1):
+        show_question(i, q)
+        answer = get_valid_answer()
+        if answer == q["answer"]:
+            print("  ✓  Correct!")
+            score += 1
+        else:
+            correct_text = q["options"][q["answer"]]
+            print(f"  ✗  Not quite — it was  {q['answer']})  {correct_text}")
+    return score
+
+
+def result_message(score, total):
+    """Return a different message based on how well they did."""
+    if score == total:
+        return "Perfect score — you're a pop culture legend 🏆"
+    elif score >= total * 0.8:
+        return "Really solid — you know your stuff!"
+    elif score >= total * 0.6:
+        return "Not bad! A few gaps to fill."
+    else:
+        return "Rough round — watch more movies and try again."
+
+
+# ── Entry point ──────────────────────────────────────────────
+
+def main():
+    print("=" * 44)
+    print("         POP CULTURE TRIVIA")
+    print("=" * 44)
+    print("Answer a, b, c, or d for each question.\n")
+
+    rounds_played = 0
+    playing = True
+
+    while playing:
+        # Pick 5 random questions from the full bank each round
+        round_qs = random.sample(QUESTIONS, 5)
+        score    = run_quiz(round_qs)
+        rounds_played += 1
+
+        print(f"\n--- Round {rounds_played} results ---")
+        print(f"Score: {score} / 5")
+        print(result_message(score, 5))
+
+        again = input("\nPlay another round? (yes / no)  ").lower().strip()
+        if again != "yes":
+            playing = False
+
+    print(f"\nThanks for playing! You completed {rounds_played} round(s).")
+
+
+main()
+
+</script>
+
+<script type="text/plain" id="code-gui">
+# ============================================================
+#  EXAMPLE APP — Pop Culture Trivia  (GUI with tkinter)
+#  The same quiz as example_trivia_console.py, but with a
+#  real window and clickable buttons.
+#
+#  tkinter is built into Python — no pip install needed.
+#  HOW TO RUN: python example_trivia_gui.py
+#  NOTE: won't run in Replit. Needs Python installed locally.
+# ============================================================
+
+import tkinter as tk
+import random
+
+# ── Colors (matching the Code and Create site) ───────────────
+BG    = "#14172a"
+PANEL = "#1f2440"
+TEXT  = "#edeef5"
+MUTED = "#7c81a3"
+AMBER = "#f2a93b"
+GREEN = "#7fd99b"
+RED   = "#e06c75"
+FONT  = "Helvetica"
+W, H  = 680, 500
+
+# ── Questions ────────────────────────────────────────────────
+# Same bank as the console version, reformatted slightly:
+# "options" is now a list, and "answer" is the correct index (0–3).
+
+QUESTIONS = [
+    {
+        "question": "Who released the album 'GUTS' in 2023?",
+        "options": ["Taylor Swift", "Olivia Rodrigo", "Billie Eilish", "Doja Cat"],
+        "answer": 1
+    },
+    {
+        "question": "What is the in-game currency in Fortnite called?",
+        "options": ["Gold Coins", "Battle Bucks", "V-Bucks", "Storm Tokens"],
+        "answer": 2
+    },
+    {
+        "question": "Which game series features a hero called Master Chief?",
+        "options": ["Call of Duty", "Halo", "Destiny", "Doom"],
+        "answer": 1
+    },
+    {
+        "question": "What does 'GG' mean in gaming?",
+        "options": ["Get Going", "Great Game", "Good Game", "Go Again"],
+        "answer": 2
+    },
+    {
+        "question": "Which film won Best Picture at the 2024 Academy Awards?",
+        "options": ["Barbie", "Poor Things", "Killers of the Flower Moon", "Oppenheimer"],
+        "answer": 3
+    },
+    {
+        "question": "Kendrick Lamar's 'Not Like Us' was aimed at which artist?",
+        "options": ["J. Cole", "Drake", "Kanye West", "Eminem"],
+        "answer": 1
+    },
+    {
+        "question": "Which Pixar film takes place inside a person's mind?",
+        "options": ["Soul", "Turning Red", "Inside Out", "Luca"],
+        "answer": 2
+    },
+    {
+        "question": "In what year was Among Us released?",
+        "options": ["2017", "2018", "2019", "2020"],
+        "answer": 1
+    },
+]
+
+# ── App state ─────────────────────────────────────────────────
+# These variables track where we are in the quiz.
+state = {
+    "current":  0,      # index of the current question
+    "score":    0,      # correct answers so far
+    "questions": [],    # the 5 questions chosen for this round
+    "answered": False,  # True once the player has clicked an option
+}
+
+
+# ── Game logic ────────────────────────────────────────────────
+
+def start_quiz():
+    """Pick 5 random questions and show the first one."""
+    state["questions"] = random.sample(QUESTIONS, 5)
+    state["current"]   = 0
+    state["score"]     = 0
+    state["answered"]  = False
+    results_frame.place_forget()
+    quiz_frame.place(x=0, y=0, width=W, height=H)
+    show_question()
+
+
+def show_question():
+    """Update all labels and buttons for the current question."""
+    state["answered"] = False
+    q = state["questions"][state["current"]]
+
+    progress_lbl.config(text=f"Question {state['current']+1} of {len(state['questions'])}")
+    score_lbl.config(text=f"Score: {state['score']}")
+    question_lbl.config(text=q["question"])
+    feedback_lbl.config(text="", fg=GREEN)
+    next_btn.place_forget()
+
+    for i, btn in enumerate(opt_btns):
+        btn.config(
+            text=q["options"][i],
+            bg=PANEL, fg=TEXT,
+            activebackground=AMBER, activeforeground=BG,
+            command=lambda idx=i: check_answer(idx)
+        )
+
+
+def check_answer(idx):
+    """Handle a button click — color it green or red, show feedback."""
+    if state["answered"]:
+        return
+    state["answered"] = True
+
+    q       = state["questions"][state["current"]]
+    correct = q["answer"]
+
+    if idx == correct:
+        state["score"] += 1
+        opt_btns[idx].config(bg=GREEN, fg=BG,
+                             activebackground=GREEN, activeforeground=BG)
+        feedback_lbl.config(text="✓  Correct!", fg=GREEN)
+    else:
+        opt_btns[idx].config(bg=RED, fg=TEXT,
+                             activebackground=RED, activeforeground=TEXT)
+        opt_btns[correct].config(bg=GREEN, fg=BG,
+                                 activebackground=GREEN, activeforeground=BG)
+        feedback_lbl.config(
+            text=f"✗  The answer was: {q['options'][correct]}", fg=RED)
+
+    score_lbl.config(text=f"Score: {state['score']}")
+    next_btn.place(x=W // 2, y=458, anchor="center")
+
+
+def advance():
+    """Move to the next question, or show results if quiz is over."""
+    state["current"] += 1
+    if state["current"] < len(state["questions"]):
+        show_question()
+    else:
+        show_results()
+
+
+def show_results():
+    """Hide the quiz frame and show the score screen."""
+    quiz_frame.place_forget()
+    s, t = state["score"], len(state["questions"])
+
+    if s == t:
+        msg = "Perfect score — you're a legend! 🏆"
+    elif s >= t * 0.8:
+        msg = "Really solid — you know your stuff!"
+    elif s >= t * 0.6:
+        msg = "Not bad! A bit more to learn."
+    else:
+        msg = "Keep watching and try again!"
+
+    result_score_lbl.config(text=f"{s} / {t}")
+    result_msg_lbl.config(text=msg)
+    results_frame.place(x=0, y=0, width=W, height=H)
+
+
+# ── Build the window ──────────────────────────────────────────
+
+root = tk.Tk()
+root.title("Pop Culture Trivia")
+root.geometry(f"{W}x{H}")
+root.configure(bg=BG)
+root.resizable(False, False)
+
+# ── Quiz frame (the main game screen) ───────────────────────
+quiz_frame = tk.Frame(root, bg=BG)
+
+# Title
+tk.Label(quiz_frame, text="POP CULTURE TRIVIA",
+         font=(FONT, 20, "bold"), bg=BG, fg=AMBER
+         ).place(x=W // 2, y=32, anchor="center")
+
+# Progress (left) and score (right)
+progress_lbl = tk.Label(quiz_frame, text="", font=(FONT, 11), bg=BG, fg=MUTED)
+progress_lbl.place(x=28, y=68, anchor="w")
+
+score_lbl = tk.Label(quiz_frame, text="Score: 0", font=(FONT, 11), bg=BG, fg=MUTED)
+score_lbl.place(x=W - 28, y=68, anchor="e")
+
+# Thin divider
+tk.Frame(quiz_frame, bg=PANEL, height=1).place(x=28, y=86, width=W - 56)
+
+# Question text (wraps automatically)
+question_lbl = tk.Label(quiz_frame, text="", font=(FONT, 14, "bold"),
+                         bg=BG, fg=TEXT, wraplength=610, justify="center")
+question_lbl.place(x=W // 2, y=158, anchor="center")
+
+# Four option buttons in a 2×2 grid
+POSITIONS = [(170, 270), (510, 270), (170, 345), (510, 345)]
+opt_btns  = []
+for pos in POSITIONS:
+    btn = tk.Button(quiz_frame, text="", font=(FONT, 11),
+                    bg=PANEL, fg=TEXT, width=28, height=2,
+                    relief="flat", cursor="hand2", bd=0)
+    btn.place(x=pos[0], y=pos[1], anchor="center")
+    opt_btns.append(btn)
+
+# Feedback (correct / wrong message)
+feedback_lbl = tk.Label(quiz_frame, text="", font=(FONT, 12), bg=BG, fg=GREEN)
+feedback_lbl.place(x=W // 2, y=408, anchor="center")
+
+# Next button (hidden until a choice is made)
+next_btn = tk.Button(quiz_frame, text="Next  →", font=(FONT, 12, "bold"),
+                      bg=AMBER, fg=BG, width=14, relief="flat", cursor="hand2",
+                      command=advance,
+                      activebackground="#d4922b", activeforeground=BG)
+
+# ── Results frame (shown when quiz ends) ────────────────────
+results_frame = tk.Frame(root, bg=BG)
+
+tk.Label(results_frame, text="POP CULTURE TRIVIA",
+         font=(FONT, 20, "bold"), bg=BG, fg=AMBER
+         ).place(x=W // 2, y=100, anchor="center")
+
+tk.Label(results_frame, text="Final Score",
+         font=(FONT, 13), bg=BG, fg=MUTED
+         ).place(x=W // 2, y=175, anchor="center")
+
+result_score_lbl = tk.Label(results_frame, text="",
+                              font=(FONT, 52, "bold"), bg=BG, fg=AMBER)
+result_score_lbl.place(x=W // 2, y=248, anchor="center")
+
+result_msg_lbl = tk.Label(results_frame, text="",
+                            font=(FONT, 14), bg=BG, fg=TEXT,
+                            wraplength=540, justify="center")
+result_msg_lbl.place(x=W // 2, y=320, anchor="center")
+
+tk.Button(results_frame, text="Play Again", font=(FONT, 13, "bold"),
+          bg=AMBER, fg=BG, width=14, relief="flat", cursor="hand2",
+          command=start_quiz,
+          activebackground="#d4922b", activeforeground=BG
+          ).place(x=W // 2, y=392, anchor="center")
+
+# ── Start ────────────────────────────────────────────────────
+start_quiz()
+root.mainloop()
+
+</script>
+
+<script type="text/plain" id="code-pygame">
+# ============================================================
+#  DEMO + STARTER — Catch!  (Pygame)
+#
+#  A complete, playable arcade game. Read through it to see
+#  how a pygame project is structured, then customize it to
+#  make it your own — or use it as a model while building
+#  something totally different.
+#
+#  HOW TO RUN IN REPLIT:
+#    New Repl → choose the "PyGame" template → paste this in.
+#    (Plain Python repls block the display window.)
+#
+#  HOW TO RUN LOCALLY:
+#    pip install pygame
+#    python catch.py
+#
+#  CONTROLS:  ← →  move the paddle
+#             R    restart after game over
+#             Q    quit
+# ============================================================
+#
+#  QUICK CUSTOMISATION GUIDE — the easiest things to change:
+#
+#    TITLE          your game's name                  (~line 42)
+#    MAX_LIVES      lives at the start                (~line 55)
+#    SPAWN_INTERVAL frames between spawns; lower=harder (~line 56)
+#    PLAYER_SPEED   how fast the paddle moves         (~line 51)
+#    PLAYER_COLOR   paddle color                      (~line 52)
+#    OBJECT_TYPES   what falls, colors, speeds, points (~line 72)
+#
+#  More involved ideas: high-score tracker, levels, a power-up
+#  that widens the paddle, sound effects, a timer mode...
+# ============================================================
+
+import pygame
+import random
+import sys
+
+pygame.init()
+
+# ── Window ────────────────────────────────────────────────────
+WIDTH, HEIGHT = 700, 520
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+clock  = pygame.time.Clock()
+FPS    = 60
+
+# TODO: Change this to your game's title.
+TITLE = "Catch!"
+pygame.display.set_caption(TITLE)
+
+# ── Colors ────────────────────────────────────────────────────
+BG    = ( 20,  23,  42)   # dark navy background
+PANEL = ( 31,  36,  64)   # UI panels
+TEXT  = (237, 238, 245)   # near-white text
+MUTED = (124, 129, 163)   # secondary / label text
+AMBER = (242, 169,  59)   # accent — used for the paddle
+GREEN = (127, 217, 155)   # good objects
+BLUE  = (138, 180, 255)   # bonus objects (faster, worth more)
+RED   = (220,  80,  80)   # dangerous objects
+
+# ── Player settings ───────────────────────────────────────────
+PLAYER_W     = 90      # paddle width in pixels
+PLAYER_H     = 14      # paddle height in pixels
+PLAYER_SPEED = 7       # pixels moved per frame (left/right)
+PLAYER_Y     = HEIGHT - 60    # vertical position (near the bottom)
+PLAYER_COLOR = AMBER   # TODO: swap for any (R, G, B) tuple
+
+# ── Difficulty ────────────────────────────────────────────────
+MAX_LIVES      = 3     # how many lives the player starts with
+SPAWN_INTERVAL = 55    # frames between new objects — lower = harder
+
+# ── Object types — a list of dictionaries! ────────────────────
+# This is the exact same pattern as the playlist and guest-list
+# work from Day 5. Each dictionary describes one type of object.
+#
+#   "label"  : "good" = catch it to score | "bad" = dodge it
+#   "color"  : (R, G, B) color tuple
+#   "radius" : circle size in pixels
+#   "speed"  : base fall speed (pixels per frame at difficulty 1×)
+#   "points" : score added when a good object is caught
+#   "weight" : spawn frequency — higher number = appears more often
+#
+# TODO: add a new type, adjust the speeds, change the colors,
+#       or add more keys (e.g. "bonus_time": 3 for a slow-mo effect)
+OBJECT_TYPES = [
+    {"label": "good", "color": GREEN, "radius": 16, "speed": 3.0, "points": 1, "weight": 7},
+    {"label": "good", "color": BLUE,  "radius": 10, "speed": 5.0, "points": 2, "weight": 3},
+    {"label": "bad",  "color": RED,   "radius": 13, "speed": 3.5, "points": 0, "weight": 2},
+]
+
+
+# ── Helper functions ──────────────────────────────────────────
+
+def make_player():
+    """Return a fresh player dictionary."""
+    return {
+        "x": WIDTH // 2 - PLAYER_W // 2,
+        "y": PLAYER_Y,
+        "w": PLAYER_W,
+        "h": PLAYER_H,
+    }
+
+
+def spawn_object(speed_mult):
+    """
+    Pick a random object type (weighted by "weight") and return
+    a new falling-object dictionary positioned just above the screen.
+    """
+    weights  = [t["weight"] for t in OBJECT_TYPES]
+    template = random.choices(OBJECT_TYPES, weights=weights)[0]
+    r        = template["radius"]
+    return {
+        "x":      random.randint(r, WIDTH - r),
+        "y":      -r,                               # start above the screen
+        "radius": r,
+        "color":  template["color"],
+        "speed":  template["speed"] * speed_mult,   # faster as difficulty grows
+        "label":  template["label"],
+        "points": template["points"],
+    }
+
+
+def draw_player(p):
+    """Draw the player's paddle with a subtle inner highlight."""
+    rect = pygame.Rect(p["x"], p["y"], p["w"], p["h"])
+    pygame.draw.rect(screen, PLAYER_COLOR, rect, border_radius=7)
+    highlight = tuple(min(255, c + 55) for c in PLAYER_COLOR)
+    inner     = pygame.Rect(p["x"] + 5, p["y"] + 3, p["w"] - 10, p["h"] - 7)
+    pygame.draw.rect(screen, highlight, inner, border_radius=4)
+
+
+def draw_objects(objects):
+    """Draw every falling object as a circle with a small inner glow."""
+    for obj in objects:
+        cx, cy = int(obj["x"]), int(obj["y"])
+        pygame.draw.circle(screen, obj["color"], (cx, cy), obj["radius"])
+        glow = tuple(min(255, c + 70) for c in obj["color"])
+        pygame.draw.circle(screen, glow, (cx - 3, cy - 3), max(2, obj["radius"] // 3))
+
+
+def draw_hud(score, lives, font_big, font_small):
+    """Score top-left, remaining lives as circles top-right."""
+    score_surf = font_big.render(str(score), True, TEXT)
+    screen.blit(score_surf, (24, 16))
+    label_surf = font_small.render("SCORE", True, MUTED)
+    screen.blit(label_surf, (26, 52))
+
+    for i in range(MAX_LIVES):
+        color = RED if i < lives else (55, 28, 28)
+        pygame.draw.circle(screen, color, (WIDTH - 28 - i * 30, 28), 11)
+
+
+def draw_start_screen(font_title, font_big, font_small):
+    """Welcome screen shown before the game begins."""
+    screen.fill(BG)
+
+    t = font_title.render(TITLE, True, AMBER)
+    screen.blit(t, (WIDTH // 2 - t.get_width() // 2, 96))
+
+    # Mini legend showing what each color means
+    legend = [
+        (GREEN, 10, "+1 point — catch these"),
+        (BLUE,   7, "+2 points — faster, worth more"),
+        (RED,   9, "lose a life — dodge these!"),
+    ]
+    for i, (color, r, desc) in enumerate(legend):
+        y = 202 + i * 42
+        pygame.draw.circle(screen, color, (WIDTH // 2 - 138, y + r), r)
+        glow = tuple(min(255, c + 70) for c in color)
+        pygame.draw.circle(screen, glow, (WIDTH // 2 - 141, y + r - 3), max(2, r // 3))
+        d = font_small.render(desc, True, TEXT)
+        screen.blit(d, (WIDTH // 2 - 110, y + 1))
+
+    hint = font_small.render("← →  to move the paddle", True, MUTED)
+    screen.blit(hint, (WIDTH // 2 - hint.get_width() // 2, 340))
+
+    go = font_big.render("Press  SPACE  to start", True, AMBER)
+    screen.blit(go, (WIDTH // 2 - go.get_width() // 2, 404))
+
+    pygame.display.flip()
+
+
+def draw_game_over(score, font_title, font_big, font_small):
+    """Semi-transparent overlay shown when lives run out."""
+    overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+    overlay.fill((14, 17, 34, 215))
+    screen.blit(overlay, (0, 0))
+
+    go   = font_title.render("GAME OVER", True, AMBER)
+    sc   = font_big.render(f"Score: {score}", True, TEXT)
+    r    = font_small.render("R — play again", True, MUTED)
+    q    = font_small.render("Q — quit",       True, MUTED)
+
+    screen.blit(go, (WIDTH // 2 - go.get_width() // 2, 150))
+    screen.blit(sc, (WIDTH // 2 - sc.get_width() // 2, 240))
+    screen.blit(r,  (WIDTH // 2 - r.get_width()  // 2, 318))
+    screen.blit(q,  (WIDTH // 2 - q.get_width()  // 2, 346))
+
+
+# ── Main ──────────────────────────────────────────────────────
+
+def main():
+    font_title = pygame.font.SysFont("Helvetica", 54, bold=True)
+    font_big   = pygame.font.SysFont("Helvetica", 30, bold=True)
+    font_small = pygame.font.SysFont("Helvetica", 17)
+
+    # ── Start screen ──────────────────────────────────────────
+    on_start = True
+    while on_start:
+        draw_start_screen(font_title, font_big, font_small)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit(); sys.exit()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                on_start = False
+
+    # ── Game state ────────────────────────────────────────────
+    # Everything the game needs to track lives in one dictionary.
+    # Calling reset() returns a brand-new copy to restart cleanly.
+    def reset():
+        return {
+            "player":      make_player(),
+            "objects":     [],        # the falling objects — a list of dicts!
+            "score":       0,
+            "lives":       MAX_LIVES,
+            "frame":       0,         # total frames elapsed this round
+            "spawn_timer": 0,         # frames since last spawn
+            "speed_mult":  1.0,       # increases slowly over time
+            "game_over":   False,
+        }
+
+    gs = reset()
+
+    # ── Game loop ─────────────────────────────────────────────
+    running = True
+    while running:
+        clock.tick(FPS)
+
+        # Events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN and gs["game_over"]:
+                if event.key == pygame.K_r:
+                    gs = reset()
+                if event.key == pygame.K_q:
+                    running = False
+
+        # ── Update (skipped while game over screen is showing) ─
+        if not gs["game_over"]:
+
+            # Keyboard input — move the paddle
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_LEFT]  and gs["player"]["x"] > 0:
+                gs["player"]["x"] -= PLAYER_SPEED
+            if keys[pygame.K_RIGHT] and gs["player"]["x"] + gs["player"]["w"] < WIDTH:
+                gs["player"]["x"] += PLAYER_SPEED
+
+            # Slowly increase difficulty over time
+            gs["frame"]     += 1
+            gs["speed_mult"] = min(3.0, 1.0 + gs["frame"] / 2000)
+
+            # Spawn a new object every N frames (N shrinks as speed grows)
+            gs["spawn_timer"] += 1
+            interval           = max(18, int(SPAWN_INTERVAL / gs["speed_mult"]))
+            if gs["spawn_timer"] >= interval:
+                gs["objects"].append(spawn_object(gs["speed_mult"]))
+                gs["spawn_timer"] = 0
+
+            # Move every object downward by its speed
+            for obj in gs["objects"]:
+                obj["y"] += obj["speed"]
+
+            # Collision detection — check every object against the paddle
+            paddle = pygame.Rect(gs["player"]["x"], gs["player"]["y"],
+                                  gs["player"]["w"], gs["player"]["h"])
+            caught = []
+            missed = []
+
+            for obj in gs["objects"]:
+                obj_rect = pygame.Rect(
+                    obj["x"] - obj["radius"],
+                    obj["y"] - obj["radius"],
+                    obj["radius"] * 2,
+                    obj["radius"] * 2,
+                )
+                if paddle.colliderect(obj_rect):
+                    caught.append(obj)
+                elif obj["y"] - obj["radius"] > HEIGHT:
+                    missed.append(obj)
+
+            # Resolve caught objects
+            for obj in caught:
+                if obj["label"] == "good":
+                    gs["score"] += obj["points"]   # nice catch!
+                else:
+                    gs["lives"] -= 1               # caught a bad one
+
+            # Resolve missed objects
+            for obj in missed:
+                if obj["label"] == "good":
+                    gs["lives"] -= 1               # dropped something important
+
+            # Remove caught and missed objects from the list
+            done           = set(id(o) for o in caught + missed)
+            gs["objects"]  = [o for o in gs["objects"] if id(o) not in done]
+
+            if gs["lives"] <= 0:
+                gs["lives"]     = 0
+                gs["game_over"] = True
+
+        # ── Draw ──────────────────────────────────────────────
+        screen.fill(BG)
+        draw_objects(gs["objects"])
+        draw_player(gs["player"])
+        draw_hud(gs["score"], gs["lives"], font_big, font_small)
+
+        if gs["game_over"]:
+            draw_game_over(gs["score"], font_title, font_big, font_small)
+
+        pygame.display.flip()
+
+    pygame.quit()
+
+
+main()
+
+</script>
+
+<script>
+  // ── Copy-to-clipboard for example files ──────────────────────
+  function copyCode(sourceId, btnId) {
+    const code = document.getElementById(sourceId).textContent.trim();
+    const btn  = document.getElementById(btnId);
+    navigator.clipboard.writeText(code).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy full file';
+        btn.classList.remove('copied');
+      }, 2200);
+    });
+  }
+
+  // ── Scroll progress bar ───────────────────────────────────────
+  const fill = document.getElementById('progressFill');
+  window.addEventListener('scroll', () => {
+    const h   = document.documentElement;
+    const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+    fill.style.height = pct + '%';
+  });
+
+  // ── Timeline active dot ───────────────────────────────────────
+  const links   = document.querySelectorAll('.timeline a');
+  const targets = Array.from(links).map(l => document.querySelector(l.getAttribute('href')));
+  window.addEventListener('scroll', () => {
+    let activeIdx = 0;
+    targets.forEach((t, i) => {
+      if (t && t.getBoundingClientRect().top < window.innerHeight * 0.5) activeIdx = i;
+    });
+    links.forEach((l, i) => l.classList.toggle('active', i === activeIdx));
+  });
+</script>
+
+</body>
+</html>
