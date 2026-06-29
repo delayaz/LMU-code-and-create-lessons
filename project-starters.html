@@ -500,8 +500,10 @@ main()
 <script type="text/plain" id="code-gui">
 # ============================================================
 #  EXAMPLE APP — Pop Culture Trivia  (GUI with tkinter)
-#  The same quiz as example_trivia_console.py, but with a
-#  real window and clickable buttons.
+#  Mac-fixed version: tkinter's Button widget on macOS often
+#  ignores bg/fg colors entirely (a known Tk-on-Mac limitation).
+#  This version uses clickable Labels instead, which DO respect
+#  colors reliably on Mac, Windows, and Linux.
 #
 #  tkinter is built into Python — no pip install needed.
 #  HOW TO RUN: python example_trivia_gui.py
@@ -523,9 +525,6 @@ FONT  = "Helvetica"
 W, H  = 680, 500
 
 # ── Questions ────────────────────────────────────────────────
-# Same bank as the console version, reformatted slightly:
-# "options" is now a list, and "answer" is the correct index (0–3).
-
 QUESTIONS = [
     {
         "question": "Who released the album 'GUTS' in 2023?",
@@ -570,12 +569,11 @@ QUESTIONS = [
 ]
 
 # ── App state ─────────────────────────────────────────────────
-# These variables track where we are in the quiz.
 state = {
-    "current":  0,      # index of the current question
-    "score":    0,      # correct answers so far
-    "questions": [],    # the 5 questions chosen for this round
-    "answered": False,  # True once the player has clicked an option
+    "current":   0,
+    "score":     0,
+    "questions": [],
+    "answered":  False,
 }
 
 
@@ -593,27 +591,25 @@ def start_quiz():
 
 
 def show_question():
-    """Update all labels and buttons for the current question."""
+    """Update all labels and option-buttons for the current question."""
     state["answered"] = False
     q = state["questions"][state["current"]]
 
-    progress_lbl.config(text=f"Question {state['current']+1} of {len(state['questions'])}")
-    score_lbl.config(text=f"Score: {state['score']}")
-    question_lbl.config(text=q["question"])
-    feedback_lbl.config(text="", fg=GREEN)
+    progress_lbl.config(text=f"Question {state['current']+1} of {len(state['questions'])}", bg=BG, fg=MUTED)
+    score_lbl.config(text=f"Score: {state['score']}", bg=BG, fg=MUTED)
+    question_lbl.config(text=q["question"], bg=BG, fg=TEXT)
+    feedback_lbl.config(text="", bg=BG, fg=GREEN)
     next_btn.place_forget()
 
-    for i, btn in enumerate(opt_btns):
-        btn.config(
-            text=q["options"][i],
-            bg=PANEL, fg=TEXT,
-            activebackground=AMBER, activeforeground=BG,
-            command=lambda idx=i: check_answer(idx)
-        )
+    for i, lbl in enumerate(opt_btns):
+        lbl.config(text=q["options"][i], bg=PANEL, fg=TEXT, highlightthickness=0)
+        # rebind the click handler fresh each question, with the right index baked in
+        lbl.unbind("<Button-1>")
+        lbl.bind("<Button-1>", lambda e, idx=i: check_answer(idx))
 
 
 def check_answer(idx):
-    """Handle a button click — color it green or red, show feedback."""
+    """Handle a click on an option — color it green or red, show feedback."""
     if state["answered"]:
         return
     state["answered"] = True
@@ -623,18 +619,15 @@ def check_answer(idx):
 
     if idx == correct:
         state["score"] += 1
-        opt_btns[idx].config(bg=GREEN, fg=BG,
-                             activebackground=GREEN, activeforeground=BG)
-        feedback_lbl.config(text="✓  Correct!", fg=GREEN)
+        opt_btns[idx].config(bg=GREEN, fg=BG)
+        feedback_lbl.config(text="\u2713  Correct!", bg=BG, fg=GREEN)
     else:
-        opt_btns[idx].config(bg=RED, fg=TEXT,
-                             activebackground=RED, activeforeground=TEXT)
-        opt_btns[correct].config(bg=GREEN, fg=BG,
-                                 activebackground=GREEN, activeforeground=BG)
+        opt_btns[idx].config(bg=RED, fg=TEXT)
+        opt_btns[correct].config(bg=GREEN, fg=BG)
         feedback_lbl.config(
-            text=f"✗  The answer was: {q['options'][correct]}", fg=RED)
+            text=f"\u2717  The answer was: {q['options'][correct]}", bg=BG, fg=RED)
 
-    score_lbl.config(text=f"Score: {state['score']}")
+    score_lbl.config(text=f"Score: {state['score']}", bg=BG, fg=MUTED)
     next_btn.place(x=W // 2, y=458, anchor="center")
 
 
@@ -653,16 +646,16 @@ def show_results():
     s, t = state["score"], len(state["questions"])
 
     if s == t:
-        msg = "Perfect score — you're a legend! 🏆"
+        msg = "Perfect score \u2014 you're a legend!"
     elif s >= t * 0.8:
-        msg = "Really solid — you know your stuff!"
+        msg = "Really solid \u2014 you know your stuff!"
     elif s >= t * 0.6:
         msg = "Not bad! A bit more to learn."
     else:
         msg = "Keep watching and try again!"
 
-    result_score_lbl.config(text=f"{s} / {t}")
-    result_msg_lbl.config(text=msg)
+    result_score_lbl.config(text=f"{s} / {t}", bg=BG, fg=AMBER)
+    result_msg_lbl.config(text=msg, bg=BG, fg=TEXT)
     results_frame.place(x=0, y=0, width=W, height=H)
 
 
@@ -677,45 +670,40 @@ root.resizable(False, False)
 # ── Quiz frame (the main game screen) ───────────────────────
 quiz_frame = tk.Frame(root, bg=BG)
 
-# Title
 tk.Label(quiz_frame, text="POP CULTURE TRIVIA",
          font=(FONT, 20, "bold"), bg=BG, fg=AMBER
          ).place(x=W // 2, y=32, anchor="center")
 
-# Progress (left) and score (right)
 progress_lbl = tk.Label(quiz_frame, text="", font=(FONT, 11), bg=BG, fg=MUTED)
 progress_lbl.place(x=28, y=68, anchor="w")
 
 score_lbl = tk.Label(quiz_frame, text="Score: 0", font=(FONT, 11), bg=BG, fg=MUTED)
 score_lbl.place(x=W - 28, y=68, anchor="e")
 
-# Thin divider
 tk.Frame(quiz_frame, bg=PANEL, height=1).place(x=28, y=86, width=W - 56)
 
-# Question text (wraps automatically)
 question_lbl = tk.Label(quiz_frame, text="", font=(FONT, 14, "bold"),
                          bg=BG, fg=TEXT, wraplength=610, justify="center")
 question_lbl.place(x=W // 2, y=158, anchor="center")
 
-# Four option buttons in a 2×2 grid
+# Four option "buttons" — built as clickable Labels so colors actually
+# show up reliably on Mac (tkinter's real Button widget often ignores
+# bg/fg on macOS — this is a known Tk limitation, not a bug in your code)
 POSITIONS = [(170, 270), (510, 270), (170, 345), (510, 345)]
 opt_btns  = []
 for pos in POSITIONS:
-    btn = tk.Button(quiz_frame, text="", font=(FONT, 11),
-                    bg=PANEL, fg=TEXT, width=28, height=2,
-                    relief="flat", cursor="hand2", bd=0)
-    btn.place(x=pos[0], y=pos[1], anchor="center")
-    opt_btns.append(btn)
+    lbl = tk.Label(quiz_frame, text="", font=(FONT, 11),
+                   bg=PANEL, fg=TEXT, width=28, height=2,
+                   cursor="hand2")
+    lbl.place(x=pos[0], y=pos[1], anchor="center")
+    opt_btns.append(lbl)
 
-# Feedback (correct / wrong message)
 feedback_lbl = tk.Label(quiz_frame, text="", font=(FONT, 12), bg=BG, fg=GREEN)
 feedback_lbl.place(x=W // 2, y=408, anchor="center")
 
-# Next button (hidden until a choice is made)
-next_btn = tk.Button(quiz_frame, text="Next  →", font=(FONT, 12, "bold"),
-                      bg=AMBER, fg=BG, width=14, relief="flat", cursor="hand2",
-                      command=advance,
-                      activebackground="#d4922b", activeforeground=BG)
+next_btn = tk.Label(quiz_frame, text="Next  \u2192", font=(FONT, 12, "bold"),
+                     bg=AMBER, fg=BG, width=14, cursor="hand2")
+next_btn.bind("<Button-1>", lambda e: advance())
 
 # ── Results frame (shown when quiz ends) ────────────────────
 results_frame = tk.Frame(root, bg=BG)
@@ -729,19 +717,18 @@ tk.Label(results_frame, text="Final Score",
          ).place(x=W // 2, y=175, anchor="center")
 
 result_score_lbl = tk.Label(results_frame, text="",
-                              font=(FONT, 52, "bold"), bg=BG, fg=AMBER)
+                             font=(FONT, 52, "bold"), bg=BG, fg=AMBER)
 result_score_lbl.place(x=W // 2, y=248, anchor="center")
 
 result_msg_lbl = tk.Label(results_frame, text="",
-                            font=(FONT, 14), bg=BG, fg=TEXT,
-                            wraplength=540, justify="center")
+                           font=(FONT, 14), bg=BG, fg=TEXT,
+                           wraplength=540, justify="center")
 result_msg_lbl.place(x=W // 2, y=320, anchor="center")
 
-tk.Button(results_frame, text="Play Again", font=(FONT, 13, "bold"),
-          bg=AMBER, fg=BG, width=14, relief="flat", cursor="hand2",
-          command=start_quiz,
-          activebackground="#d4922b", activeforeground=BG
-          ).place(x=W // 2, y=392, anchor="center")
+play_again_lbl = tk.Label(results_frame, text="Play Again", font=(FONT, 13, "bold"),
+                           bg=AMBER, fg=BG, width=14, cursor="hand2")
+play_again_lbl.place(x=W // 2, y=392, anchor="center")
+play_again_lbl.bind("<Button-1>", lambda e: start_quiz())
 
 # ── Start ────────────────────────────────────────────────────
 start_quiz()
