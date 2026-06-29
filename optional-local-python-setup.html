@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Optional: Install Python Locally (for GUI)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14172a; --panel: #1f2440; --ink: #edeef5; --ink-soft: #b9bcd4;
+    --muted: #7c81a3; --amber: #f2a93b; --amber-soft: #fbd99b; --green: #7fd99b; --violet: #b39bf2;
+    --rule: rgba(255,255,255,0.08); --code-bg: #0f1224;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background: var(--bg); color: var(--ink); font-family:'Inter',sans-serif; scroll-behavior:smooth; }
+  ::selection{ background: var(--amber); color:#14172a; }
+  h1,h2,h3{ font-family:'Space Grotesk',sans-serif; margin:0; line-height:1.15; }
+
+  .topnav{ position:sticky; top:0; z-index:60; background: rgba(20,23,42,0.85); backdrop-filter: blur(8px); border-bottom:1px solid var(--rule); padding:14px 32px; display:flex; align-items:center; justify-content:space-between; font-family:'JetBrains Mono', monospace; font-size:12.5px; }
+  .topnav a{ color: var(--muted); text-decoration:none; }
+  .topnav a:hover{ color: var(--amber); }
+  .topnav .crumbs span{ color: var(--ink-soft); }
+
+  .progress-rail{ position:fixed; left:0; top:0; bottom:0; width:6px; background: var(--rule); z-index:50; }
+  .progress-fill{ position:absolute; top:0; left:0; width:100%; background: linear-gradient(180deg, var(--violet), var(--amber)); height:0%; transition: height .1s linear; }
+
+  .wrap{ max-width:880px; margin:0 auto; padding:0 32px; }
+
+  .hero{ min-height:50vh; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+  .hero::before{ content:""; position:absolute; top:-20%; right:-10%; width:600px; height:600px; background: radial-gradient(circle, rgba(179,155,242,0.16), transparent 70%); pointer-events:none; }
+  .eyebrow{ font-family:'JetBrains Mono', monospace; color: var(--violet); letter-spacing:.12em; font-size:13px; text-transform:uppercase; margin-bottom:18px; }
+  .hero h1{ font-size: clamp(32px, 5.5vw, 50px); font-weight:700; max-width:740px; }
+  .hero h1 span{ color: var(--violet); }
+  .hero p.sub{ margin-top:20px; font-size:17px; color: var(--ink-soft); max-width:600px; line-height:1.6; }
+
+  .optional-banner{
+    background: rgba(127,217,155,0.08); border:1px solid rgba(127,217,155,0.3);
+    border-radius: 12px; padding: 16px 22px; margin: 24px auto 0; max-width: 816px;
+    font-family:'JetBrains Mono', monospace; font-size: 13px; color: var(--green);
+    text-align: center; line-height: 1.6;
+  }
+
+  section.step{ padding:60px 0 20px; border-top:1px solid var(--rule); position:relative; }
+  .step-label{ display:flex; align-items:baseline; gap:18px; margin-bottom:14px; }
+  .step-num{ font-family:'JetBrains Mono', monospace; font-size:15px; color: var(--violet); background: rgba(179,155,242,0.12); border:1px solid rgba(179,155,242,0.3); border-radius:999px; padding:4px 14px; }
+  .step h2{ font-size: clamp(22px,3.5vw,28px); margin-bottom:14px; }
+  .step .intro{ color: var(--ink-soft); font-size:15.5px; line-height:1.65; max-width:620px; margin-bottom:20px; }
+
+  .os-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 22px 0; }
+  @media (max-width: 700px){ .os-grid{ grid-template-columns: 1fr; } }
+  .os-card{
+    background: var(--panel); border:1px solid var(--rule); border-radius: 14px;
+    padding: 22px 24px;
+  }
+  .os-card .os-tag{
+    font-family:'JetBrains Mono', monospace; font-size: 12px; color: var(--violet);
+    letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; display:block;
+  }
+  .os-card ol{ margin: 0; padding-left: 20px; color: var(--ink-soft); font-size: 14.5px; line-height: 1.8; }
+  .os-card ol li{ margin-bottom: 4px; }
+
+  .critical-callout{
+    background: rgba(242,169,59,0.1); border: 1px solid rgba(242,169,59,0.35);
+    border-radius: 10px; padding: 16px 20px; margin: 18px 0;
+    font-size: 14.5px; color: var(--amber-soft); line-height: 1.6;
+  }
+  .critical-callout strong{ color: var(--amber); }
+
+  .code-card{ background: var(--code-bg); border:1px solid var(--rule); border-radius:14px; overflow:hidden; margin:22px 0; box-shadow:0 20px 50px -20px rgba(0,0,0,0.6); }
+  .code-card .bar{ display:flex; align-items:center; gap:8px; padding:11px 16px; background: rgba(255,255,255,0.02); border-bottom:1px solid var(--rule); }
+  .dot{ width:10px; height:10px; border-radius:50%; }
+  .dot.r{ background:#ff5f57; } .dot.y{ background:#febc2e; } .dot.g{ background:#28c840; }
+  .filename{ margin-left:10px; font-family:'JetBrains Mono', monospace; font-size:12.5px; color: var(--muted); }
+  pre{ margin:0; padding:18px 20px; font-family:'JetBrains Mono', monospace; font-size:14px; line-height:1.7; overflow-x:auto; color: var(--ink); }
+  .tok-str{ color:#b6e6b0; } .tok-kw{ color: var(--amber); } .tok-fn{ color:#8ab4ff; } .tok-num{ color:#f7b2d9; }
+
+  .console{ border-top:1px dashed var(--rule); background: rgba(127,217,155,0.04); padding:12px 20px; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--green); }
+
+  .link-row{ display:flex; align-items:center; gap: 10px; font-family:'JetBrains Mono', monospace; font-size: 14px; margin: 14px 0; }
+  .link-row a{ color: var(--violet); text-decoration: none; border-bottom: 1px dashed rgba(179,155,242,0.4); }
+  .link-row a:hover{ color: var(--amber); }
+
+  .watch{ display:flex; gap:12px; background: rgba(255,255,255,0.02); border:1px solid var(--rule); border-radius:10px; padding:16px 20px; margin-top:18px; font-size:14px; color: var(--ink-soft); line-height:1.6; }
+  .watch .icon{ flex-shrink:0; width:26px; height:26px; border-radius:50%; background: rgba(242,169,59,0.15); color: var(--amber); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:600; }
+
+  .closer{ padding:80px 0 60px; text-align:center; border-top:1px solid var(--rule); }
+  .closer h2{ font-size: clamp(24px,4.5vw,30px); margin-bottom:16px; }
+  .closer p{ color: var(--ink-soft); font-size:16px; max-width:520px; margin:0 auto 16px; line-height:1.6; }
+  .closer .badge{ display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--violet); background: rgba(179,155,242,0.1); border:1px solid rgba(179,155,242,0.3); padding:8px 18px; border-radius:999px; }
+
+  .session-nav{ padding:0 0 90px; text-align:center; }
+  .session-nav a.btn{ display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono', monospace; font-size:14px; background: var(--panel); border:1px solid var(--rule); color: var(--ink); padding:14px 26px; border-radius:999px; text-decoration:none; transition: border-color .2s ease; }
+  .session-nav a.btn:hover{ border-color: var(--violet); color: var(--violet); }
+
+  @media (max-width:600px){ .wrap{ padding:0 20px; } .hero{ min-height:44vh; } .topnav{ padding:14px 20px; } }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="crumbs"><a href="index.html">All sessions</a> <span>/ Optional Setup Guide</span></div>
+</nav>
+
+<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
+
+<header class="hero" id="hero">
+  <div class="wrap">
+    <div class="eyebrow">Optional · For students who specifically want a GUI</div>
+    <h1>Install Python <span>on your own laptop</span></h1>
+    <p class="sub">Replit is having trouble running GUI libraries (Tkinter) right now. If you specifically want your project to have an actual window with clickable buttons instead of console text, this guide gets Python and a code editor set up on your own laptop, where Tkinter works fine.</p>
+  </div>
+</header>
+
+<div class="optional-banner">✓ This is completely optional. Everyone else keeps building in Replit exactly as before — console-based projects work great there, and nothing is lost by staying on Replit.</div>
+
+<section class="step" id="step1">
+  <div class="wrap">
+    <div class="step-label"><span class="step-num">Step 1</span></div>
+    <h2>Install Python</h2>
+    <p class="intro">Pick the instructions for your computer.</p>
+
+    <div class="os-grid">
+      <div class="os-card">
+        <span class="os-tag">Windows</span>
+        <ol>
+          <li>Go to <strong>python.org/downloads</strong></li>
+          <li>Click the big "Download Python" button</li>
+          <li>Run the installer once downloaded</li>
+          <li><strong>Check "Add Python to PATH"</strong> — see callout below</li>
+          <li>Click "Install Now"</li>
+        </ol>
+      </div>
+      <div class="os-card">
+        <span class="os-tag">Mac</span>
+        <ol>
+          <li>Go to <strong>python.org/downloads</strong></li>
+          <li>Download the macOS installer</li>
+          <li>Run it and click through (defaults are fine)</li>
+          <li>No PATH checkbox needed on Mac</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="critical-callout">
+      <strong>Windows users — don't skip this:</strong> on the very first installer screen, there's a checkbox at the bottom that says "Add Python to PATH." Check it <em>before</em> clicking Install. This is the single most common reason Python installs "fail" — skipping it doesn't cause an error during install, but nothing will work afterward.
+    </div>
+
+    <div class="link-row">→ <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads</a></div>
+  </div>
+</section>
+
+<section class="step" id="step2">
+  <div class="wrap">
+    <div class="step-label"><span class="step-num">Step 2</span></div>
+    <h2>Confirm it worked</h2>
+    <p class="intro">Open a terminal — on Windows, search "Command Prompt" in the Start menu; on Mac, search "Terminal" in Spotlight (Cmd+Space). Type this and press Enter:</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">terminal</span></div>
+      <pre>python --version</pre>
+      <div class="console">$ Python 3.12.4</div>
+    </div>
+
+    <p class="intro">On Mac, if that doesn't work, try <code>python3 --version</code> instead.</p>
+
+    <div class="watch"><span class="icon">!</span><span>If you see an error instead of a version number, the install didn't fully work — raise your hand rather than troubleshooting alone. This is almost always the "Add to PATH" checkbox on Windows.</span></div>
+  </div>
+</section>
+
+<section class="step" id="step3">
+  <div class="wrap">
+    <div class="step-label"><span class="step-num">Step 3</span></div>
+    <h2>Install a code editor — VS Code</h2>
+    <p class="intro">Python needs somewhere to write code. VS Code is free and works on both Windows and Mac.</p>
+    <ol style="color: var(--ink-soft); font-size: 15px; line-height: 1.8; padding-left: 22px;">
+      <li>Go to <strong>code.visualstudio.com</strong></li>
+      <li>Download for your operating system</li>
+      <li>Install it, then open it once</li>
+    </ol>
+    <div class="link-row">→ <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">code.visualstudio.com</a></div>
+  </div>
+</section>
+
+<section class="step" id="step4">
+  <div class="wrap">
+    <div class="step-label"><span class="step-num">Step 4</span></div>
+    <h2>Test that Tkinter actually works</h2>
+    <p class="intro">In VS Code, create a new file named <code>test.py</code> and paste this in:</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">test.py</span></div>
+      <pre><span class="tok-kw">import</span> tkinter <span class="tok-kw">as</span> tk
+
+root = tk.Tk()
+root.title(<span class="tok-str">"It works!"</span>)
+label = tk.Label(root, text=<span class="tok-str">"Tkinter is working!"</span>, font=(<span class="tok-str">"Arial"</span>, <span class="tok-num">20</span>))
+label.pack(pady=<span class="tok-num">40</span>, padx=<span class="tok-num">40</span>)
+root.mainloop()</pre>
+    </div>
+
+    <p class="intro">Run it — in VS Code, click the ▶ Run button top-right, or right-click in the file and choose "Run Python File in Terminal." A small window should pop up on your screen.</p>
+
+    <div class="watch"><span class="icon">!</span><span>If the window pops up, you're done — go back to the GUI starter template from class and start building for real. If it doesn't, don't spend more than 10 minutes troubleshooting alone.</span></div>
+  </div>
+</section>
+
+<section class="closer" id="closer">
+  <div class="wrap">
+    <span class="badge">● setup guide complete</span>
+    <h2>If this didn't go smoothly</h2>
+    <p>That's completely fine — switch back to Replit and build your project as a console app instead. No project is worse for being console-based; every track works great that way.</p>
+  </div>
+</section>
+
+<div class="wrap session-nav">
+  <a class="btn" href="day6-session1-project-pitch-and-brainstorming.html">Back to Day 6, Session 1 →</a>
+</div>
+
+<script>
+  const fill = document.getElementById('progressFill');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    fill.style.height = pct + '%';
+  });
+</script>
+
+</body>
+</html>
