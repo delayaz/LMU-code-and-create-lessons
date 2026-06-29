@@ -125,8 +125,8 @@
 <nav class="timeline" id="timelineNav">
   <a href="#hero" data-label="Start" class="active"></a>
   <a href="#burst1" data-label="The 4 tracks"></a>
-  <a href="#burst2" data-label="Starter template"></a>
-  <a href="#burst3" data-label="Sketch your idea"></a>
+  <a href="#burst2" data-label="Quick brainstorm"></a>
+  <a href="#burst3" data-label="Build it, live"></a>
   <a href="#closer" data-label="Wrap up"></a>
 </nav>
 
@@ -134,7 +134,7 @@
   <div class="wrap">
     <div class="eyebrow">Code and Create · Day 6 · Session 1 of 2 · Morning · Delaram &amp; Lauren</div>
     <h1>Week 2 starts now — <span>pick your project</span>.</h1>
-    <p class="sub">Everything from Week 1 — variables, conditionals, loops, functions, lists, dictionaries, even turtle graphics — was building toward this. Today you choose a direction and start brainstorming. Tomorrow you start building.</p>
+    <p class="sub">Everything from Week 1 — variables, conditionals, loops, functions, lists, dictionaries, even turtle graphics — was building toward this. Today you choose a direction, brainstorm fast, and start writing real code toward your own idea.</p>
     <div class="meta">
       <div><b>Monday, June 29</b> · 9:00–11:30 AM</div>
       <div><b>Tool:</b> replit.com</div>
@@ -148,7 +148,7 @@
 
 <section class="burst" id="burst1">
   <div class="wrap">
-    <div class="burst-label"><span class="burst-num">Part 1</span><span class="burst-time">9:10 – 9:40</span></div>
+    <div class="burst-label"><span class="burst-num">Part 1</span><span class="burst-time">9:10 – 9:30</span></div>
     <h2>The 4 project tracks</h2>
     <p class="intro">Every track uses the same toolbox you already have. Pick whichever sounds most fun to you — not whichever sounds "easiest." You'll have more energy for a project you actually want to build.</p>
 
@@ -187,45 +187,32 @@
 
 <section class="burst" id="burst2">
   <div class="wrap">
-    <div class="burst-label"><span class="burst-num">Part 2</span><span class="burst-time">9:50 – 10:20</span></div>
-    <h2>Get your starter file set up</h2>
-    <p class="intro">Before you sketch your idea on paper, get the actual skeleton file into your repl. This is the same structure for every track — you'll fill in the specifics once you know what you're building.</p>
-
-    <div class="code-card">
-      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py — starter template</span></div>
-      <pre><span class="tok-com"># SECTION 1: YOUR PROJECT'S DATA</span>
-<span class="tok-com"># Whatever your project needs to remember goes here.</span>
-project_title = <span class="tok-str">"My Project"</span>
-sample_data = [
-    {<span class="tok-str">"name"</span>: <span class="tok-str">"Example One"</span>, <span class="tok-str">"value"</span>: <span class="tok-num">10</span>},
-    {<span class="tok-str">"name"</span>: <span class="tok-str">"Example Two"</span>, <span class="tok-str">"value"</span>: <span class="tok-num">25</span>},
-]
-
-<span class="tok-com"># SECTION 2: YOUR PROJECT'S FUNCTIONS</span>
-<span class="tok-kw">def</span> <span class="tok-fn">show_welcome</span>():
-    <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"=== {project_title} ==="</span>)
-
-<span class="tok-kw">def</span> <span class="tok-fn">show_data</span>():
-    <span class="tok-kw">for</span> item <span class="tok-kw">in</span> sample_data:
-        <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"{item['name']}: {item['value']}"</span>)
-
-<span class="tok-com"># SECTION 3: MAIN PROGRAM</span>
-<span class="tok-fn">show_welcome</span>()
-<span class="tok-fn">show_data</span>()</pre>
-    </div>
+    <div class="burst-label"><span class="burst-num">Part 2</span><span class="burst-time">9:30 – 9:55</span></div>
+    <h2>Quick brainstorm — get to one idea fast</h2>
+    <p class="intro">Two fast steps to land on a specific idea. We're keeping this short on purpose — the real learning today happens once you're building, not while you're still planning.</p>
 
     <div class="activity">
-      <span class="tag">Your turn</span>
-      <h3>Copy this into a fresh repl, run it, then make it yours</h3>
-      <p>Get this exact starter running first — confirm it prints without errors. Then start replacing the placeholder data and function names with whatever fits your actual project idea.</p>
+      <span class="tag">Step 1 — 10 min</span>
+      <h3>Write down 5 ideas in your track, don't judge them yet</h3>
       <ul>
-        <li>Rename <code>project_title</code> to your real project's name</li>
-        <li>Replace <code>sample_data</code> with a rough sketch of what your project needs to track</li>
-        <li>Don't worry about getting it "right" yet — this is scaffolding, not a final answer</li>
+        <li>Game track: 5 different specific games — not just "a game"</li>
+        <li>Quiz track: 5 different quiz topics — what would you actually want to take?</li>
+        <li>Story track: 5 different settings or situations — a haunted house, a locker room, a spaceship...</li>
+        <li>Data track: 5 different things you could collect data about — your own habits, sports stats, song lengths...</li>
       </ul>
     </div>
 
-    <div class="watch"><span class="icon">!</span><span>Every one of today's 4 tracks works completely fine built this way — text in, text out, no special setup needed. That's a real, complete way to ship a project, not a placeholder for something fancier.</span></div>
+    <div class="activity">
+      <span class="tag">Step 2 — 10 min</span>
+      <h3>Narrow to one — two filters</h3>
+      <ul>
+        <li><strong>Can I picture the whole thing?</strong> If you can't imagine someone using it start to finish, set it aside.</li>
+        <li><strong>Do I actually want to spend 3 days on this?</strong> Not "is it impressive" — just, would this hold your attention.</li>
+      </ul>
+      <p>Whatever survives both, circle it. That's your project — you'll build the actual details as you go, not all on paper first.</p>
+    </div>
+
+    <div class="watch"><span class="icon">!</span><span>If you're stuck between two ideas, just pick one. A specific, finished small project beats a vague, ambitious plan every time in a course this short.</span></div>
   </div>
 </section>
 
@@ -233,63 +220,144 @@ sample_data = [
 
 <section class="burst" id="burst3">
   <div class="wrap">
-    <div class="burst-label"><span class="burst-num">Part 3</span><span class="burst-time">10:30 – 11:20</span></div>
-    <h2>From "I have to pick a track" to "I know what I'm building"</h2>
-    <p class="intro">Going straight from a track name to a finished idea is hard. These four steps narrow things down gradually — each one builds on the last, so by the end you're not guessing, you're refining something you've already started.</p>
+    <div class="burst-label"><span class="burst-num">Part 3</span><span class="burst-time">10:05 – 11:20</span></div>
+    <h2>Build the real skeleton — together, live</h2>
+    <p class="intro">Everyone builds this with us, live, in their own repl — regardless of which track you picked. By the end of this block, you'll have working code that's already doing something specific to your idea, not just a printed sample.</p>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py — Step A: the shell</span></div>
+      <pre><span class="tok-com"># Replace this with your real project's name</span>
+project_title = <span class="tok-str">"My Project"</span>
+
+<span class="tok-kw">def</span> <span class="tok-fn">show_welcome</span>():
+    <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"=== {project_title} ==="</span>)
+    <span class="tok-fn">print</span>(<span class="tok-str">"Let's get started!\n"</span>)
+
+<span class="tok-fn">show_welcome</span>()</pre>
+    </div>
+    <p class="intro">Get this running first — confirm your title prints. This is your whole program's entry point; everything else gets added below it.</p>
 
     <div class="activity">
-      <span class="tag">Step 1 — 5 min</span>
-      <h3>Brainstorm wide — write down 5 ideas, don't judge them yet</h3>
-      <p>Within your chosen track, write 5 different specific ideas as fast as you can. Quantity over quality here — even bad or boring ideas are useful, because writing them down clears space for better ones.</p>
-      <ul>
-        <li>Game track: "5 different games I could build" — not just "a game"</li>
-        <li>Quiz track: "5 different quiz topics" — what would you actually want to take?</li>
-        <li>Story track: "5 different settings or situations" — a haunted house, a locker room, a spaceship...</li>
-        <li>Data track: "5 different things I could collect data about" — your own habits, sports stats, song lengths...</li>
-      </ul>
+      <span class="tag">Step B — build your real data, live with us</span>
+      <h3>Pick your track's block below and type it in</h3>
+      <p>This is where your actual idea starts existing as code, not just on paper.</p>
+    </div>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">Game track</span></div>
+      <pre><span class="tok-kw">import</span> random
+
+<span class="tok-kw">def</span> <span class="tok-fn">play_round</span>():
+    <span class="tok-com"># Replace this with your actual game's core mechanic</span>
+    number = random.randint(<span class="tok-num">1</span>, <span class="tok-num">10</span>)
+    guess = <span class="tok-fn">int</span>(<span class="tok-fn">input</span>(<span class="tok-str">"Guess a number 1-10: "</span>))
+    <span class="tok-kw">if</span> guess == number:
+        <span class="tok-fn">print</span>(<span class="tok-str">"You got it!"</span>)
+    <span class="tok-kw">else</span>:
+        <span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"Nope, it was {number}."</span>)
+
+<span class="tok-fn">play_round</span>()</pre>
+    </div>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">Quiz App track</span></div>
+      <pre>questions = [
+    {<span class="tok-str">"question"</span>: <span class="tok-str">"Replace with your real question 1"</span>, <span class="tok-str">"answer"</span>: <span class="tok-str">"a"</span>},
+    {<span class="tok-str">"question"</span>: <span class="tok-str">"Replace with your real question 2"</span>, <span class="tok-str">"answer"</span>: <span class="tok-str">"b"</span>},
+]
+
+score = <span class="tok-num">0</span>
+<span class="tok-kw">for</span> q <span class="tok-kw">in</span> questions:
+    answer = <span class="tok-fn">input</span>(<span class="tok-kw">f</span><span class="tok-str">"{q['question']} "</span>)
+    <span class="tok-kw">if</span> answer == q[<span class="tok-str">"answer"</span>]:
+        score = score + <span class="tok-num">1</span>
+
+<span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"You scored {score}/{len(questions)}"</span>)</pre>
+    </div>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">Interactive Story track</span></div>
+      <pre><span class="tok-fn">print</span>(<span class="tok-str">"Replace this with your real opening scene."</span>)
+choice = <span class="tok-fn">input</span>(<span class="tok-str">"Go left or right? "</span>)
+
+<span class="tok-kw">if</span> choice.lower() == <span class="tok-str">"left"</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">"Replace with what happens if they go left."</span>)
+<span class="tok-kw">elif</span> choice.lower() == <span class="tok-str">"right"</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">"Replace with what happens if they go right."</span>)
+<span class="tok-kw">else</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">"They freeze, unsure what to do."</span>)</pre>
+    </div>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">Data Tool track</span></div>
+      <pre>data = [<span class="tok-num">12</span>, <span class="tok-num">45</span>, <span class="tok-num">7</span>, <span class="tok-num">30</span>, <span class="tok-num">22</span>]  <span class="tok-com"># replace with your real data</span>
+
+<span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"Highest: {max(data)}"</span>)
+<span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"Lowest: {min(data)}"</span>)
+<span class="tok-fn">print</span>(<span class="tok-kw">f</span><span class="tok-str">"Average: {sum(data) / len(data):.1f}"</span>)</pre>
     </div>
 
     <div class="activity">
-      <span class="tag">Step 2 — 5 min</span>
-      <h3>Narrow to one — pick using two filters</h3>
-      <p>Look at your 5 ideas. Cross off any that fail either of these two tests:</p>
-      <ul>
-        <li><strong>Can I picture the whole thing?</strong> If you can't imagine someone actually using it start to finish, it's too vague right now — cross it off or set it aside.</li>
-        <li><strong>Do I actually want to spend 3 days on this?</strong> Not "is it impressive" — just, would building this hold your attention. That matters more than ambition here.</li>
-      </ul>
-      <p>Whatever survives both filters — even if it's not your "best" idea on paper — is your project. Circle it.</p>
+      <span class="tag">New skill — Step C</span>
+      <h3>Make it run more than once — the replay loop</h3>
+      <p>Right now your program runs once and stops. Almost every real app — games, quizzes, tools — lets you do something again without restarting the whole program. That's just a <code>while</code> loop wrapped around what you already have, plus one question at the end.</p>
+    </div>
+
+    <div class="code-card">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="filename">main.py — the replay loop pattern</span></div>
+      <pre>playing = <span class="tok-kw">True</span>
+
+<span class="tok-kw">while</span> playing:
+    <span class="tok-com"># --- everything you already built goes here, indented one level in ---</span>
+    <span class="tok-fn">print</span>(<span class="tok-str">"...your existing code runs here..."</span>)
+
+    <span class="tok-com"># --- then, ask if they want to go again ---</span>
+    again = <span class="tok-fn">input</span>(<span class="tok-str">"\nGo again? (yes/no) "</span>)
+    <span class="tok-kw">if</span> again.lower() != <span class="tok-str">"yes"</span>:
+        playing = <span class="tok-kw">False</span>
+
+<span class="tok-fn">print</span>(<span class="tok-str">"Thanks for playing!"</span>)</pre>
     </div>
 
     <div class="activity">
-      <span class="tag">Step 3 — 10 min</span>
-      <h3>Flesh it out — the 3-box sketch</h3>
-      <p>Now go deep on the one idea you circled. Answer all three:</p>
+      <span class="tag">Your turn</span>
+      <h3>Wrap your skeleton in a replay loop</h3>
+      <p>Take the code you just built for your track and indent it one level inward, inside a <code>while playing:</code> loop like the pattern above. Add the "go again?" question at the end.</p>
       <ul>
-        <li><strong>What does it do?</strong> One or two sentences. What's the actual point of your project?</li>
-        <li><strong>What does the user see first?</strong> The very first thing printed when it starts.</li>
-        <li><strong>What happens when they interact with it?</strong> Walk through one full example — a guess, an answer, a choice — start to finish, like you're narrating someone using it.</li>
+        <li><strong>Game track:</strong> this means a whole new round, with a new random number, every time they say yes.</li>
+        <li><strong>Quiz App track:</strong> this could replay the same questions, or reset the score back to 0 for a fresh attempt.</li>
+        <li><strong>Interactive Story track:</strong> this lets someone try a different choice and see the other path, without restarting the program.</li>
+        <li><strong>Data Tool track:</strong> this could let them analyze a second set of numbers right after the first, without re-running the file.</li>
       </ul>
     </div>
+
+    <div class="watch"><span class="icon">!</span><span>Common snag: forgetting to indent your existing code to match the new <code>while</code> loop — every line that should repeat needs to line up one level deeper than <code>while playing:</code> itself.</span></div>
 
     <div class="activity">
-      <span class="tag">Step 4 — 10 min</span>
-      <h3>Pressure-test it — pair up and pitch out loud</h3>
-      <p>Find a partner (doesn't need to be the same track) and explain your 3-box sketch to them in under 2 minutes, like you're describing it to someone who's never seen it. Then they ask you one question — anything that's unclear or makes them curious.</p>
+      <span class="tag">Step D — make it actually yours</span>
+      <h3>Replace every placeholder with your real idea</h3>
+      <p>Go back through what you just typed and swap every placeholder (questions, scenes, numbers, game rules) for the real thing from your brainstorm. This is the bulk of today's work — take your time, ask for help the moment something doesn't run.</p>
       <ul>
-        <li>If their question stumps you, that's not a failure — that's exactly the gap in your plan worth fixing <em>before</em> you start coding, not after.</li>
-        <li>Switch roles, do the same for their idea.</li>
+        <li>Run it constantly. Don't write 10 lines and then test — write 2-3, run, fix, repeat.</li>
+        <li>It's totally fine if it's rough. Today's goal is "running and yours," not "finished."</li>
       </ul>
     </div>
 
-    <div class="watch"><span class="icon">!</span><span>If you're between two ideas after Step 2, just pick one — you can always build the other later. A specific, finished small project beats a vague, ambitious one every time in a course this short.</span></div>
+    <div class="activity stretch">
+      <span class="tag">Stretch — done early?</span>
+      <h3>Add a counter to your replay loop</h3>
+      <p>Track how many times they've played/answered/checked in a variable that goes up each time through the loop, and print it in your closing message — "Thanks for playing! You played 3 rounds." Small addition, but it makes the loop feel like it's actually keeping track of something.</p>
+    </div>
   </div>
 </section>
+
+<div class="wrap"><div class="break-marker">Break</div></div>
 
 <section class="closer" id="closer">
   <div class="wrap">
     <span class="badge">● session 1 — complete</span>
-    <h2>You know what you're building.</h2>
-    <p>Tomorrow morning: field trip, no afternoon session. Wednesday: building starts for real.</p>
+    <h2>You have running code.</h2>
+    <p>Tomorrow morning: field trip, no afternoon session. Wednesday: keep building, with track-specific help for whatever your project needs next.</p>
   </div>
 </section>
 
