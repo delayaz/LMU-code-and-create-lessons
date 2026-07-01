@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 8 · Session 2 — Build Time + Demo Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14172a; --bg-soft: #1b1f38; --panel: #1f2440; --ink: #edeef5; --ink-soft: #b9bcd4;
+    --muted: #7c81a3; --amber: #f2a93b; --amber-soft: #fbd99b; --green: #7fd99b; --violet: #b39bf2;
+    --rule: rgba(255,255,255,0.08); --code-bg: #0f1224;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background: var(--bg); color: var(--ink); font-family:'Inter',sans-serif; scroll-behavior:smooth; }
+  ::selection{ background: var(--amber); color:#14172a; }
+  h1,h2,h3{ font-family:'Space Grotesk',sans-serif; margin:0; line-height:1.15; }
+
+  .topnav{ position:sticky; top:0; z-index:60; background: rgba(20,23,42,0.85); backdrop-filter: blur(8px); border-bottom:1px solid var(--rule); padding:14px 32px; display:flex; align-items:center; justify-content:space-between; font-family:'JetBrains Mono', monospace; font-size:12.5px; }
+  .topnav a{ color: var(--muted); text-decoration:none; }
+  .topnav a:hover{ color: var(--amber); }
+  .topnav .crumbs span{ color: var(--ink-soft); }
+  .topnav .next-link{ color: var(--amber); display:flex; align-items:center; gap:6px; }
+
+  .progress-rail{ position:fixed; left:0; top:0; bottom:0; width:6px; background: var(--rule); z-index:50; }
+  .progress-fill{ position:absolute; top:0; left:0; width:100%; background: linear-gradient(180deg, var(--amber), var(--violet)); height:0%; transition: height .1s linear; }
+
+  .wrap{ max-width:880px; margin:0 auto; padding:0 32px; }
+
+  .hero{ min-height:46vh; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+  .hero::before{ content:""; position:absolute; top:-20%; right:-10%; width:520px; height:520px; background: radial-gradient(circle, rgba(242,169,59,0.14), transparent 65%); }
+  .eyebrow{ font-family:'JetBrains Mono',monospace; color: var(--amber); font-size:13px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:14px; }
+  .hero h1{ font-size:42px; font-weight:700; max-width:640px; }
+  .hero p.sub{ color: var(--ink-soft); font-size:17px; margin-top:16px; max-width:560px; line-height:1.6; }
+  .hero-meta{ display:flex; gap:22px; margin-top:28px; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--muted); }
+  .hero-meta span b{ color: var(--ink-soft); font-weight:500; }
+
+  section.burst{ padding: 56px 0; border-top:1px solid var(--rule); }
+  .burst-num{ font-family:'JetBrains Mono',monospace; color: var(--amber); font-size:13px; letter-spacing:0.08em; margin-bottom:10px; display:block; }
+  .burst h2{ font-size:27px; margin-bottom:14px; }
+  .burst p{ color: var(--ink-soft); line-height:1.7; font-size:15.5px; }
+
+  .panel{ background: var(--panel); border:1px solid var(--rule); border-radius:12px; padding:22px 24px; margin:20px 0; }
+  .panel h3{ font-size:16px; color: var(--amber-soft); margin-bottom:12px; }
+  .panel p{ margin:0; }
+
+  .bonus{ border-left:3px solid var(--violet); background: rgba(179,155,242,0.06); border-radius: 0 10px 10px 0; padding:20px 24px; margin:20px 0; }
+  .bonus h3{ color: var(--violet); font-size:15px; margin-bottom:10px; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.04em; }
+  .bonus p{ color: var(--ink-soft); font-size:15px; }
+  .bonus .tag{ font-family:'JetBrains Mono',monospace; font-size:11px; color: var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; display:block; }
+
+  footer{ padding:50px 0 80px; text-align:center; color: var(--muted); font-family:'JetBrains Mono',monospace; font-size:12.5px; border-top:1px solid var(--rule); margin-top:10px; }
+</style>
+</head>
+<body>
+
+<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
+
+<nav class="topnav">
+  <div class="crumbs"><a href="day8-session1-build-time-and-design-sprint.html">← Day 8, Session 1</a></div>
+  <span>Code &amp; Create · Day 8, Session 2</span>
+  <a class="next-link" href="day9-demo-day.html">Next: Day 9 — Demo Day →</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Day 8 · Session 2 · Wednesday, July 1 · 1:00–3:00</div>
+    <h1>Build Time + Demo Check</h1>
+    <p class="sub">Your last big stretch before tomorrow. We'll end with a fast gut-check — not a rehearsal — so nothing surprises you on demo day.</p>
+    <div class="hero-meta">
+      <span><b>1:00–2:40</b> Build Time</span>
+      <span><b>2:40–3:00</b> Demo Check-in</span>
+    </div>
+  </div>
+
+  <section class="burst">
+    <span class="burst-num">1:00–2:40</span>
+    <h2>Build Time</h2>
+    <p>Back to your project. This is your last full coding stretch before presentations, so prioritize this morning's checklist if you haven't hit it yet: core feature working, one polish item, one thing you can talk about.</p>
+  </section>
+
+  <section class="burst">
+    <span class="burst-num">2:40–3:00</span>
+    <h2>Demo Check-in</h2>
+    <p>Not a full run-through — just a fast reality check while there's still time tomorrow morning to fix anything that comes up.</p>
+    <div class="panel">
+      <h3>One sentence each</h3>
+      <p>"My project does ___, and the trickiest part was ___."</p>
+      <p style="margin-top:10px;">That's it. If you can say both halves clearly, you're in good shape. If you get stuck explaining it, that's useful information tonight — not tomorrow at 2pm.</p>
+    </div>
+  </section>
+
+  <section class="burst">
+    <span class="burst-num">BONUS · IF THERE'S TIME</span>
+    <h2>How AI Compares Text</h2>
+    <div class="bonus">
+      <span class="tag">Only if the group finishes early — otherwise this waits for Thursday morning</span>
+      <p>Before AI tools could understand meaning, one of the earliest tricks for comparing text was just <i>counting words</i>. It's not how modern AI works under the hood, but it's a real ancestor of the idea — and it's something we can build together in about 15 minutes. Notebook: <code>text_similarity_live_coding.ipynb</code>.</p>
+    </div>
+  </section>
+
+  <footer>Code &amp; Create · Day 8, Session 2 of 2 · one more day</footer>
+</div>
+
+<script>
+  const fill = document.getElementById('progressFill');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    fill.style.height = scrolled + '%';
+  });
+</script>
+
+</body>
+</html>
