@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #14172a; --bg-soft: #1b1f38; --panel: #1f2440; --ink: #edeef5; --ink-soft: #b9bcd4;
+    --bg: #14172a; --panel: #1f2440; --ink: #edeef5; --ink-soft: #b9bcd4;
     --muted: #7c81a3; --amber: #f2a93b; --amber-soft: #fbd99b; --green: #7fd99b; --violet: #b39bf2;
     --rule: rgba(255,255,255,0.08); --code-bg: #0f1224;
   }
@@ -28,100 +28,115 @@
 
   .wrap{ max-width:880px; margin:0 auto; padding:0 32px; }
 
-  .hero{ min-height:52vh; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
-  .hero::before{ content:""; position:absolute; top:-20%; right:-10%; width:520px; height:520px; background: radial-gradient(circle, rgba(242,169,59,0.14), transparent 65%); }
-  .eyebrow{ font-family:'JetBrains Mono',monospace; color: var(--amber); font-size:13px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:14px; }
-  .hero h1{ font-size:42px; font-weight:700; max-width:640px; }
-  .hero p.sub{ color: var(--ink-soft); font-size:17px; margin-top:16px; max-width:560px; line-height:1.6; }
-  .hero-meta{ display:flex; gap:22px; margin-top:28px; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--muted); }
-  .hero-meta span b{ color: var(--ink-soft); font-weight:500; }
+  .hero{ min-height:66vh; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+  .hero::before{ content:""; position:absolute; top:-20%; right:-10%; width:600px; height:600px; background: radial-gradient(circle, rgba(242,169,59,0.18), transparent 70%); pointer-events:none; }
+  .eyebrow{ font-family:'JetBrains Mono', monospace; color: var(--amber); letter-spacing:.12em; font-size:13px; text-transform:uppercase; margin-bottom:18px; }
+  .hero h1{ font-size: clamp(38px, 6.5vw, 64px); font-weight:700; max-width:760px; }
+  .hero h1 span{ color: var(--amber); }
+  .hero p.sub{ margin-top:22px; font-size:18px; color: var(--ink-soft); max-width:580px; line-height:1.55; }
+  .hero .meta{ margin-top:30px; display:flex; gap:28px; flex-wrap:wrap; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); }
+  .hero .meta b{ color: var(--ink-soft); font-weight:500; }
+  .scroll-cue{ margin-top:44px; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); display:flex; align-items:center; gap:10px; }
+  .scroll-cue .arrow{ animation: bob 1.6s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(6px); } }
 
-  section.burst{ padding: 56px 0; border-top:1px solid var(--rule); }
-  .burst-num{ font-family:'JetBrains Mono',monospace; color: var(--amber); font-size:13px; letter-spacing:0.08em; margin-bottom:10px; display:block; }
-  .burst h2{ font-size:27px; margin-bottom:14px; }
-  .burst p{ color: var(--ink-soft); line-height:1.7; font-size:15.5px; }
+  section.burst{ padding:80px 0 30px; border-top:1px solid var(--rule); position:relative; }
+  .burst-label{ display:flex; align-items:baseline; gap:18px; margin-bottom:14px; flex-wrap:wrap; }
+  .burst-num{ font-family:'JetBrains Mono', monospace; font-size:15px; color: var(--amber); background: rgba(242,169,59,0.12); border:1px solid rgba(242,169,59,0.3); border-radius:999px; padding:4px 14px; }
+  .burst-time{ font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--muted); }
+  .burst h2{ font-size: clamp(26px,4vw,34px); margin-bottom:10px; }
+  .burst .intro{ color: var(--ink-soft); font-size:16.5px; line-height:1.65; max-width:620px; margin-bottom:28px; }
+  .burst .intro strong{ color: var(--amber-soft); }
 
-  .panel{ background: var(--panel); border:1px solid var(--rule); border-radius:12px; padding:22px 24px; margin:20px 0; }
-  .panel h3{ font-size:16px; color: var(--amber-soft); margin-bottom:12px; }
-  .panel ul{ margin:0; padding-left:20px; color: var(--ink-soft); line-height:1.8; font-size:15px; }
-  .panel ol{ margin:0; padding-left:20px; color: var(--ink-soft); line-height:1.85; font-size:15px; }
-  .panel li::marker{ color: var(--amber); }
+  .activity{ background: var(--panel); border:1px solid var(--rule); border-left:3px solid var(--amber); border-radius:10px; padding:22px 26px; margin:28px 0; }
+  .activity .tag{ font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color: var(--amber); margin-bottom:8px; display:block; }
+  .activity h3{ font-size:18px; margin-bottom:8px; }
+  .activity p{ color: var(--ink-soft); font-size:15px; line-height:1.6; margin:0 0 10px; }
+  .activity ul, .activity ol{ margin:8px 0 0; padding-left:20px; color: var(--ink-soft); font-size:14.5px; line-height:1.7; }
+  .activity ol li{ margin-bottom:6px; }
+  .activity ol li b, .activity ul li b{ color: var(--ink); }
 
-  .checklist label{ display:flex; align-items:flex-start; gap:10px; padding:8px 0; color: var(--ink-soft); font-size:15px; border-bottom:1px dashed var(--rule); cursor:pointer; }
-  .checklist label:last-child{ border-bottom:none; }
-  .checklist input{ margin-top:3px; accent-color: var(--amber); width:16px; height:16px; flex-shrink:0; }
-  .checklist span b{ color: var(--ink); }
+  .activity.stretch{ border-left-color: var(--green); background: rgba(127,217,155,0.04); }
+  .activity.stretch .tag{ color: var(--green); }
+  .activity.stretch h3{ color: var(--green); }
 
-  .stretch{ border-left:3px solid var(--green); background: rgba(127,217,155,0.06); border-radius: 0 10px 10px 0; padding:18px 22px; margin:20px 0; }
-  .stretch h3{ color: var(--green); font-size:15px; margin-bottom:10px; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.04em; }
-  .stretch ul{ margin:0; padding-left:20px; color: var(--ink-soft); line-height:1.8; font-size:14.5px; }
+  .activity.violet{ border-left-color: var(--violet); background: rgba(179,155,242,0.05); }
+  .activity.violet .tag{ color: var(--violet); }
+  .activity.violet h3{ color: var(--violet); }
+  .persona-quote{ font-size:17px; color: var(--ink); font-style:italic; margin:0; }
 
-  .persona-card{ background: var(--code-bg); border:1px solid var(--rule); border-radius:10px; padding:20px 22px; margin:16px 0; }
-  .persona-card .tag{ font-family:'JetBrains Mono',monospace; font-size:11.5px; color: var(--violet); text-transform:uppercase; letter-spacing:0.06em; }
-  .persona-card p{ margin:8px 0 0; color: var(--ink); font-size:15.5px; }
+  .break-marker{ display:flex; align-items:center; gap:16px; margin:50px 0; color: var(--muted); font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:.1em; text-transform:uppercase; }
+  .break-marker::before, .break-marker::after{ content:""; flex:1; height:1px; background: var(--rule); }
 
-  .timing-table{ width:100%; border-collapse:collapse; margin:18px 0; font-size:14.5px; }
-  .timing-table td{ padding:10px 12px; border-bottom:1px solid var(--rule); color: var(--ink-soft); vertical-align:top; }
-  .timing-table td:first-child{ font-family:'JetBrains Mono',monospace; color: var(--amber-soft); white-space:nowrap; width:110px; }
+  .timeline{ position:fixed; right:26px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:14px; z-index:40; }
+  .timeline a{ width:10px; height:10px; border-radius:50%; background: var(--rule); display:block; position:relative; transition: all .25s ease; }
+  .timeline a.active{ background: var(--amber); box-shadow:0 0 0 4px rgba(242,169,59,0.18); }
+  .timeline a::after{ content: attr(data-label); position:absolute; right:22px; top:50%; transform:translateY(-50%); font-family:'JetBrains Mono', monospace; font-size:11px; color: var(--muted); white-space:nowrap; opacity:0; transition: opacity .2s ease; pointer-events:none; }
+  .timeline a:hover::after{ opacity:1; }
+  @media (max-width:780px){ .timeline{ display:none; } }
 
-  .btn-row{ margin-top:44px; display:flex; justify-content:flex-end; }
-  .btn{ background: var(--amber); color:#14172a; font-family:'Space Grotesk',sans-serif; font-weight:600; text-decoration:none; padding:12px 22px; border-radius:8px; font-size:14.5px; }
+  .closer{ padding:100px 0 60px; text-align:center; border-top:1px solid var(--rule); }
+  .closer h2{ font-size: clamp(28px,5vw,38px); margin-bottom:16px; }
+  .closer p{ color: var(--ink-soft); font-size:17px; max-width:520px; margin:0 auto 30px; line-height:1.6; }
+  .closer .badge{ display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--green); background: rgba(127,217,155,0.1); border:1px solid rgba(127,217,155,0.3); padding:8px 18px; border-radius:999px; }
 
-  footer{ padding:50px 0 80px; text-align:center; color: var(--muted); font-family:'JetBrains Mono',monospace; font-size:12.5px; border-top:1px solid var(--rule); margin-top:10px; }
+  .session-nav{ padding:0 0 100px; text-align:center; }
+  .session-nav a.btn{ display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono', monospace; font-size:14px; background: var(--panel); border:1px solid var(--rule); color: var(--ink); padding:14px 26px; border-radius:999px; text-decoration:none; transition: border-color .2s ease; }
+  .session-nav a.btn:hover{ border-color: var(--amber); color: var(--amber); }
+
+  @media (max-width:600px){ .wrap{ padding:0 20px; } .hero{ min-height:58vh; } .topnav{ padding:14px 20px; } }
 </style>
 </head>
 <body>
 
-<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
-
 <nav class="topnav">
-  <div class="crumbs"><a href="day7-session1-intro-to-oop.html">← Day 7</a></div>
-  <span>Code &amp; Create · Day 8, Session 1</span>
+  <div class="crumbs"><a href="index.html">All sessions</a> <span>/ Day 8 / Session 1</span></div>
   <a class="next-link" href="day8-session2-build-time-and-demo-check.html">Next: Day 8, Session 2 →</a>
 </nav>
 
-<div class="wrap">
+<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
 
-  <div class="hero">
-    <div class="eyebrow">Day 8 · Session 1 · Wednesday, July 1 · 9:00–11:30</div>
-    <h1>Build Time + Design Sprint</h1>
-    <p class="sub">Tomorrow you present. Today is your last full day to build — so most of this morning is yours. We'll check in briefly, build for a while, then take a real 30-minute break to stretch a different creative muscle before finishing the morning back on your project.</p>
-    <div class="hero-meta">
-      <span><b>9:00–9:05</b> Standup</span>
-      <span><b>9:05–10:15</b> Build Time</span>
-      <span><b>10:15–10:45</b> Design Sprint</span>
-      <span><b>10:45–11:30</b> Build Time</span>
+<nav class="timeline" id="timelineNav">
+  <a href="#hero" data-label="Start" class="active"></a>
+  <a href="#burst1" data-label="Burst 1 — build time"></a>
+  <a href="#burst2" data-label="Burst 2 — design sprint"></a>
+  <a href="#burst3" data-label="Burst 3 — build time"></a>
+  <a href="#closer" data-label="Wrap up"></a>
+</nav>
+
+<header class="hero" id="hero">
+  <div class="wrap">
+    <div class="eyebrow">Code and Create · Day 8 · Session 1 of 2 · Morning · Delaram &amp; Lauren</div>
+    <h1>Last full day to <span>build</span>.</h1>
+    <p class="sub">Tomorrow you present. Today is mostly yours to work — we'll check in briefly, build for a while, then take a real 30-minute break to stretch a different creative muscle before finishing the morning back on your project.</p>
+    <div class="meta">
+      <div><b>Wednesday, July 1</b> · 9:00–11:30 AM</div>
+      <div><b>Tool:</b> replit.com</div>
+      <div><b>Goal:</b> core feature working by tomorrow</div>
     </div>
+    <div class="scroll-cue"><span class="arrow">↓</span> scroll to follow along</div>
   </div>
+</header>
 
-  <section class="burst">
-    <span class="burst-num">9:00–9:05</span>
-    <h2>Quick Standup</h2>
-    <p>Go around in a circle. Each person says two things, fast:</p>
-    <div class="panel">
+<section class="burst" id="burst1">
+  <div class="wrap">
+    <div class="burst-label"><span class="burst-num">Burst 1</span><span class="burst-time">9:00 – 10:15</span></div>
+    <h2>Standup, then protected build time</h2>
+    <p class="intro">Start with a 5-minute standup — go around in a circle, each person says what they're building/fixing today and one thing they're stuck on. Then it's real, protected build time. No new lecture today — before you dive in, know what you're aiming for.</p>
+
+    <div class="activity">
+      <span class="tag">Goal — what does "done" look like by tomorrow?</span>
+      <h3>Three things to hit</h3>
       <ol>
-        <li>What am I building/fixing today?</li>
-        <li>What's one thing I'm stuck on right now?</li>
+        <li><b>Core feature works.</b> The main thing your app does actually runs, start to finish, without crashing.</li>
+        <li><b>One polish item.</b> Better variable names, a cleaner print statement, an extra input check — something that shows care.</li>
+        <li><b>One thing you can talk about.</b> A decision you made, a bug you fixed, or a feature you're proud of — this becomes part of your demo.</li>
       </ol>
     </div>
-  </section>
 
-  <section class="burst">
-    <span class="burst-num">9:05–10:15</span>
-    <h2>Build Time</h2>
-    <p>Real, protected build time — no new lecture today. Before you dive in, know what you're aiming for.</p>
-
-    <div class="panel">
-      <h3>What does "done" look like by tomorrow?</h3>
-      <div class="checklist">
-        <label><input type="checkbox"><span><b>Core feature works.</b> The main thing your app does actually runs, start to finish, without crashing.</span></label>
-        <label><input type="checkbox"><span><b>One polish item.</b> Better variable names, a cleaner print statement, an extra input check — something that shows care.</span></label>
-        <label><input type="checkbox"><span><b>One thing you can talk about.</b> A decision you made, a bug you fixed, or a feature you're proud of — this becomes part of your demo.</span></label>
-      </div>
-    </div>
-
-    <div class="stretch">
-      <h3>If you finish early</h3>
+    <div class="activity stretch">
+      <span class="tag">Stretch — done early?</span>
+      <h3>Push further</h3>
       <ul>
         <li>Add error handling — what happens if the user types something weird?</li>
         <li>Add one small second feature that builds on what you already have</li>
@@ -129,52 +144,74 @@
         <li>Add comments explaining the trickiest part of your code</li>
       </ul>
     </div>
-  </section>
-
-  <section class="burst">
-    <span class="burst-num">10:15–10:45</span>
-    <h2>Design Sprint: Tech for Good</h2>
-    <p>Thirty minutes, different brain. You'll get a real person and a real problem — no code, just ideas — with enough time to actually think it through instead of rushing to a pitch.</p>
-
-    <div class="persona-card">
-      <span class="tag">Your persona</span>
-      <p>"Maria, 68, just moved to a new city and doesn't know anyone."</p>
-    </div>
-
-    <div class="panel">
-      <h3>The constraint</h3>
-      <p style="margin-top:0;">You can only use tools that exist right now, or things a beginner coder could realistically build.</p>
-    </div>
-
-    <div class="timing-table">
-      <table style="width:100%;">
-        <tr><td>5 min</td><td>Read the persona and constraint aloud as a group. Quick gut-check: what's everyone's first instinct for what Maria needs?</td></tr>
-        <tr><td>8 min</td><td>In pairs or small groups: get specific about Maria's actual week. Not "loneliness" in the abstract — where does she go, who does she talk to, what's the hardest part of a normal Tuesday for her?</td></tr>
-        <tr><td>12 min</td><td>Sketch a product or feature that helps. Doesn't need to be technical — a napkin sketch of the idea is enough. Push for one specific detail: what's the very first screen or interaction Maria sees?</td></tr>
-        <tr><td>5 min</td><td>Each group pitches in under a minute: what it is, who it's for, why it helps Maria specifically. One follow-up question from the room per pitch.</td></tr>
-      </table>
-    </div>
-  </section>
-
-  <section class="burst">
-    <span class="burst-num">10:45–11:30</span>
-    <h2>Build Time</h2>
-    <p>Back to your project for the rest of the morning. If the sprint sparked an idea you actually want to try in your own app, this is the time to test it.</p>
-  </section>
-
-  <div class="btn-row">
-    <a class="btn" href="day8-session2-build-time-and-demo-check.html">Continue to Session 2 — Build Time + Demo Check →</a>
   </div>
+</section>
 
-  <footer>Code &amp; Create · Day 8, Session 1 of 2</footer>
+<div class="wrap"><div class="break-marker">Break</div></div>
+
+<section class="burst" id="burst2">
+  <div class="wrap">
+    <div class="burst-label"><span class="burst-num">Burst 2</span><span class="burst-time">10:15 – 10:45</span></div>
+    <h2>Design Sprint: Tech for Good</h2>
+    <p class="intro">Thirty minutes, different brain. You'll get a real person and a real problem — no code, just ideas — with enough time to actually think it through instead of rushing to a pitch.</p>
+
+    <div class="activity">
+      <span class="tag">Your persona</span>
+      <p class="persona-quote">"Maria, 68, just moved to a new city and doesn't know anyone."</p>
+    </div>
+
+    <div class="activity">
+      <span class="tag">The constraint</span>
+      <p>You can only use tools that exist right now, or things a beginner coder could realistically build.</p>
+    </div>
+
+    <div class="activity">
+      <span class="tag">How the 30 minutes breaks down</span>
+      <ol>
+        <li><b>5 min —</b> Read the persona and constraint aloud as a group. Quick gut-check: what's everyone's first instinct for what Maria needs?</li>
+        <li><b>8 min —</b> In pairs or small groups: get specific about Maria's actual week. Not "loneliness" in the abstract — where does she go, who does she talk to, what's the hardest part of a normal Tuesday for her?</li>
+        <li><b>12 min —</b> Sketch a product or feature that helps. Doesn't need to be technical — a napkin sketch of the idea is enough. Push for one specific detail: what's the very first screen or interaction Maria sees?</li>
+        <li><b>5 min —</b> Each group pitches in under a minute: what it is, who it's for, why it helps Maria specifically. One follow-up question from the room per pitch.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="break-marker">Break</div></div>
+
+<section class="burst" id="burst3">
+  <div class="wrap">
+    <div class="burst-label"><span class="burst-num">Burst 3</span><span class="burst-time">10:45 – 11:30</span></div>
+    <h2>Back to your project</h2>
+    <p class="intro">Build time for the rest of the morning. If the sprint sparked an idea you actually want to try in your own app, this is the time to test it — otherwise, keep chipping away at the checklist from Burst 1.</p>
+  </div>
+</section>
+
+<section class="closer" id="closer">
+  <div class="wrap">
+    <span class="badge">● session 1 — complete</span>
+    <h2>One more build block, then the afternoon.</h2>
+    <p>Session 2 picks up right after lunch — more build time, then a quick check-in so nothing surprises you on demo day tomorrow.</p>
+  </div>
+</section>
+
+<div class="wrap session-nav">
+  <a class="btn" href="day8-session2-build-time-and-demo-check.html">Continue to Day 8, Session 2 — Build Time + Demo Check →</a>
 </div>
 
 <script>
   const fill = document.getElementById('progressFill');
   window.addEventListener('scroll', () => {
     const h = document.documentElement;
-    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
-    fill.style.height = scrolled + '%';
+    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    fill.style.height = pct + '%';
+  });
+  const links = document.querySelectorAll('.timeline a');
+  const targets = Array.from(links).map(l => document.querySelector(l.getAttribute('href')));
+  window.addEventListener('scroll', () => {
+    let activeIdx = 0;
+    targets.forEach((t, i) => { if (t && t.getBoundingClientRect().top < window.innerHeight * 0.5) activeIdx = i; });
+    links.forEach((l, i) => l.classList.toggle('active', i === activeIdx));
   });
 </script>
 
